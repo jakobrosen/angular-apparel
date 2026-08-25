@@ -1,4 +1,5 @@
 import express from 'express';
+import db from './db.js';
 
 // Creates an express application
 const app = express();
@@ -8,9 +9,8 @@ const port = process.env.PORT || 8000;
 
 // GET-endpoint
 app.get('api/products', (req, res) => {
-  res.json(
-    { id: 1, title: 'placeholder' }
-  );
+  const products = db.prepare('SELECT * FROM products').all();
+  res.json(products);
 });
 
 app.listen(port, () => {
