@@ -1,3 +1,5 @@
+import type { ProductInput } from "../types/product.js";
+
 export const categories = [
   "Bags",
   "Belts",
@@ -25,7 +27,7 @@ export const brands = [
   "The North Face",
 ];
 
-export const products = [
+export const products: ProductInput[] = [
   {
     images: [
       "https://static.pullandbear.net/assets/public/1fb5/11ce/17d24e139233/b2dd9264d974/03594516800-A6M/03594516800-A6M.jpg?ts=1739788264771&w=560&f=auto",

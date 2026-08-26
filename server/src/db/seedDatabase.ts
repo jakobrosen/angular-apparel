@@ -1,41 +1,17 @@
 import db from "./db.js";
 import { categories, brands, products } from "./dummyData.js";
 
-function seed() {
+function seed(): void {
   console.log("Starting seed...");
 
-  // Collect all unique categories and brands from products,
-  // then merge with the static lists so we don't miss any.
-  const allCategories = [
-    ...new Set([...categories, ...products.map((p) => p.category)]),
-  ];
-  const allBrands = [...new Set([...brands, ...products.map((p) => p.brand)])];
-
-  // --- Categories ---
+  // Seed categories and brands in a single transaction
   const insertCategory = db.prepare(
     "INSERT OR IGNORE INTO categories (name) VALUES (?)",
   );
-  const runInsertCategory = db.transaction((rows) => {
-    for (const [name] of rows) {
-      insertCategory.run(name);
-    }
-  });
-  runInsertCategory(allCategories.map((name) => [name]));
-  console.log(`  Categories: ${allCategories.length} inserted/ignored`);
-
-  // --- Brands ---
   const insertBrand = db.prepare(
     "INSERT OR IGNORE INTO brands (name) VALUES (?)",
   );
-  const runInsertBrand = db.transaction((rows) => {
-    for (const [name] of rows) {
-      insertBrand.run(name);
-    }
-  });
-  runInsertBrand(allBrands.map((name) => [name]));
-  console.log(`  Brands: ${allBrands.length} inserted/ignored`);
 
-  // --- Products + Images ---
   const insertProduct = db.prepare(
     `INSERT INTO products (title, description, gender, price, prev_price, discount, category_name, brand_name)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -46,8 +22,22 @@ function seed() {
     VALUES (?, ?, ?, ?)`,
   );
 
-  const runProductSeed = db.transaction((productList) => {
-    for (const product of productList) {
+  // Single transaction for everything
+  const runSeed = db.transaction(() => {
+    // Categories
+    for (const name of categories) {
+      insertCategory.run(name);
+    }
+    console.log(`  Categories: ${categories.length}`);
+
+    // Brands
+    for (const name of brands) {
+      insertBrand.run(name);
+    }
+    console.log(`  Brands: ${brands.length}`);
+
+    // Products + images
+    for (const product of products) {
       const result = insertProduct.run(
         product.title,
         product.description,
@@ -61,16 +51,14 @@ function seed() {
 
       const productId = result.lastInsertRowid as number;
 
-      const images = product.images ?? [];
-      for (let i = 0; i < images.length; i++) {
-        insertImage.run(productId, images[i], i === 0 ? 1 : 0, i);
+      for (let i = 0; i < product.images.length; i++) {
+        insertImage.run(productId, product.images[i], i === 0 ? 1 : 0, i);
       }
     }
   });
 
-  runProductSeed(products);
-  console.log(`  Products: ${products.length} with images inserted`);
-
+  runSeed();
+  console.log(`  Products: ${products.length}`);
   console.log("Seed complete!");
 }
 
