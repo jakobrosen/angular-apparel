@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "watch": "node dist/server.js"
+    "watch": "node dist/server.js",
+    "seed": "tsx src/db/seedDatabase.ts"
   },
   "dependencies": {
     "better-sqlite3": "^13.0.3",
