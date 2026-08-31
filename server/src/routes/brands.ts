@@ -11,19 +11,22 @@ export function registerBrandsRoutes(app: Router) {
   });
 
   // GET products by brand name — ?q=keyword&category=Shirts&minPrice=100&maxPrice=500&gender=Men's
+  //   + pagination: &page=1&limit=48
   app.get("/api/brands/:name", (req: Request, res: Response) => {
     const brand = brandRepo.getByName(req.params.name as string);
     if (!brand) return res.status(404).json({ error: "Brand not found" });
 
-    const products = productRepo.search({
+    const result = productRepo.search({
       q: req.query.q as string | undefined,
       brand: req.params.name as string,
       category: req.query.category as string | undefined,
       minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
       maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
       gender: req.query.gender as string | undefined,
+      page: req.query.page ? Number(req.query.page) : 1,
+      limit: req.query.limit ? Number(req.query.limit) : 48,
     });
-    res.json(products);
+    res.json(result);
   });
 
   // --- Admin routes ---

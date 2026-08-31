@@ -5,23 +5,28 @@ import { requireAuth } from "../middleware/auth.js";
 
 export function registerProductsRoutes(app: Router) {
   // GET all products
-  app.get("/api/products", (_req: Request, res: Response) => {
-    const products = productRepo.getAll();
-    res.json(products);
+  app.get("/api/products", (req: Request, res: Response) => {
+    const page = req.query.page ? Number(req.query.page) : 1;
+    const limit = req.query.limit ? Number(req.query.limit) : 48;
+    const result = productRepo.getAll(page, limit);
+    res.json(result);
   });
 
   // GET products by search — ?q=keyword (searches title, brand, category)
   //   + optional filters: &brand=Adidas&category=Shirts&minPrice=100&maxPrice=500&gender=Men's
+  //   + pagination: &page=1&limit=48
   app.get("/api/products/search", (req: Request, res: Response) => {
-    const products = productRepo.search({
+    const result = productRepo.search({
       q: req.query.q as string | undefined,
       brand: req.query.brand as string | undefined,
       category: req.query.category as string | undefined,
       minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
       maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
       gender: req.query.gender as string | undefined,
+      page: req.query.page ? Number(req.query.page) : 1,
+      limit: req.query.limit ? Number(req.query.limit) : 48,
     });
-    res.json(products);
+    res.json(result);
   });
 
   // GET product by ID

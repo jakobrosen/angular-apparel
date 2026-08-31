@@ -1,1 +1,1 @@
-http://localhost:8000/api/brands/nike?category=shirts
+http://localhost:8000/api/products?page=2&limit=200

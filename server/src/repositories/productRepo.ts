@@ -1,9 +1,7 @@
 import db from "../config/db.js";
 import type { ProductCreate, ProductOutput } from "../types/product.js";
 
-/**
- * Converts a flat SQLite row into a ProductOutput.
- */
+/** Converts a flat SQLite row into a ProductOutput. */
 function toProduct(row: Record<string, unknown>): ProductOutput {
   return {
     id: Number(row.id),
@@ -20,10 +18,7 @@ function toProduct(row: Record<string, unknown>): ProductOutput {
   };
 }
 
-/**
- * Groups flat JOIN results into products with embedded images arrays.
- * SQLite returns one row per (product, image) pair — this collapses them.
- */
+/** Groups flat JOIN rows into products with embedded images arrays. */
 function groupResults(rows: unknown[]): ProductOutput[] {
   const productMap = new Map<number, ProductOutput>();
 
@@ -38,12 +33,11 @@ function groupResults(rows: unknown[]): ProductOutput[] {
   return Array.from(productMap.values());
 }
 
-/**
- * Builds the base product query with a LEFT JOIN to product_images.
- * Returns raw rows that need to be grouped by the caller.
- */
-function baseQuery(sql: string, params: (string | number)[]) {
-  return db
+/** Fetches products by ID list with their images, then groups results. */
+function getProductsByIds(ids: number[]): ProductOutput[] {
+  if (!ids.length) return [];
+  const placeholders = ids.map(() => "?").join(",");
+  const rows = db
     .prepare(
       `SELECT p.*,
               pi.id AS "images.id",
@@ -51,21 +45,54 @@ function baseQuery(sql: string, params: (string | number)[]) {
               pi.url AS "images.url"
        FROM products p
        LEFT JOIN product_images pi ON p.id = pi.product_id
-       ${sql}`,
+       WHERE p.id IN (${placeholders})
+       ORDER BY p.id ASC`,
     )
-    .all(...params) as Array<ProductOutput & { "images.url": string | null }>;
+    .all(...ids) as Array<ProductOutput & { "images.url": string | null }>;
+  return groupResults(rows);
+}
+
+/** Paginates by product IDs first, then fetches with images. */
+function paginate(
+  idSql: string,
+  idParams: (string | number)[],
+  page: number,
+  limit: number,
+): { data: ProductOutput[]; total: number; page: number; limit: number } {
+  const offset = (page - 1) * limit;
+  const total = db.prepare("SELECT COUNT(*) as count FROM products").get() as { count: number };
+  const productIds = db
+    .prepare(`${idSql} LIMIT ? OFFSET ?`)
+    .all(...[...idParams, limit, offset]) as Array<{ id: number }>;
+  const ids = productIds.map((p) => p.id);
+  return { data: getProductsByIds(ids), total: total.count, page, limit };
+}
+
+export interface PaginatedResult<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
 }
 
 export const productRepo = {
-  getAll: (): ProductOutput[] => {
-    const rows = baseQuery("ORDER BY p.id ASC", []);
-    return groupResults(rows);
+  getAll: (page = 1, limit = 48): PaginatedResult<ProductOutput> => {
+    return paginate("SELECT id FROM products ORDER BY id ASC", [], page, limit);
   },
 
   getById: (id: number): ProductOutput | undefined => {
-    const rows = baseQuery("WHERE p.id = ? ORDER BY p.id ASC", [id]);
-    const grouped = groupResults(rows);
-    return grouped[0];
+    const rows = db
+      .prepare(
+        `SELECT p.*,
+                pi.id AS "images.id",
+                pi.product_id AS "images.product_id",
+                pi.url AS "images.url"
+         FROM products p
+         LEFT JOIN product_images pi ON p.id = pi.product_id
+         WHERE p.id = ?`,
+      )
+      .all(id) as Array<ProductOutput & { "images.url": string | null }>;
+    return groupResults(rows)[0];
   },
 
   search: (options: {
@@ -75,7 +102,12 @@ export const productRepo = {
     minPrice?: number;
     maxPrice?: number;
     gender?: string;
-  }): ProductOutput[] => {
+    page?: number;
+    limit?: number;
+  }): PaginatedResult<ProductOutput> => {
+    const page = options.page ?? 1;
+    const limit = options.limit ?? 48;
+
     const conditions: string[] = [];
     const params: (string | number)[] = [];
 
@@ -105,24 +137,35 @@ export const productRepo = {
     }
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
-    const rows = baseQuery(`${whereClause} ORDER BY p.id ASC`, params);
-    return groupResults(rows);
+    const countSql = `SELECT COUNT(*) as count FROM products p ${whereClause}`;
+    const total = db.prepare(countSql).get(...params) as { count: number };
+    const offset = (page - 1) * limit;
+
+    const idSql = `SELECT p.id FROM products p ${whereClause}`;
+    const productIds = db
+      .prepare(`${idSql} ORDER BY p.id ASC LIMIT ? OFFSET ?`)
+      .all(...[...params, limit, offset]) as Array<{ id: number }>;
+    const ids = productIds.map((p) => p.id);
+
+    return { data: getProductsByIds(ids), total: total.count, page, limit };
   },
 
-  getByBrand: (brandName: string): ProductOutput[] => {
-    const rows = baseQuery(
-      "WHERE LOWER(p.brand_name) = LOWER(?) ORDER BY p.id ASC",
+  getByBrand: (brandName: string, page = 1, limit = 48): PaginatedResult<ProductOutput> => {
+    return paginate(
+      "SELECT id FROM products p WHERE LOWER(p.brand_name) = LOWER(?)",
       [brandName],
+      page,
+      limit,
     );
-    return groupResults(rows);
   },
 
-  getByCategory: (categoryName: string): ProductOutput[] => {
-    const rows = baseQuery(
-      "WHERE LOWER(p.category_name) = LOWER(?) ORDER BY p.id ASC",
+  getByCategory: (categoryName: string, page = 1, limit = 48): PaginatedResult<ProductOutput> => {
+    return paginate(
+      "SELECT id FROM products p WHERE LOWER(p.category_name) = LOWER(?)",
       [categoryName],
+      page,
+      limit,
     );
-    return groupResults(rows);
   },
 
   create: (data: ProductCreate): ProductOutput => {
@@ -142,66 +185,37 @@ export const productRepo = {
         data.brand_name ?? "Angular Apparel",
       );
 
-    return {
-      id: Number(result.lastInsertRowid),
-      title: data.title,
-      description: data.description,
-      gender: data.gender,
-      price: data.price,
-      prev_price: data.prev_price ?? null,
-      discount: !!data.discount,
-      created_at: new Date().toISOString(),
-      category_name: data.category_name ?? "Other",
-      brand_name: data.brand_name ?? "Angular Apparel",
-      images: [],
-    };
+    return productRepo.getById(Number(result.lastInsertRowid))!;
   },
 
   update: (id: number, data: Partial<ProductCreate>): ProductOutput | undefined => {
     const existing = productRepo.getById(id);
     if (!existing) return undefined;
 
+    const fields: { key: keyof ProductCreate; column: string }[] = [
+      { key: "title", column: "title" },
+      { key: "description", column: "description" },
+      { key: "gender", column: "gender" },
+      { key: "price", column: "price" },
+      { key: "prev_price", column: "prev_price" },
+      { key: "discount", column: "discount" },
+      { key: "category_name", column: "category_name" },
+      { key: "brand_name", column: "brand_name" },
+    ];
+
     const updates: string[] = [];
     const values: (string | number | boolean | null)[] = [];
 
-    if (data.title !== undefined) {
-      updates.push("title = ?");
-      values.push(data.title);
-    }
-    if (data.description !== undefined) {
-      updates.push("description = ?");
-      values.push(data.description);
-    }
-    if (data.gender !== undefined) {
-      updates.push("gender = ?");
-      values.push(data.gender);
-    }
-    if (data.price !== undefined) {
-      updates.push("price = ?");
-      values.push(data.price);
-    }
-    if (data.prev_price !== undefined) {
-      updates.push("prev_price = ?");
-      values.push(data.prev_price);
-    }
-    if (data.discount !== undefined) {
-      updates.push("discount = ?");
-      values.push(data.discount);
-    }
-    if (data.category_name !== undefined) {
-      updates.push("category_name = ?");
-      values.push(data.category_name);
-    }
-    if (data.brand_name !== undefined) {
-      updates.push("brand_name = ?");
-      values.push(data.brand_name);
+    for (const { key, column } of fields) {
+      if (data[key] !== undefined) {
+        updates.push(`${column} = ?`);
+        values.push(data[key] as string | number | boolean | null);
+      }
     }
 
     if (updates.length > 0) {
       values.push(id);
-      db.prepare(
-        `UPDATE products SET ${updates.join(", ")} WHERE id = ?`,
-      ).run(...values);
+      db.prepare(`UPDATE products SET ${updates.join(", ")} WHERE id = ?`).run(...values);
     }
 
     return productRepo.getById(id);

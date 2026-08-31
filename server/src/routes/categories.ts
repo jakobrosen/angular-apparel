@@ -11,19 +11,22 @@ export function registerCategoriesRoutes(app: Router) {
   });
 
   // GET products by category name — ?q=keyword&brand=Adidas&minPrice=100&maxPrice=500&gender=Men's
+  //   + pagination: &page=1&limit=48
   app.get("/api/categories/:name", (req: Request, res: Response) => {
     const category = categoryRepo.getByName(req.params.name as string);
     if (!category) return res.status(404).json({ error: "Category not found" });
 
-    const products = productRepo.search({
+    const result = productRepo.search({
       q: req.query.q as string | undefined,
       category: req.params.name as string,
       brand: req.query.brand as string | undefined,
       minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
       maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
       gender: req.query.gender as string | undefined,
+      page: req.query.page ? Number(req.query.page) : 1,
+      limit: req.query.limit ? Number(req.query.limit) : 48,
     });
-    res.json(products);
+    res.json(result);
   });
 
   // --- Admin routes ---
