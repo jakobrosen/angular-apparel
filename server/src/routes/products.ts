@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { productRepo } from "../repositories/productRepo.js";
 import { imageRepo } from "../repositories/imageRepo.js";
+import { requireAuth } from "../middleware/auth.js";
 
 export function registerProductsRoutes(app: Router) {
   // GET all products
@@ -10,7 +11,7 @@ export function registerProductsRoutes(app: Router) {
   });
 
   // GET products by search — ?q=keyword (searches title, brand, category)
-//   + optional filters: &brand=Adidas&category=Shirts&minPrice=100&maxPrice=500&gender=Men's
+  //   + optional filters: &brand=Adidas&category=Shirts&minPrice=100&maxPrice=500&gender=Men's
   app.get("/api/products/search", (req: Request, res: Response) => {
     const products = productRepo.search({
       q: req.query.q as string | undefined,
@@ -23,39 +24,6 @@ export function registerProductsRoutes(app: Router) {
     res.json(products);
   });
 
-  // POST add an image to a product
-  app.post("/api/products/:id/images", (req: Request, res: Response) => {
-    const productId = Number(req.params.id);
-    const product = productRepo.getById(productId);
-    if (!product) return res.status(404).json({ error: "Product not found" });
-
-    const { url } = req.body;
-    if (!url) return res.status(400).json({ error: "url is required" });
-
-    const image = imageRepo.create(productId, url);
-    res.status(201).json(image);
-  });
-
-  // GET images for a product
-  app.get("/api/products/:id/images", (req: Request, res: Response) => {
-    const productId = Number(req.params.id);
-    const product = productRepo.getById(productId);
-    if (!product) return res.status(404).json({ error: "Product not found" });
-
-    const images = imageRepo.getByProduct(productId);
-    res.json(images);
-  });
-
-  // DELETE all images for a product
-  app.delete("/api/products/:id/images", (req: Request, res: Response) => {
-    const productId = Number(req.params.id);
-    const product = productRepo.getById(productId);
-    if (!product) return res.status(404).json({ error: "Product not found" });
-
-    imageRepo.deleteByProduct(productId);
-    res.json({ message: "Images deleted" });
-  });
-
   // GET product by ID
   app.get("/api/products/:id", (req: Request, res: Response) => {
     const product = productRepo.getById(Number(req.params.id));
@@ -63,9 +31,11 @@ export function registerProductsRoutes(app: Router) {
     res.json(product);
   });
 
-  // POST create a new product
-  app.post("/api/products", (req: Request, res: Response) => {
-    const { title, description, gender, price, prevPrice, discount, category, brand } = req.body;
+  // --- Admin routes ---
+
+  // POST create a product
+  app.post("/api/admin/products", requireAuth, (req: Request, res: Response) => {
+    const { title, description, gender, price, prevPrice, discount, category, brand, images } = req.body;
     if (!title) return res.status(400).json({ error: "title is required" });
     if (price == null) return res.status(400).json({ error: "price is required" });
 
@@ -80,12 +50,19 @@ export function registerProductsRoutes(app: Router) {
       brand_name: brand ?? "Angular Apparel",
     };
     const product = productRepo.create(data);
+
+    if (images?.length) {
+      for (const url of images) {
+        imageRepo.create(product.id, url);
+      }
+    }
+
     res.status(201).json(product);
   });
 
   // PUT update a product
-  app.put("/api/products/:id", (req: Request, res: Response) => {
-    const { title, description, gender, price, prevPrice, discount, category, brand } = req.body;
+  app.put("/api/admin/products/:id", requireAuth, (req: Request, res: Response) => {
+    const { title, description, gender, price, prevPrice, discount, category, brand, images } = req.body;
     const updates: Partial<{
       title: string;
       description: string;
@@ -107,11 +84,30 @@ export function registerProductsRoutes(app: Router) {
 
     const product = productRepo.update(Number(req.params.id), updates);
     if (!product) return res.status(404).json({ error: "Product not found" });
+
+    // Reconcile images: delete removed, add new
+    if (images !== undefined) {
+      const existing = imageRepo.getByProduct(product.id);
+      const newUrls = new Set(images);
+
+      for (const img of existing) {
+        if (!newUrls.has(img.url)) {
+          imageRepo.deleteById(img.id);
+        }
+      }
+
+      for (const url of images) {
+        if (!existing.find((img) => img.url === url)) {
+          imageRepo.create(product.id, url);
+        }
+      }
+    }
+
     res.json(product);
   });
 
   // DELETE a product
-  app.delete("/api/products/:id", (req: Request, res: Response) => {
+  app.delete("/api/admin/products/:id", requireAuth, (req: Request, res: Response) => {
     productRepo.delete(Number(req.params.id));
     res.json({ message: "Product deleted" });
   });

@@ -29,6 +29,13 @@ export const imageRepo = {
   },
 
   /**
+   * Delete a single image by its ID.
+   */
+  deleteById: (id: number): void => {
+    db.prepare("DELETE FROM product_images WHERE id = ?").run(id);
+  },
+
+  /**
    * Delete all images for a product.
    */
   deleteByProduct: (productId: number): void => {

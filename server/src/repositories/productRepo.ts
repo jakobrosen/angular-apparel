@@ -2,38 +2,37 @@ import db from "../db/db.js";
 import type { ProductCreate, ProductOutput } from "../types/product.js";
 
 /**
+ * Converts a flat SQLite row into a ProductOutput.
+ */
+function toProduct(row: Record<string, unknown>): ProductOutput {
+  return {
+    id: Number(row.id),
+    title: String(row.title),
+    description: String(row.description),
+    gender: String(row.gender),
+    price: Number(row.price),
+    prev_price: row.prev_price == null ? null : Number(row.prev_price),
+    discount: Boolean(row.discount),
+    created_at: String(row.created_at),
+    category_name: String(row.category_name),
+    brand_name: String(row.brand_name),
+    images: [],
+  };
+}
+
+/**
  * Groups flat JOIN results into products with embedded images arrays.
- * SQLite returns one row per (product, image) pair when JOINing —
- * this collapses them into a single product per id with its images.
- *
- * Note: SQLite aliases like "images.id" become flat keys (e.g. row["images.id"]),
- * not nested objects (row.images).
+ * SQLite returns one row per (product, image) pair — this collapses them.
  */
 function groupResults(rows: unknown[]): ProductOutput[] {
   const productMap = new Map<number, ProductOutput>();
 
   for (const row of rows) {
-    const rowTyped = row as Record<string, unknown>;
-    const imageUrl = rowTyped["images.url"] as string | null | undefined;
-    const images: string[] = imageUrl ? [imageUrl] : [];
-    const existing = productMap.get(rowTyped.id as number);
-    if (existing) {
-      existing.images.push(...images);
-    } else {
-      productMap.set(rowTyped.id as number, {
-        id: Number(rowTyped.id),
-        title: String(rowTyped.title),
-        description: String(rowTyped.description),
-        gender: String(rowTyped.gender),
-        price: Number(rowTyped.price),
-        prev_price: rowTyped.prev_price === null ? null : Number(rowTyped.prev_price),
-        discount: Boolean(rowTyped.discount),
-        created_at: String(rowTyped.created_at),
-        category_name: String(rowTyped.category_name),
-        brand_name: String(rowTyped.brand_name),
-        images,
-      });
-    }
+    const r = row as Record<string, unknown>;
+    const product = productMap.get(r.id as number) ?? toProduct(r);
+    const url = r["images.url"] as string | null | undefined;
+    if (url) product.images.push(url);
+    productMap.set(r.id as number, product);
   }
 
   return Array.from(productMap.values());
@@ -49,9 +48,7 @@ function baseQuery(sql: string, params: (string | number)[]) {
       `SELECT p.*,
               pi.id AS "images.id",
               pi.product_id AS "images.product_id",
-              pi.url AS "images.url",
-              pi.is_main AS "images.is_main",
-              pi.sort_order AS "images.sort_order"
+              pi.url AS "images.url"
        FROM products p
        LEFT JOIN product_images pi ON p.id = pi.product_id
        ${sql}`,

@@ -1,8 +1,17 @@
 import db from "./db.js";
+import bcrypt from "bcryptjs";
 import { categories, brands, products } from "./dummyData.js";
 
 function seed(): void {
   console.log("Starting seed...");
+
+  // Seed admin user
+  const passwordHash = bcrypt.hashSync("admin", 10);
+  const insertAdmin = db.prepare(
+    "INSERT OR IGNORE INTO admin_users (username, password_hash) VALUES (?, ?)",
+  );
+  insertAdmin.run("admin", passwordHash);
+  console.log("  Admin user: admin");
 
   // Seed categories and brands in a single transaction
   const insertCategory = db.prepare(
@@ -18,8 +27,7 @@ function seed(): void {
   );
 
   const insertImage = db.prepare(
-    `INSERT INTO product_images (product_id, url, is_main, sort_order)
-    VALUES (?, ?, ?, ?)`,
+    `INSERT INTO product_images (product_id, url) VALUES (?, ?)`,
   );
 
   // Single transaction for everything
@@ -51,8 +59,8 @@ function seed(): void {
 
       const productId = result.lastInsertRowid as number;
 
-      for (let i = 0; i < product.images.length; i++) {
-        insertImage.run(productId, product.images[i], i === 0 ? 1 : 0, i);
+      for (const url of product.images) {
+        insertImage.run(productId, url);
       }
     }
   });

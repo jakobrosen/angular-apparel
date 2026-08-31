@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { categoryRepo } from "../repositories/categoryRepo.js";
 import { productRepo } from "../repositories/productRepo.js";
+import { requireAuth } from "../middleware/auth.js";
 
 export function registerCategoriesRoutes(app: Router) {
   // GET all categories
@@ -25,8 +26,10 @@ export function registerCategoriesRoutes(app: Router) {
     res.json(products);
   });
 
+  // --- Admin routes ---
+
   // POST create a category
-  app.post("/api/categories", (req: Request, res: Response) => {
+  app.post("/api/admin/categories", requireAuth, (req: Request, res: Response) => {
     const { name } = req.body;
     if (!name) return res.status(400).json({ error: "name is required" });
 
@@ -35,14 +38,14 @@ export function registerCategoriesRoutes(app: Router) {
   });
 
   // PUT update a category
-  app.put("/api/categories/:id", (req: Request, res: Response) => {
+  app.put("/api/admin/categories/:id", requireAuth, (req: Request, res: Response) => {
     const category = categoryRepo.update(Number(req.params.id), req.body);
     if (!category) return res.status(404).json({ error: "Category not found" });
     res.json(category);
   });
 
   // DELETE a category
-  app.delete("/api/categories/:id", (req: Request, res: Response) => {
+  app.delete("/api/admin/categories/:id", requireAuth, (req: Request, res: Response) => {
     categoryRepo.delete(Number(req.params.id));
     res.json({ message: "Category deleted" });
   });

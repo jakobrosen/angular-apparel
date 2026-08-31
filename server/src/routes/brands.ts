@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { brandRepo } from "../repositories/brandRepo.js";
 import { productRepo } from "../repositories/productRepo.js";
+import { requireAuth } from "../middleware/auth.js";
 
 export function registerBrandsRoutes(app: Router) {
   // GET all brands
@@ -25,8 +26,10 @@ export function registerBrandsRoutes(app: Router) {
     res.json(products);
   });
 
+  // --- Admin routes ---
+
   // POST create a brand
-  app.post("/api/brands", (req: Request, res: Response) => {
+  app.post("/api/admin/brands", requireAuth, (req: Request, res: Response) => {
     const { name } = req.body;
     if (!name) return res.status(400).json({ error: "name is required" });
 
@@ -35,14 +38,14 @@ export function registerBrandsRoutes(app: Router) {
   });
 
   // PUT update a brand
-  app.put("/api/brands/:id", (req: Request, res: Response) => {
+  app.put("/api/admin/brands/:id", requireAuth, (req: Request, res: Response) => {
     const brand = brandRepo.update(Number(req.params.id), req.body);
     if (!brand) return res.status(404).json({ error: "Brand not found" });
     res.json(brand);
   });
 
   // DELETE a brand
-  app.delete("/api/brands/:id", (req: Request, res: Response) => {
+  app.delete("/api/admin/brands/:id", requireAuth, (req: Request, res: Response) => {
     brandRepo.delete(Number(req.params.id));
     res.json({ message: "Brand deleted" });
   });

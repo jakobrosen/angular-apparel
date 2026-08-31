@@ -2,6 +2,7 @@ import express from "express";
 import { registerProductsRoutes } from "./routes/products.js";
 import { registerBrandsRoutes } from "./routes/brands.js";
 import { registerCategoriesRoutes } from "./routes/categories.js";
+import { registerAdminRoutes } from "./routes/admin.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 registerProductsRoutes(app);
 registerBrandsRoutes(app);
 registerCategoriesRoutes(app);
+registerAdminRoutes(app);
 
 const port = process.env.PORT || 8000;
 
