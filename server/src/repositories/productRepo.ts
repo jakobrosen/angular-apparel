@@ -71,17 +71,50 @@ export const productRepo = {
     return grouped[0];
   },
 
-  searchByTitle: (query: string): ProductOutput[] => {
-    const rows = baseQuery(
-      "WHERE p.title LIKE ? ORDER BY p.id ASC",
-      [`%${query}%`],
-    );
+  search: (options: {
+    q?: string;
+    brand?: string;
+    category?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    gender?: string;
+  }): ProductOutput[] => {
+    const conditions: string[] = [];
+    const params: (string | number)[] = [];
+
+    if (options.q) {
+      conditions.push("(p.title LIKE ? OR p.brand_name LIKE ? OR p.category_name LIKE ?)");
+      params.push(`%${options.q}%`, `%${options.q}%`, `%${options.q}%`);
+    }
+    if (options.brand) {
+      conditions.push("LOWER(p.brand_name) = LOWER(?)");
+      params.push(options.brand);
+    }
+    if (options.category) {
+      conditions.push("LOWER(p.category_name) = LOWER(?)");
+      params.push(options.category);
+    }
+    if (options.minPrice !== undefined) {
+      conditions.push("p.price >= ?");
+      params.push(options.minPrice);
+    }
+    if (options.maxPrice !== undefined) {
+      conditions.push("p.price <= ?");
+      params.push(options.maxPrice);
+    }
+    if (options.gender) {
+      conditions.push("p.gender = ?");
+      params.push(options.gender);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+    const rows = baseQuery(`${whereClause} ORDER BY p.id ASC`, params);
     return groupResults(rows);
   },
 
   getByBrand: (brandName: string): ProductOutput[] => {
     const rows = baseQuery(
-      "WHERE p.brand_name = ? ORDER BY p.id ASC",
+      "WHERE LOWER(p.brand_name) = LOWER(?) ORDER BY p.id ASC",
       [brandName],
     );
     return groupResults(rows);
@@ -89,7 +122,7 @@ export const productRepo = {
 
   getByCategory: (categoryName: string): ProductOutput[] => {
     const rows = baseQuery(
-      "WHERE p.category_name = ? ORDER BY p.id ASC",
+      "WHERE LOWER(p.category_name) = LOWER(?) ORDER BY p.id ASC",
       [categoryName],
     );
     return groupResults(rows);

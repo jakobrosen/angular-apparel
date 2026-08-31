@@ -13,7 +13,7 @@ export const categoryRepo = {
   },
 
   getByName: (name: string): CategoryOutput | undefined => {
-    return db.prepare("SELECT * FROM categories WHERE name = ?").get(name) as
+    return db.prepare("SELECT * FROM categories WHERE LOWER(name) = LOWER(?)").get(name) as
       | CategoryOutput
       | undefined;
   },

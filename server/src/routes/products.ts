@@ -9,33 +9,17 @@ export function registerProductsRoutes(app: Router) {
     res.json(products);
   });
 
-  // GET products by name (search) — ?q=keyword
+  // GET products by search — ?q=keyword (searches title, brand, category)
+//   + optional filters: &brand=Adidas&category=Shirts&minPrice=100&maxPrice=500&gender=Men's
   app.get("/api/products/search", (req: Request, res: Response) => {
-    const query = req.query.q as string;
-    if (!query) {
-      return res.status(400).json({ error: "Query parameter 'q' is required" });
-    }
-    const products = productRepo.searchByTitle(query);
-    res.json(products);
-  });
-
-  // GET products by brand name — ?brand=BrandName
-  app.get("/api/products/brand", (req: Request, res: Response) => {
-    const brand = req.query.brand as string;
-    if (!brand) {
-      return res.status(400).json({ error: "Query parameter 'brand' is required" });
-    }
-    const products = productRepo.getByBrand(brand);
-    res.json(products);
-  });
-
-  // GET products by category name — ?category=CategoryName
-  app.get("/api/products/category", (req: Request, res: Response) => {
-    const category = req.query.category as string;
-    if (!category) {
-      return res.status(400).json({ error: "Query parameter 'category' is required" });
-    }
-    const products = productRepo.getByCategory(category);
+    const products = productRepo.search({
+      q: req.query.q as string | undefined,
+      brand: req.query.brand as string | undefined,
+      category: req.query.category as string | undefined,
+      minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
+      maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
+      gender: req.query.gender as string | undefined,
+    });
     res.json(products);
   });
 

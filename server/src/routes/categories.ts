@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { categoryRepo } from "../repositories/categoryRepo.js";
+import { productRepo } from "../repositories/productRepo.js";
 
 export function registerCategoriesRoutes(app: Router) {
   // GET all categories
@@ -8,11 +9,20 @@ export function registerCategoriesRoutes(app: Router) {
     res.json(categories);
   });
 
-  // GET category by ID
-  app.get("/api/categories/:id", (req: Request, res: Response) => {
-    const category = categoryRepo.getById(Number(req.params.id));
+  // GET products by category name — ?q=keyword&brand=Adidas&minPrice=100&maxPrice=500&gender=Men's
+  app.get("/api/categories/:name", (req: Request, res: Response) => {
+    const category = categoryRepo.getByName(req.params.name as string);
     if (!category) return res.status(404).json({ error: "Category not found" });
-    res.json(category);
+
+    const products = productRepo.search({
+      q: req.query.q as string | undefined,
+      category: req.params.name as string,
+      brand: req.query.brand as string | undefined,
+      minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
+      maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
+      gender: req.query.gender as string | undefined,
+    });
+    res.json(products);
   });
 
   // POST create a category

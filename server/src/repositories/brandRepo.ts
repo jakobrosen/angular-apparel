@@ -13,7 +13,7 @@ export const brandRepo = {
   },
 
   getByName: (name: string): BrandOutput | undefined => {
-    return db.prepare("SELECT * FROM brands WHERE name = ?").get(name) as
+    return db.prepare("SELECT * FROM brands WHERE LOWER(name) = LOWER(?)").get(name) as
       | BrandOutput
       | undefined;
   },
