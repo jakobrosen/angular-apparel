@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import db from "../db/db.js";
+import db from "../config/db.js";
 import type { LoginRequest, LoginResponse } from "../types/auth.js";
 
 export function registerAdminRoutes(app: Router) {

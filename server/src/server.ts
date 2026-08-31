@@ -1,3 +1,4 @@
+import "./config/variables.js";
 import express from "express";
 import { registerProductsRoutes } from "./routes/products.js";
 import { registerBrandsRoutes } from "./routes/brands.js";

@@ -1,4 +1,4 @@
-import db from "../db/db.js";
+import db from "../config/db.js";
 import type { CategoryInput, CategoryOutput } from "../types/category.js";
 
 export const categoryRepo = {

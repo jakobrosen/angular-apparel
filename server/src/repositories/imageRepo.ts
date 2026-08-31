@@ -1,4 +1,4 @@
-import db from "../db/db.js";
+import db from "../config/db.js";
 import type { ProductImage } from "../types/product.js";
 
 export const imageRepo = {

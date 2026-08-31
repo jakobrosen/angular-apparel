@@ -1,4 +1,4 @@
-import db from "../db/db.js";
+import db from "../config/db.js";
 import type { BrandInput, BrandOutput } from "../types/brand.js";
 
 export const brandRepo = {
