@@ -1,19 +1,19 @@
 import express from "express";
+import { registerProductsRoutes } from "./routes/products.js";
+import { registerBrandsRoutes } from "./routes/brands.js";
+import { registerCategoriesRoutes } from "./routes/categories.js";
 
-// Imports database from db.ts
-import db from "./db/db.js";
-
-// Creates an express application
 const app = express();
 
-// Defaults to port 8000 if no environment varible is available
-const port = process.env.PORT || 8000;
+// Parse JSON request bodies
+app.use(express.json());
 
-// GET-endpoint
-app.get("/api/products", (req, res) => {
-  const products = db.prepare("SELECT * FROM products").all();
-  res.json(products);
-});
+// Register routes
+registerProductsRoutes(app);
+registerBrandsRoutes(app);
+registerCategoriesRoutes(app);
+
+const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

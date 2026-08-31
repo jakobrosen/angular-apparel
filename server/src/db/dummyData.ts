@@ -1,3 +1,5 @@
+// *** Dummy data for categories, brands, and products ***
+
 import type { ProductInput } from "../types/product.js";
 
 export const categories = [
