@@ -45,15 +45,10 @@ export function registerProductsRoutes(app: Router) {
     const product = productRepo.getById(productId);
     if (!product) return res.status(404).json({ error: "Product not found" });
 
-    const { url, is_main, sort_order } = req.body;
+    const { url } = req.body;
     if (!url) return res.status(400).json({ error: "url is required" });
 
-    const image = imageRepo.create(
-      productId,
-      url,
-      Boolean(is_main),
-      Number(sort_order) || 0,
-    );
+    const image = imageRepo.create(productId, url);
     res.status(201).json(image);
   });
 
@@ -88,7 +83,7 @@ export function registerProductsRoutes(app: Router) {
   app.post("/api/products", (req: Request, res: Response) => {
     const { title, description, gender, price, prevPrice, discount, category, brand } = req.body;
     if (!title) return res.status(400).json({ error: "title is required" });
-    if (price === undefined || price === null) return res.status(400).json({ error: "price is required" });
+    if (price == null) return res.status(400).json({ error: "price is required" });
 
     const data = {
       title,
