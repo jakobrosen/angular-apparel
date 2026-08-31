@@ -1,22 +1,37 @@
 import db from "../db/db.js";
-import type { ProductCreate, ProductOutput, ProductImage } from "../types/product.js";
+import type { ProductCreate, ProductOutput } from "../types/product.js";
 
 /**
  * Groups flat JOIN results into products with embedded images arrays.
  * SQLite returns one row per (product, image) pair when JOINing —
  * this collapses them into a single product per id with its images.
+ *
+ * Note: SQLite aliases like "images.id" become flat keys (e.g. row["images.id"]),
+ * not nested objects (row.images).
  */
 function groupResults(rows: unknown[]): ProductOutput[] {
   const productMap = new Map<number, ProductOutput>();
 
-  for (const row of rows as Array<ProductOutput & { images: ProductImage[] }>) {
-    const existing = productMap.get(row.id);
+  for (const row of rows) {
+    const rowTyped = row as Record<string, unknown>;
+    const imageUrl = rowTyped["images.url"] as string | null | undefined;
+    const images: string[] = imageUrl ? [imageUrl] : [];
+    const existing = productMap.get(rowTyped.id as number);
     if (existing) {
-      existing.images.push(row.images[0]);
+      existing.images.push(...images);
     } else {
-      productMap.set(row.id, {
-        ...row,
-        images: [row.images[0]],
+      productMap.set(rowTyped.id as number, {
+        id: Number(rowTyped.id),
+        title: String(rowTyped.title),
+        description: String(rowTyped.description),
+        gender: String(rowTyped.gender),
+        price: Number(rowTyped.price),
+        prev_price: rowTyped.prev_price === null ? null : Number(rowTyped.prev_price),
+        discount: Boolean(rowTyped.discount),
+        created_at: String(rowTyped.created_at),
+        category_name: String(rowTyped.category_name),
+        brand_name: String(rowTyped.brand_name),
+        images,
       });
     }
   }
@@ -41,7 +56,7 @@ function baseQuery(sql: string, params: (string | number)[]) {
        LEFT JOIN product_images pi ON p.id = pi.product_id
        ${sql}`,
     )
-    .all(...params) as Array<ProductOutput & { images: ProductImage[] }>;
+    .all(...params) as Array<ProductOutput & { "images.url": string | null }>;
 }
 
 export const productRepo = {
@@ -92,7 +107,7 @@ export const productRepo = {
         data.gender,
         data.price,
         data.prev_price ?? null,
-        data.discount ?? false,
+        data.discount ? 1 : 0,
         data.category_name ?? "Other",
         data.brand_name ?? "Angular Apparel",
       );
@@ -104,7 +119,7 @@ export const productRepo = {
       gender: data.gender,
       price: data.price,
       prev_price: data.prev_price ?? null,
-      discount: data.discount ?? false,
+      discount: !!data.discount,
       created_at: new Date().toISOString(),
       category_name: data.category_name ?? "Other",
       brand_name: data.brand_name ?? "Angular Apparel",

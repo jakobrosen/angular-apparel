@@ -9,13 +9,6 @@ export function registerProductsRoutes(app: Router) {
     res.json(products);
   });
 
-  // GET product by ID
-  app.get("/api/products/:id", (req: Request, res: Response) => {
-    const product = productRepo.getById(Number(req.params.id));
-    if (!product) return res.status(404).json({ error: "Product not found" });
-    res.json(product);
-  });
-
   // GET products by name (search) — ?q=keyword
   app.get("/api/products/search", (req: Request, res: Response) => {
     const query = req.query.q as string;
@@ -46,25 +39,6 @@ export function registerProductsRoutes(app: Router) {
     res.json(products);
   });
 
-  // POST create a new product
-  app.post("/api/products", (req: Request, res: Response) => {
-    const product = productRepo.create(req.body);
-    res.status(201).json(product);
-  });
-
-  // PUT update a product
-  app.put("/api/products/:id", (req: Request, res: Response) => {
-    const product = productRepo.update(Number(req.params.id), req.body);
-    if (!product) return res.status(404).json({ error: "Product not found" });
-    res.json(product);
-  });
-
-  // DELETE a product
-  app.delete("/api/products/:id", (req: Request, res: Response) => {
-    productRepo.delete(Number(req.params.id));
-    res.json({ message: "Product deleted" });
-  });
-
   // POST add an image to a product
   app.post("/api/products/:id/images", (req: Request, res: Response) => {
     const productId = Number(req.params.id);
@@ -77,8 +51,8 @@ export function registerProductsRoutes(app: Router) {
     const image = imageRepo.create(
       productId,
       url,
-      is_main ?? false,
-      sort_order ?? 0,
+      Boolean(is_main),
+      Number(sort_order) || 0,
     );
     res.status(201).json(image);
   });
@@ -101,5 +75,65 @@ export function registerProductsRoutes(app: Router) {
 
     imageRepo.deleteByProduct(productId);
     res.json({ message: "Images deleted" });
+  });
+
+  // GET product by ID
+  app.get("/api/products/:id", (req: Request, res: Response) => {
+    const product = productRepo.getById(Number(req.params.id));
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.json(product);
+  });
+
+  // POST create a new product
+  app.post("/api/products", (req: Request, res: Response) => {
+    const { title, description, gender, price, prevPrice, discount, category, brand } = req.body;
+    if (!title) return res.status(400).json({ error: "title is required" });
+    if (price === undefined || price === null) return res.status(400).json({ error: "price is required" });
+
+    const data = {
+      title,
+      description: description ?? "",
+      gender: gender ?? "Unisex",
+      price: Number(price),
+      prev_price: prevPrice ?? null,
+      discount: Boolean(discount),
+      category_name: category ?? "Other",
+      brand_name: brand ?? "Angular Apparel",
+    };
+    const product = productRepo.create(data);
+    res.status(201).json(product);
+  });
+
+  // PUT update a product
+  app.put("/api/products/:id", (req: Request, res: Response) => {
+    const { title, description, gender, price, prevPrice, discount, category, brand } = req.body;
+    const updates: Partial<{
+      title: string;
+      description: string;
+      gender: string;
+      price: number;
+      prev_price: number | null;
+      discount: boolean;
+      category_name: string;
+      brand_name: string;
+    }> = {};
+    if (title !== undefined) updates.title = title;
+    if (description !== undefined) updates.description = description;
+    if (gender !== undefined) updates.gender = gender;
+    if (price !== undefined) updates.price = Number(price);
+    if (prevPrice !== undefined) updates.prev_price = prevPrice;
+    if (discount !== undefined) updates.discount = discount;
+    if (category !== undefined) updates.category_name = category;
+    if (brand !== undefined) updates.brand_name = brand;
+
+    const product = productRepo.update(Number(req.params.id), updates);
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.json(product);
+  });
+
+  // DELETE a product
+  app.delete("/api/products/:id", (req: Request, res: Response) => {
+    productRepo.delete(Number(req.params.id));
+    res.json({ message: "Product deleted" });
   });
 }

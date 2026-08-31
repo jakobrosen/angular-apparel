@@ -16,7 +16,7 @@ export const imageRepo = {
         `INSERT INTO product_images (product_id, url, is_main, sort_order)
          VALUES (?, ?, ?, ?)`,
       )
-      .run(productId, url, isMain, sortOrder);
+      .run(productId, url, isMain ? 1 : 0, sortOrder);
 
     return {
       id: Number(result.lastInsertRowid),

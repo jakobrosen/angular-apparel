@@ -27,7 +27,7 @@ export interface ProductImage {
 
 /**
  * Shape of a product as returned from the API.
- * Includes an embedded `images` array from the `product_images` table.
+ * Includes an embedded `images` array of URLs from the `product_images` table.
  */
 export interface ProductOutput {
   id: number;
@@ -40,7 +40,7 @@ export interface ProductOutput {
   created_at: string;
   category_name: string;
   brand_name: string;
-  images: ProductImage[];
+  images: string[];
 }
 
 /**
