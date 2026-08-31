@@ -57,7 +57,7 @@ export function registerProductsRoutes(app: Router) {
       }
     }
 
-    res.status(201).json(product);
+    res.status(201).json(productRepo.getById(product.id));
   });
 
   // PUT update a product
@@ -103,7 +103,7 @@ export function registerProductsRoutes(app: Router) {
       }
     }
 
-    res.json(product);
+    res.json(productRepo.getById(product.id));
   });
 
   // DELETE a product
