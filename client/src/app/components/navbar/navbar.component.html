@@ -1,0 +1,140 @@
+<header class="bg-white shadow-sm sticky top-0 z-50">
+  <div class="mx-auto px-4 py-3 h-14">
+    <div class="flex justify-between items-center select-none">
+      <!-- Logo -->
+      <div class="w-41 flex items-center">
+        <a
+          routerLink="/products/all"
+          class="hidden lg:flex text-2xl font-logo text-gray-950 whitespace-nowrap"
+        >
+          ANGULAR APPAREL
+        </a>
+        @if (isOpen()) {
+          <ng-icon
+            name="phosphorX"
+            class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
+            (click)="toggleMenu()"
+          ></ng-icon>
+        } @else {
+          <ng-icon
+            name="phosphorList"
+            class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer lg:hidden!"
+            (click)="toggleMenu()"
+          ></ng-icon>
+        }
+      </div>
+
+      <!-- Desktop navigation -->
+      <div
+        class="hidden lg:flex text-sm font-sans font-semibold whitespace-nowrap items-center justify-center space-x-8"
+      >
+        <a
+          routerLink="/new"
+          routerLinkActive="text-blue-600 font-sans"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="text-gray-700 hover:text-gray-950 transition-colors"
+        >
+          NEW ARRIVALS
+        </a>
+        <a
+          routerLink="/products"
+          routerLinkActive="text-blue-600 font-semibold"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="text-gray-700 hover:text-gray-950 transition-colors"
+        >
+          ALL PRODUCTS
+        </a>
+        <a
+          routerLink="/products/womens"
+          routerLinkActive="text-blue-600 font-semibold"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="text-gray-700 hover:text-gray-950 transition-colors"
+        >
+          WOMEN
+        </a>
+        <a
+          routerLink="/products/mens"
+          routerLinkActive="text-blue-600 font-semibold"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="text-gray-700 hover:text-gray-950 transition-colors"
+        >
+          MEN
+        </a>
+      </div>
+      <a
+        routerLink="/products/all"
+        class="flex lg:hidden text-2xl font-logo text-gray-950 whitespace-nowrap"
+      >
+        ANGULAR APPAREL
+      </a>
+
+      <!-- Right side icons -->
+      <div class="w-41 flex justify-end items-center space-x-4">
+        <!-- Search icon -->
+        <ng-icon
+          name="phosphorMagnifyingGlass"
+          class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
+        ></ng-icon>
+
+        <!-- Cart icon -->
+        <ng-icon
+          name="phosphorBag"
+          class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
+        ></ng-icon>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Mobile navigation menu -->
+<aside
+  [class]="
+    isOpen()
+      ? 'opacity-100 translate-y-0 pointer-events-auto'
+      : 'opacity-0 -translate-y-2 pointer-events-none'
+  "
+  class="lg:hidden fixed inset-x-0 z-40 transition-all top-14 border-t shadow-sm border-gray-200 bg-white"
+>
+  <div class="flex flex-col space-y-2 p-4">
+    <a
+      routerLink="/products/unisex"
+      routerLinkActive="text-blue-600 font-semibold"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
+    >
+      NEW ARRIVALS
+    </a>
+    <a
+      routerLink="/products/all"
+      routerLinkActive="text-blue-600 font-semibold"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
+    >
+      ALL PRODUCTS
+    </a>
+    <a
+      routerLink="/products/mens"
+      routerLinkActive="text-blue-600 font-semibold"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
+    >
+      MEN
+    </a>
+    <a
+      routerLink="/products/womens"
+      routerLinkActive="text-blue-600 font-semibold"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
+    >
+      WOMEN
+    </a>
+  </div>
+</aside>
+<div
+  [class]="
+    isOpen()
+      ? 'opacity-50 pointer-events-auto duration-300'
+      : 'opacity-0 pointer-events-none duration-75'
+  "
+  class="bg-black w-full h-full top-0 left-0 fixed transition-opacity lg:hidden"
+  (click)="toggleMenu()"
+></div>

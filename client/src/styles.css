@@ -1,3 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
-
+@layer ng-icon;
 @import 'tailwindcss';
+
+@theme {
+  --font-logo: 'Unica One', system-ui, sans-serif;
+  --font-sans: 'Open Sans', system-ui, sans-serif;
+}
