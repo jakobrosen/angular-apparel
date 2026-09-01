@@ -1,23 +1,8 @@
 import db from "../config/db.js";
 import type { PaginatedResult } from "../types/api.js";
 import type { ProductCreate, ProductOutput } from "../types/product.js";
-
-/** Converts a flat SQLite row into a ProductOutput. */
-function toProduct(row: Record<string, unknown>): ProductOutput {
-  return {
-    id: Number(row.id),
-    title: String(row.title),
-    description: String(row.description),
-    gender: String(row.gender),
-    price: Number(row.price),
-    prev_price: row.prev_price == null ? null : Number(row.prev_price),
-    discount: row.prev_price != null && Number(row.prev_price) > Number(row.price),
-    created_at: String(row.created_at),
-    category_name: String(row.category_name),
-    brand_name: String(row.brand_name),
-    images: [],
-  };
-}
+import { parseProduct } from "../utilities/parsing.js";
+import { paginate } from "../utilities/pagination.js";
 
 /** Base SQL for fetching a product with its embedded images. */
 const WITH_IMAGES = `SELECT p.*,
@@ -33,7 +18,7 @@ function groupResults(rows: unknown[]): ProductOutput[] {
 
   for (const row of rows) {
     const r = row as Record<string, unknown>;
-    const product = productMap.get(r.id as number) ?? toProduct(r);
+    const product = productMap.get(r.id as number) ?? parseProduct(r);
     const url = r["images.url"] as string | null | undefined;
     if (url) product.images.push(url);
     productMap.set(r.id as number, product);
@@ -43,31 +28,16 @@ function groupResults(rows: unknown[]): ProductOutput[] {
 }
 
 /** Fetches products by ID list with their images, then groups results. */
-function getProductsByIds(ids: number[]): ProductOutput[] {
+export function getProductsByIds(
+  ids: number[],
+  withImagesSql: string,
+): ProductOutput[] {
   if (!ids.length) return [];
   const placeholders = ids.map(() => "?").join(",");
   const rows = db
-    .prepare(`${WITH_IMAGES} WHERE p.id IN (${placeholders}) ORDER BY p.id ASC`)
+    .prepare(`${withImagesSql} WHERE p.id IN (${placeholders}) ORDER BY p.id ASC`)
     .all(...ids) as Array<ProductOutput & { "images.url": string | null }>;
   return groupResults(rows);
-}
-
-/** Paginates by product IDs first, then fetches with images. */
-function paginate(
-  countSql: string,
-  countParams: (string | number)[],
-  idSql: string,
-  idParams: (string | number)[],
-  page: number,
-  limit: number,
-): PaginatedResult<ProductOutput> {
-  const offset = (page - 1) * limit;
-  const total = db.prepare(countSql).get(...countParams) as { count: number };
-  const productIds = db
-    .prepare(`${idSql} LIMIT ? OFFSET ?`)
-    .all(...[...idParams, limit, offset]) as Array<{ id: number }>;
-  const ids = productIds.map((p) => p.id);
-  return { data: getProductsByIds(ids), total: total.count, page, limit };
 }
 
 export const productRepo = {
@@ -75,6 +45,7 @@ export const productRepo = {
     return paginate(
       "SELECT COUNT(*) as count FROM products",
       [],
+      WITH_IMAGES,
       "SELECT id FROM products ORDER BY id ASC",
       [],
       page,
@@ -141,13 +112,14 @@ export const productRepo = {
       .all(...[...params, limit, offset]) as Array<{ id: number }>;
     const ids = productIds.map((p) => p.id);
 
-    return { data: getProductsByIds(ids), total: total.count, page, limit };
+    return { data: getProductsByIds(ids, WITH_IMAGES), total: total.count, page, limit };
   },
 
   getByBrand: (brandName: string, page = 1, limit = 48): PaginatedResult<ProductOutput> => {
     return paginate(
       "SELECT COUNT(*) as count FROM products p WHERE LOWER(p.brand_name) = LOWER(?)",
       [brandName],
+      WITH_IMAGES,
       "SELECT id FROM products p WHERE LOWER(p.brand_name) = LOWER(?)",
       [brandName],
       page,
@@ -159,6 +131,7 @@ export const productRepo = {
     return paginate(
       "SELECT COUNT(*) as count FROM products p WHERE LOWER(p.category_name) = LOWER(?)",
       [categoryName],
+      WITH_IMAGES,
       "SELECT id FROM products p WHERE LOWER(p.category_name) = LOWER(?)",
       [categoryName],
       page,
