@@ -7,8 +7,8 @@ import { registerAdminRoutes } from "./routes/admin.js";
 
 const app = express();
 
-// Parse JSON request bodies
-app.use(express.json());
+// Parse JSON request bodies (limit to 1MB to prevent abuse)
+app.use(express.json({ limit: "1mb" }));
 
 // Register routes
 registerProductsRoutes(app);

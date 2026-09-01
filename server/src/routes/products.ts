@@ -2,13 +2,22 @@ import { Router, Request, Response } from "express";
 import { productRepo } from "../repositories/productRepo.js";
 import { imageRepo } from "../repositories/imageRepo.js";
 import { requireAuth } from "../middleware/auth.js";
+import {
+  productCreateSchema,
+  productUpdateSchema,
+  querySchema,
+} from "../types/validators.js";
 
 export function registerProductsRoutes(app: Router) {
   // GET all products
   app.get("/api/products", (req: Request, res: Response) => {
-    const page = req.query.page ? Number(req.query.page) : 1;
-    const limit = req.query.limit ? Number(req.query.limit) : 48;
-    const result = productRepo.getAll(page, limit);
+    const parsed = querySchema.safeParse({
+      page: req.query.page,
+      limit: req.query.limit,
+    });
+    if (!parsed.success)
+      return res.status(400).json({ error: "Invalid query params" });
+    const result = productRepo.getAll(parsed.data.page, parsed.data.limit);
     res.json(result);
   });
 
@@ -16,16 +25,19 @@ export function registerProductsRoutes(app: Router) {
   //   + optional filters: &brand=Adidas&category=Shirts&minPrice=100&maxPrice=500&gender=Men's
   //   + pagination: &page=1&limit=48
   app.get("/api/products/search", (req: Request, res: Response) => {
-    const result = productRepo.search({
-      q: req.query.q as string | undefined,
-      brand: req.query.brand as string | undefined,
-      category: req.query.category as string | undefined,
-      minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
-      maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
-      gender: req.query.gender as string | undefined,
-      page: req.query.page ? Number(req.query.page) : 1,
-      limit: req.query.limit ? Number(req.query.limit) : 48,
+    const parsed = querySchema.safeParse({
+      q: req.query.q,
+      brand: req.query.brand,
+      category: req.query.category,
+      minPrice: req.query.minPrice,
+      maxPrice: req.query.maxPrice,
+      gender: req.query.gender,
+      page: req.query.page,
+      limit: req.query.limit,
     });
+    if (!parsed.success)
+      return res.status(400).json({ error: "Invalid query params" });
+    const result = productRepo.search(parsed.data);
     res.json(result);
   });
 
@@ -40,26 +52,14 @@ export function registerProductsRoutes(app: Router) {
 
   // POST create a product
   app.post("/api/admin/products", requireAuth, (req: Request, res: Response) => {
-    const { title, description, gender, price, prevPrice, discount, category, brand, images } = req.body;
-    if (!title) return res.status(400).json({ error: "title is required" });
-    if (price == null) return res.status(400).json({ error: "price is required" });
-
-    const data = {
-      title,
-      description: description ?? "",
-      gender: gender ?? "Unisex",
-      price: Number(price),
-      prev_price: prevPrice ?? null,
-      discount: Boolean(discount),
-      category_name: category ?? "Other",
-      brand_name: brand ?? "Angular Apparel",
-    };
+    const parsed = productCreateSchema.safeParse(req.body);
+    if (!parsed.success)
+      return res.status(400).json({ error: parsed.error.flatten().fieldErrors });
+    const data = parsed.data;
     const product = productRepo.create(data);
 
-    if (images?.length) {
-      for (const url of images) {
-        imageRepo.create(product.id, url);
-      }
+    for (const url of data.images) {
+      imageRepo.create(product.id, url);
     }
 
     res.status(201).json(productRepo.getById(product.id));
@@ -67,33 +67,18 @@ export function registerProductsRoutes(app: Router) {
 
   // PUT update a product
   app.put("/api/admin/products/:id", requireAuth, (req: Request, res: Response) => {
-    const { title, description, gender, price, prevPrice, discount, category, brand, images } = req.body;
-    const updates: Partial<{
-      title: string;
-      description: string;
-      gender: string;
-      price: number;
-      prev_price: number | null;
-      discount: boolean;
-      category_name: string;
-      brand_name: string;
-    }> = {};
-    if (title !== undefined) updates.title = title;
-    if (description !== undefined) updates.description = description;
-    if (gender !== undefined) updates.gender = gender;
-    if (price !== undefined) updates.price = Number(price);
-    if (prevPrice !== undefined) updates.prev_price = prevPrice;
-    if (discount !== undefined) updates.discount = discount;
-    if (category !== undefined) updates.category_name = category;
-    if (brand !== undefined) updates.brand_name = brand;
+    const parsed = productUpdateSchema.safeParse(req.body);
+    if (!parsed.success)
+      return res.status(400).json({ error: parsed.error.flatten().fieldErrors });
+    const data = parsed.data;
 
-    const product = productRepo.update(Number(req.params.id), updates);
+    const product = productRepo.update(Number(req.params.id), data);
     if (!product) return res.status(404).json({ error: "Product not found" });
 
     // Reconcile images: delete removed, add new
-    if (images !== undefined) {
+    if (data.images !== undefined) {
       const existing = imageRepo.getByProduct(product.id);
-      const newUrls = new Set(images);
+      const newUrls = new Set(data.images);
 
       for (const img of existing) {
         if (!newUrls.has(img.url)) {
@@ -101,7 +86,7 @@ export function registerProductsRoutes(app: Router) {
         }
       }
 
-      for (const url of images) {
+      for (const url of data.images) {
         if (!existing.find((img) => img.url === url)) {
           imageRepo.create(product.id, url);
         }

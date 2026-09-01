@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { categoryRepo } from "../repositories/categoryRepo.js";
 import { productRepo } from "../repositories/productRepo.js";
 import { requireAuth } from "../middleware/auth.js";
+import { categoryCreateSchema, categoryUpdateSchema, querySchema } from "../types/validators.js";
 
 export function registerCategoriesRoutes(app: Router) {
   // GET all categories
@@ -16,16 +17,19 @@ export function registerCategoriesRoutes(app: Router) {
     const category = categoryRepo.getByName(req.params.name as string);
     if (!category) return res.status(404).json({ error: "Category not found" });
 
-    const result = productRepo.search({
-      q: req.query.q as string | undefined,
-      category: req.params.name as string,
-      brand: req.query.brand as string | undefined,
-      minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
-      maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
-      gender: req.query.gender as string | undefined,
-      page: req.query.page ? Number(req.query.page) : 1,
-      limit: req.query.limit ? Number(req.query.limit) : 48,
+    const parsed = querySchema.safeParse({
+      q: req.query.q,
+      category: req.params.name,
+      brand: req.query.brand,
+      minPrice: req.query.minPrice,
+      maxPrice: req.query.maxPrice,
+      gender: req.query.gender,
+      page: req.query.page,
+      limit: req.query.limit,
     });
+    if (!parsed.success)
+      return res.status(400).json({ error: "Invalid query params" });
+    const result = productRepo.search(parsed.data);
     res.json(result);
   });
 
@@ -33,16 +37,19 @@ export function registerCategoriesRoutes(app: Router) {
 
   // POST create a category
   app.post("/api/admin/categories", requireAuth, (req: Request, res: Response) => {
-    const { name } = req.body;
-    if (!name) return res.status(400).json({ error: "name is required" });
-
-    const category = categoryRepo.create({ name });
+    const parsed = categoryCreateSchema.safeParse(req.body);
+    if (!parsed.success)
+      return res.status(400).json({ error: parsed.error.flatten().fieldErrors });
+    const category = categoryRepo.create(parsed.data);
     res.status(201).json(category);
   });
 
   // PUT update a category
   app.put("/api/admin/categories/:id", requireAuth, (req: Request, res: Response) => {
-    const category = categoryRepo.update(Number(req.params.id), req.body);
+    const parsed = categoryUpdateSchema.safeParse(req.body);
+    if (!parsed.success)
+      return res.status(400).json({ error: parsed.error.flatten().fieldErrors });
+    const category = categoryRepo.update(Number(req.params.id), parsed.data);
     if (!category) return res.status(404).json({ error: "Category not found" });
     res.json(category);
   });
