@@ -22,8 +22,8 @@ function seed(): void {
   );
 
   const insertProduct = db.prepare(
-    `INSERT INTO products (title, description, gender, price, prev_price, discount, category_name, brand_name)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO products (title, description, gender, price, prev_price, category_name, brand_name)
+    VALUES (?, ?, ?, ?, ?, ?, ?)`,
   );
 
   const insertImage = db.prepare(
@@ -52,7 +52,6 @@ function seed(): void {
         product.gender,
         product.price,
         product.prevPrice ?? null,
-        product.discount ? 1 : 0,
         product.category ?? "Other",
         product.brand ?? "Angular Apparel",
       );

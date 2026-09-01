@@ -44,11 +44,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shirts",
     title: "Classic Black Cotton Shirt",
-    prevPrice: 800,
+    prevPrice: null,
     price: 700,
     description:
       "A stylish and comfortable black cotton shirt, perfect for casual and formal wear.",
-    discount: false,
     brand: "New Balance",
   },
   {
@@ -67,7 +66,6 @@ export const products: ProductInput[] = [
     price: 200,
     description:
       "A sleek vest top in ribbed fabric with a round neck. Made of stretch fabric for comfort.",
-    discount: true,
     brand: "The North Face",
   },
   {
@@ -84,11 +82,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Pants",
     title: "Washed Cargo Baggy Trousers",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 1100,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
-    discount: false,
     brand: "Reebok",
   },
   {
@@ -109,7 +106,6 @@ export const products: ProductInput[] = [
     price: 700,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -128,7 +124,6 @@ export const products: ProductInput[] = [
     prevPrice: 3200,
     price: 2200,
     description: "A stylish suit designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -143,10 +138,9 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Bags",
     title: "Studded Mini Crossbody Bag",
-    prevPrice: 7200,
+    prevPrice: null,
     price: 5200,
     description: "A stylish bag designed for everyday comfort and style.",
-    discount: false,
     brand: "Angular Apparel",
   },
   {
@@ -161,10 +155,9 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Dresses",
     title: "Pure White Milk Dress",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 900,
     description: "A stylish dress designed for everyday comfort and style.",
-    discount: false,
     brand: "Angular Apparel",
   },
   {
@@ -179,10 +172,9 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Jackets",
     title: "Navy Puffer Jacket",
-    prevPrice: 3700,
+    prevPrice: null,
     price: 3500,
     description: "A stylish jacket designed for everyday comfort and style.",
-    discount: false,
     brand: "Angular Apparel",
   },
   {
@@ -202,7 +194,6 @@ export const products: ProductInput[] = [
     description:
       "A black puffer jacket designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: true,
   },
   {
     images: [
@@ -218,12 +209,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Hoodies",
     title: "Lightblue STWD Hoodie",
-    prevPrice: 2200,
+    prevPrice: null,
     price: 1800,
     description:
       "A comfortable hoodie designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -241,7 +231,6 @@ export const products: ProductInput[] = [
     price: 3800,
     description:
       "Light brown Adidas Sambas designed for everyday comfort and style.",
-    discount: true,
     brand: "Adidas",
   },
   {
@@ -258,12 +247,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shirts",
     title: "Light Pink Shirt",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 700,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -278,11 +266,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Jackets",
     title: "Fluffy Denim Jacket",
-    prevPrice: 3700,
+    prevPrice: null,
     price: 3200,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -294,11 +281,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Hats",
     title: "Corduroy STWD Bucket Hat",
-    prevPrice: 400,
+    prevPrice: null,
     price: 350,
     description: "A stylish hat designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -316,7 +302,6 @@ export const products: ProductInput[] = [
     price: 1100,
     description:
       "A comfortable hoodie designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -330,12 +315,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Belts",
     title: "Black Leather Belt",
-    prevPrice: 788,
+    prevPrice: null,
     price: 499,
     description:
       "A high-quality black leather belt designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -347,11 +331,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Socks",
     title: "Pack Of 3 Pairs Of Socks",
-    prevPrice: 900,
+    prevPrice: null,
     price: 850,
     description: "Comfortable socks designed for everyday wear.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -369,7 +352,6 @@ export const products: ProductInput[] = [
     price: 1150,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -385,11 +367,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Tops",
     title: "Navyblue Sil Top",
-    prevPrice: 700,
+    prevPrice: null,
     price: 650,
     description: "A stylish top designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -405,7 +386,6 @@ export const products: ProductInput[] = [
     prevPrice: 600,
     price: 500,
     description: "A stylish top designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -423,7 +403,6 @@ export const products: ProductInput[] = [
     price: 3200,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -439,7 +418,6 @@ export const products: ProductInput[] = [
     price: 6400,
     description:
       "A stylish knitted woolen bag designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -453,11 +431,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Bags",
     title: "Fringed Shopper Bag",
-    prevPrice: 8500,
+    prevPrice: null,
     price: 7200,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -471,12 +448,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Pants",
     title: "Straight-Leg High-Waist Jeans",
-    prevPrice: 1400,
+    prevPrice: null,
     price: 1050,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -493,7 +469,6 @@ export const products: ProductInput[] = [
     prevPrice: 2400,
     price: 1900,
     description: "Comfortable shorts designed for everyday casual wear.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -505,11 +480,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Belts",
     title: "Wide Faux Suede Belt",
-    prevPrice: 880,
+    prevPrice: null,
     price: 590,
     description: "A high-quality belt designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -524,12 +498,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shoes",
     title: "Floatzig 1 Shoes",
-    prevPrice: 3488,
+    prevPrice: null,
     price: 3200,
     description:
       "Lightweight and durable sneakers designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -541,11 +514,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Bags",
     title: "Crossbody Bag With Flap",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -558,11 +530,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Bags",
     title: "Distressed-Effect Shopper Bag",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2000,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -577,7 +548,6 @@ export const products: ProductInput[] = [
     prevPrice: 3200,
     price: 2200,
     description: "A stylish bag designed for everyday comfort and style.",
-    discount: true,
     brand: "Puma",
   },
   {
@@ -592,11 +562,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Bags",
     title: "Rubberised Backpack With Multiple Pockets",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -611,7 +580,6 @@ export const products: ProductInput[] = [
     prevPrice: 3200,
     price: 2200,
     description: "A stylish bag designed for everyday comfort and style.",
-    discount: true,
     brand: "Nike",
   },
   {
@@ -630,7 +598,6 @@ export const products: ProductInput[] = [
     price: 2200,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: true,
   },
   {
     images: [
@@ -646,7 +613,6 @@ export const products: ProductInput[] = [
     prevPrice: 3200,
     price: 2200,
     description: "A stylish bag designed for everyday comfort and style.",
-    discount: true,
     brand: "New Balance",
   },
   {
@@ -660,11 +626,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Bags",
     title: "Contrast Belt Bag",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -676,11 +641,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Bags",
     title: "Nylon Maxi Shopper Bag",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -694,12 +658,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shoes",
     title: "Skater Trainers",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2750,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -711,12 +674,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shoes",
     title: "Rubberised Sandals",
-    prevPrice: 1500,
+    prevPrice: null,
     price: 1200,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -733,7 +695,6 @@ export const products: ProductInput[] = [
     price: 1350,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -749,12 +710,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shoes",
     title: "Nike Air Force 1 '07 Easyon",
-    prevPrice: 1750,
+    prevPrice: null,
     price: 1500,
     description:
       "This version of the AF-1 features Nike EasyOn technology for a hands-free experience.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -769,12 +729,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shoes",
     title: "Air Jordan 1 Low",
-    prevPrice: 2800,
+    prevPrice: null,
     price: 2350,
     description:
       "Lightweight and durable sneakers designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -789,12 +748,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shoes",
     title: "Air Jordan 1 Mid",
-    prevPrice: 3900,
+    prevPrice: null,
     price: 3500,
     description:
       "Expect nothing less from the AJ1. Smooth leather and soft suede in neutral colours are combined with plush cushioning for a premium look and feel.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -807,12 +765,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shoes",
     title: "Strappy Heeled Sandals",
-    prevPrice: 2500,
+    prevPrice: null,
     price: 2350,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -828,7 +785,6 @@ export const products: ProductInput[] = [
     price: 1850,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
-    discount: true,
     brand: "Adidas",
   },
   {
@@ -844,12 +800,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shoes",
     title: "Jumpman MVP",
-    prevPrice: 4900,
+    prevPrice: null,
     price: 4750,
     description:
       "With leather, textile and nubuck details, these sneakers honour one legacy while encouraging you to cement your own.",
     brand: "Angular Apparel",
-    discount: false,
   },
   {
     images: [
@@ -868,7 +823,6 @@ export const products: ProductInput[] = [
     price: 550,
     description:
       "A stylish and comfortable white cotton shirt, perfect for casual and formal wear.",
-    discount: true,
     brand: "Adidas",
   },
   {
@@ -888,7 +842,6 @@ export const products: ProductInput[] = [
     price: 25.99,
     description:
       "A stylish and comfortable cotton shirt, perfect for casual and formal wear.",
-    discount: true,
     brand: "Adidas",
   },
   {
@@ -908,7 +861,6 @@ export const products: ProductInput[] = [
     price: 25.99,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
-    discount: true,
     brand: "Adidas",
   },
   {
@@ -922,12 +874,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shorts",
     title: "Entrada 22 Shorts",
-    prevPrice: 980,
+    prevPrice: null,
     price: 890,
     description:
       "Comfortable cotton shorts, perfect for casual and athletic wear.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -943,7 +894,6 @@ export const products: ProductInput[] = [
     prevPrice: 688,
     price: 540,
     description: "Comfortable tennis shorts designed for athletic performance.",
-    discount: true,
     brand: "Adidas",
   },
   {
@@ -958,11 +908,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shorts",
     title: "Classic Cargo Shorts",
-    prevPrice: 789,
+    prevPrice: null,
     price: 650,
     description: "Comfortable cotton cargo shorts, perfect for casual wear.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -976,12 +925,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Hoodies",
     title: "Crew Sweatshirt",
-    prevPrice: 1550,
+    prevPrice: null,
     price: 1250,
     description:
       "A comfortable crew sweatshirt designed for everyday casual wear.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -998,7 +946,6 @@ export const products: ProductInput[] = [
     price: 2599,
     description:
       "A stylish and comfortable warm-up track top, perfect for casual and formal wear.",
-    discount: true,
     brand: "Adidas",
   },
   {
@@ -1013,12 +960,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Hoodies",
     title: "Neuclassics Hoodie",
-    prevPrice: 3000,
+    prevPrice: null,
     price: 2599,
     description:
       "A stylish and comfortable hoodie, perfect for casual and formal wear.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -1036,7 +982,6 @@ export const products: ProductInput[] = [
     price: 3750,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
-    discount: true,
     brand: "Nike",
   },
   {
@@ -1050,12 +995,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Pants",
     title: "Loose Open-Hem Pants",
-    prevPrice: 1360,
+    prevPrice: null,
     price: 1300,
     description:
       "Lightweight and durable pants with an open hem design, perfect for everyday comfort.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -1074,7 +1018,6 @@ export const products: ProductInput[] = [
     price: 2599,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "Nike",
-    discount: true,
   },
   {
     images: [
@@ -1091,7 +1034,6 @@ export const products: ProductInput[] = [
     prevPrice: 988,
     price: 599,
     description: "Comfortable flow shorts designed for everyday casual wear.",
-    discount: true,
     brand: "Nike",
   },
   {
@@ -1104,12 +1046,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Hoodies",
     title: "Classic Cotton Hoodie",
-    prevPrice: 1800,
+    prevPrice: null,
     price: 1300,
     description:
       "A comfortable cotton hoodie designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -1127,7 +1068,6 @@ export const products: ProductInput[] = [
     price: 599,
     description:
       "A crisp white cotton shirt, perfect for casual and formal wear.",
-    discount: true,
     brand: "Nike",
   },
   {
@@ -1143,12 +1083,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shirts",
     title: "Dark Grey Cotton Shirt",
-    prevPrice: 880,
+    prevPrice: null,
     price: 670,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -1162,12 +1101,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shirts",
     title: "Blue Cotton Shirt",
-    prevPrice: 880,
+    prevPrice: null,
     price: 550,
     description:
       "A classic blue cotton shirt, perfect for casual and formal wear.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -1181,12 +1119,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shorts",
     title: "Men's Workout Ready Shorts 9",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 700,
     description:
       "Performance shorts designed for workout and training sessions.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -1203,7 +1140,6 @@ export const products: ProductInput[] = [
     price: 850,
     description:
       "Lightweight performance shorts designed for speed and agility training.",
-    discount: true,
     brand: "Reebok",
   },
   {
@@ -1217,12 +1153,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shorts",
     title: "Workout Ready Shorts",
-    prevPrice: 1100,
+    prevPrice: null,
     price: 990,
     description:
       "Performance shorts designed for workout and training sessions.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -1236,12 +1171,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Pants",
     title: "Nylon Satin Track Pants",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2100,
     description:
       "Lightweight and durable nylon satin track pants, perfect for everyday comfort.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -1254,12 +1188,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Hoodies",
     title: "Pullover Hoodie",
-    prevPrice: 2500,
+    prevPrice: null,
     price: 2200,
     description:
       "A comfortable pullover hoodie designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -1269,12 +1202,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Bags",
     title: "Campbell Backpack",
-    prevPrice: 700,
+    prevPrice: null,
     price: 400,
     description:
       "A durable Campbell backpack designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -1289,11 +1221,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Jackets",
     title: "Stitched Logo Jacket",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2500,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -1306,12 +1237,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shoes",
     title: "Cityride Running Shoes",
-    prevPrice: 2200,
+    prevPrice: null,
     price: 1200,
     description:
       "Comfortable running shoes designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -1330,7 +1260,6 @@ export const products: ProductInput[] = [
     price: 700,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
-    discount: true,
     brand: "Reebok",
   },
   {
@@ -1344,12 +1273,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shirts",
     title: "Classic Red Shirt",
-    prevPrice: 1800,
+    prevPrice: null,
     price: 1200,
     description:
       "A classic red cotton shirt, perfect for casual and formal wear.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -1363,11 +1291,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shorts",
     title: "Classic Cotton Short",
-    prevPrice: 1300,
+    prevPrice: null,
     price: 1200,
     description: "Comfortable cotton shorts designed for everyday casual wear.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -1379,12 +1306,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Hoodies",
     title: "Crewneck Sweatshirt",
-    prevPrice: 1700,
+    prevPrice: null,
     price: 1150,
     description:
       "A comfortable hoodie designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -1398,12 +1324,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shirts",
     title: "Debut Sculpture T-Shirt",
-    prevPrice: 1100,
+    prevPrice: null,
     price: 900,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -1423,7 +1348,6 @@ export const products: ProductInput[] = [
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: true,
   },
   {
     images: [
@@ -1435,12 +1359,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shirts",
     title: "Shoe Schematics T-Shirt",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 800,
     description:
       "A graphic t-shirt featuring shoe schematics, perfect for casual wear.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -1452,12 +1375,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shirts",
     title: "Classic Crest Shirt",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 1100,
     description:
       "A classic crest t-shirt, perfect for casual and everyday wear.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -1472,7 +1394,6 @@ export const products: ProductInput[] = [
     price: 750,
     description:
       "A comfortable t-shirt featuring the 574 photoreal graphic, perfect for casual wear.",
-    discount: true,
     brand: "New Balance",
   },
   {
@@ -1487,12 +1408,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shirts",
     title: "Essentials Logo T-Shirt",
-    prevPrice: 900,
+    prevPrice: null,
     price: 800,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -1506,12 +1426,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shirts",
     title: "Graphic Vintage T-Shirt",
-    prevPrice: 1250,
+    prevPrice: null,
     price: 1200,
     description:
       "A comfortable t-shirt with vintage graphic design, perfect for casual wear.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -1526,12 +1445,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shirts",
     title: "Two Swords T-Shirt",
-    prevPrice: 700,
+    prevPrice: null,
     price: 500,
     description:
       "A comfortable t-shirt with a two swords design, perfect for casual wear.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -1549,7 +1467,6 @@ export const products: ProductInput[] = [
     price: 1230,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
-    discount: true,
     brand: "Puma",
   },
   {
@@ -1564,12 +1481,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shoes",
     title: "Men's Basketball Shoes",
-    prevPrice: 1700,
+    prevPrice: null,
     price: 1650,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -1583,12 +1499,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shoes",
     title: "Black Puma Slides",
-    prevPrice: 700,
+    prevPrice: null,
     price: 590,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -1603,7 +1518,6 @@ export const products: ProductInput[] = [
     price: 1100,
     description:
       "A relaxed fit heavy cotton tee, perfect for everyday comfort.",
-    discount: true,
     brand: "Puma",
   },
   {
@@ -1617,11 +1531,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shorts",
     title: "Classic Purple Short",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description: "Comfortable shorts designed for everyday casual wear.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -1638,7 +1551,6 @@ export const products: ProductInput[] = [
     price: 1360,
     description:
       "A ribbed flared short dress designed for everyday comfort and style.",
-    discount: true,
     brand: "Puma",
   },
   {
@@ -1653,11 +1565,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Bags",
     title: "Grip Bag",
-    prevPrice: 5400,
+    prevPrice: null,
     price: 4900,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -1668,12 +1579,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Hats",
     title: "Baseball Cap",
-    prevPrice: 670,
+    prevPrice: null,
     price: 600,
     description:
       "A classic baseball cap designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -1683,12 +1593,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Hoodies",
     title: "Soccer Hoodie",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description:
       "A comfortable hoodie with soccer design, perfect for casual wear.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -1698,12 +1607,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Pants",
     title: "Dream Men's Sweatpants",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description:
       "Comfortable sweatpants designed for men, perfect for everyday comfort.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -1715,11 +1623,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Bags",
     title: "Mini Grip Bag",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description: "A compact grip bag designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -1730,12 +1637,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shoes",
     title: "Men’s Explore Camp Sandals",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 950,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -1752,7 +1658,6 @@ export const products: ProductInput[] = [
     price: 8900,
     description:
       "A durable Borealis backpack designed for everyday comfort and style.",
-    discount: true,
     brand: "The North Face",
   },
   {
@@ -1771,7 +1676,6 @@ export const products: ProductInput[] = [
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: true,
   },
   {
     images: [
@@ -1784,12 +1688,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Pants",
     title: "Women’s Evolution Pants",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -1800,12 +1703,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Pants",
     title: "Paramount Convertible Pants",
-    prevPrice: 3200,
+    prevPrice: null,
     price: 2200,
     description:
       "Versatile convertible pants designed for everyday comfort and travel.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -1821,7 +1723,6 @@ export const products: ProductInput[] = [
     prevPrice: 3200,
     price: 2200,
     description: "A stylish bag designed for everyday comfort and style.",
-    discount: true,
     brand: "The North Face",
   },
   {
@@ -1836,11 +1737,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shorts",
     title: "Green Cotton Short",
-    prevPrice: 900,
+    prevPrice: null,
     price: 700,
     description: "Comfortable green cotton shorts, perfect for casual wear.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -1855,11 +1755,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shorts",
     title: "Class V Shorts",
-    prevPrice: 1400,
+    prevPrice: null,
     price: 1200,
     description: "Comfortable shorts designed for everyday casual wear.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -1873,10 +1772,9 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Jackets",
     title: "Oversize Trench Coat With Wide Sleeves",
-    prevPrice: 3700,
+    prevPrice: null,
     price: 3500,
     description: "A stylish jacket designed for everyday comfort and style.",
-    discount: false,
     brand: "Angular Apparel",
   },
   {
@@ -1891,10 +1789,9 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Jackets",
     title: "Reebok X HYMNE Jacket",
-    prevPrice: 3700,
+    prevPrice: null,
     price: 3500,
     description: "A stylish jacket designed for everyday comfort and style.",
-    discount: false,
     brand: "Reebok",
   },
   {
@@ -1909,10 +1806,9 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Jackets",
     title: "Numeric Coaches Jacket",
-    prevPrice: 3600,
+    prevPrice: null,
     price: 3450,
     description: "A stylish jacket designed for everyday comfort and style.",
-    discount: false,
     brand: "New Balance",
   },
   {
@@ -1927,10 +1823,9 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Jackets",
     title: "Woven Full Zip Jacket",
-    prevPrice: 3700,
+    prevPrice: null,
     price: 3500,
     description: "A stylish jacket designed for everyday comfort and style.",
-    discount: false,
     brand: "New Balance",
   },
   {
@@ -1949,7 +1844,6 @@ export const products: ProductInput[] = [
     price: 670,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
-    discount: true,
     brand: "Puma",
   },
   {
@@ -1964,11 +1858,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Pants",
     title: "Black Loose-Fit Jeans",
-    prevPrice: 1100,
+    prevPrice: null,
     price: 730,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
-    discount: false,
     brand: "Puma",
   },
   {
@@ -1987,7 +1880,6 @@ export const products: ProductInput[] = [
     price: 980,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -2003,7 +1895,6 @@ export const products: ProductInput[] = [
     price: 980,
     description:
       "A lightweight run belt designed for everyday comfort and style.",
-    discount: true,
     brand: "Angular Apparel",
   },
   {
@@ -2016,12 +1907,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shoes",
     title: "Glenclyffe Urban Boots",
-    prevPrice: 1500,
+    prevPrice: null,
     price: 1230,
     description:
       "Stylish urban boots designed for everyday comfort and durability.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -2039,7 +1929,6 @@ export const products: ProductInput[] = [
     prevPrice: 2000,
     price: 1850,
     description: "A stylish jacket designed for everyday comfort and style.",
-    discount: true,
     brand: "Adidas",
   },
   {
@@ -2053,12 +1942,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Jackets",
     title: "Rain.rdy Jacket",
-    prevPrice: 1800,
+    prevPrice: null,
     price: 1250,
     description:
       "A rain-ready jacket designed for everyday comfort and protection.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -2073,12 +1961,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shoes",
     title: "Runfalcon 5 Shoes",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2150,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -2094,12 +1981,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shoes",
     title: "Swift Run 1 Shoes",
-    prevPrice: 1250,
+    prevPrice: null,
     price: 1100,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -2114,12 +2000,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Hoodies",
     title: "Full-Zip Hoodie",
-    prevPrice: 1340,
+    prevPrice: null,
     price: 1230,
     description:
       "A comfortable hoodie designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -2133,12 +2018,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shirts",
     title: "Essentials Tee",
-    prevPrice: 970,
+    prevPrice: null,
     price: 900,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -2152,12 +2036,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shirts",
     title: "White Tshirt Top",
-    prevPrice: 670,
+    prevPrice: null,
     price: 600,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -2171,12 +2054,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Pants",
     title: "Firebird Track Pants",
-    prevPrice: 1239,
+    prevPrice: null,
     price: 980,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -2190,11 +2072,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Pants",
     title: "Adicolor Baggy Pants",
-    prevPrice: 980,
+    prevPrice: null,
     price: 700,
     description: "Baggy Adidas pants designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -2206,11 +2087,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Bags",
     title: "Terrace Bag",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "Adidas",
-    discount: false,
   },
   {
     images: [
@@ -2228,7 +2108,6 @@ export const products: ProductInput[] = [
     price: 2250,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "Nike",
-    discount: true,
   },
   {
     images: [
@@ -2242,11 +2121,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Jackets",
     title: "Nike ACG Black Iguana",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2262,12 +2140,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shoes",
     title: "Nike Dunk Low Next Nature",
-    prevPrice: 2400,
+    prevPrice: null,
     price: 2150,
     description:
       "Lightweight and durable sneakers designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2280,12 +2157,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Hoodies",
     title: "Nike Primary Fleece",
-    prevPrice: 1700,
+    prevPrice: null,
     price: 1250,
     description:
       "A comfortable Nike Primary fleece hoodie designed for everyday wear.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2296,12 +2172,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shirts",
     title: "Chain Print T-Shirt",
-    prevPrice: 1300,
+    prevPrice: null,
     price: 1250,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2314,12 +2189,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shirts",
     title: "Nature Embroidery T-Shirt",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 1050,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2331,12 +2205,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Pants",
     title: "Nike Sportswear Pant",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 1750,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2350,12 +2223,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Pants",
     title: "Nike Club Pants",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2368,11 +2240,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Bags",
     title: "Nike Varsity Backpack",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description: "A stylish bag designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2382,12 +2253,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Bags",
     title: "Card Wallet Bag",
-    prevPrice: 1300,
+    prevPrice: null,
     price: 750,
     description:
       "A compact card wallet bag designed for everyday comfort and style.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2400,11 +2270,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shorts",
     title: "Phoenix Fleece Short",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 1150,
     description: "Comfortable fleece shorts designed for everyday casual wear.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2415,11 +2284,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shorts",
     title: "Black Cotton Short",
-    prevPrice: 1500,
+    prevPrice: null,
     price: 1250,
     description: "Comfortable black cotton shorts, perfect for casual wear.",
     brand: "Nike",
-    discount: false,
   },
   {
     images: [
@@ -2432,12 +2300,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shirts",
     title: "Identity Big Logo T-Shirt",
-    prevPrice: 1300,
+    prevPrice: null,
     price: 1250,
     description:
       "A comfortable t-shirt with a big logo design, perfect for casual wear.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -2451,12 +2318,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Pants",
     title: "High-Rise Colorblock Leggings",
-    prevPrice: 2100,
+    prevPrice: null,
     price: 1150,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -2466,12 +2332,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Bags",
     title: "Med Duffel Bag",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "A durable med duffel bag designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -2489,7 +2354,6 @@ export const products: ProductInput[] = [
     description:
       "A stylish woven jacket with blocked design, perfect for casual and formal wear.",
     brand: "New Balance",
-    discount: true,
   },
   {
     images: [
@@ -2507,7 +2371,6 @@ export const products: ProductInput[] = [
     price: 2450,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: true,
   },
   {
     images: [
@@ -2521,12 +2384,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shoes",
     title: "574 Core Shoe",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -2540,12 +2402,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shoes",
     title: "Fresh Foam X",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -2559,12 +2420,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Hoodies",
     title: "French Terry Hoodie",
-    prevPrice: 1300,
+    prevPrice: null,
     price: 1250,
     description:
       "A comfortable hoodie designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -2578,12 +2438,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Hoodies",
     title: "Graphic Crew Hoodie",
-    prevPrice: 2350,
+    prevPrice: null,
     price: 2200,
     description:
       "A comfortable hoodie designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -2595,12 +2454,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Pants",
     title: "Piped Tapered Pant",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "A tapered pant with piped detailing, designed for everyday comfort.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -2614,12 +2472,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Pants",
     title: "Numeric Standard Pant",
-    prevPrice: 1500,
+    prevPrice: null,
     price: 1250,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -2633,12 +2490,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Pants",
     title: "Performance Woven Pant",
-    prevPrice: 600,
+    prevPrice: null,
     price: 550,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -2650,12 +2506,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Bags",
     title: "Classic Canvas Tote",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "A classic canvas tote bag designed for everyday comfort and style.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -2669,11 +2524,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shorts",
     title: "Shohei Signature Fleece 9",
-    prevPrice: 1300,
+    prevPrice: null,
     price: 1250,
     description: "Comfortable shorts designed for everyday casual wear.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -2686,12 +2540,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shorts",
     title: "Cotton Nylon Short",
-    prevPrice: 1200,
+    prevPrice: null,
     price: 950,
     description:
       "Comfortable cotton nylon blend shorts, perfect for casual wear.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -2704,12 +2557,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Jackets",
     title: "Studio Editorial Jacket",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "A stylish editorial jacket designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -2723,11 +2575,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Jackets",
     title: "Men’s Aconcagua Hoodie",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -2741,12 +2592,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Jackets",
     title: "Retro Nuptse Jacket",
-    prevPrice: 3700,
+    prevPrice: null,
     price: 3250,
     description:
       "A retro Nuptse jacket with classic down insulation, designed for everyday comfort.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -2760,11 +2610,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Jackets",
     title: "Hydrenalite™ Down Hoodie",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -2776,11 +2625,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shoes",
     title: "Base Camp Mules",
-    prevPrice: 2100,
+    prevPrice: null,
     price: 1750,
     description: "Comfortable mules designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -2793,12 +2641,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Hoodies",
     title: "Evolution Full-Zip",
-    prevPrice: 1500,
+    prevPrice: null,
     price: 1250,
     description:
       "An Evolution full-zip hoodie designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -2811,12 +2658,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Hoodies",
     title: "NSE Pullover Hoodie",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "An NSE pullover hoodie designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -2830,12 +2676,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Hoodies",
     title: "Men’s AXYS Hoodie",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "A comfortable hoodie designed for everyday comfort and style.",
     brand: "The North Face",
-    discount: false,
   },
   {
     images: [
@@ -2849,11 +2694,10 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Jackets",
     title: "PUMA X KIDSUPER Hoodie",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -2867,12 +2711,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Jackets",
     title: "Lafrancé Black Jacket",
-    prevPrice: 2200,
+    prevPrice: null,
     price: 1950,
     description:
       "A stylish black jacket with French-inspired design, perfect for casual and formal wear.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -2886,12 +2729,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shoes",
     title: "Voltaic Evo Shoes",
-    prevPrice: 2800,
+    prevPrice: null,
     price: 2250,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -2905,12 +2747,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shoes",
     title: "Speedcat OG",
-    prevPrice: 2300,
+    prevPrice: null,
     price: 2250,
     description:
       "Lightweight and durable shoes designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -2924,12 +2765,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Hoodies",
     title: "Green Puma Hoodie",
-    prevPrice: 1300,
+    prevPrice: null,
     price: 1250,
     description:
       "A comfortable hoodie designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -2943,12 +2783,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Hoodies",
     title: "Neymar Creativity Hoodie",
-    prevPrice: 1300,
+    prevPrice: null,
     price: 1250,
     description:
       "A comfortable hoodie designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -2958,12 +2797,11 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shirts",
     title: "Black Label Shirt",
-    prevPrice: 1100,
+    prevPrice: null,
     price: 1050,
     description:
       "A premium black label shirt, perfect for formal and casual wear.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -2977,12 +2815,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Shirts",
     title: "Milkish White Shirt",
-    prevPrice: 1300,
+    prevPrice: null,
     price: 750,
     description:
       "A stylish and comfortable shirt designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -2996,11 +2833,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Jackets",
     title: "PUMA X KIDSUPER",
-    prevPrice: 1800,
+    prevPrice: null,
     price: 1650,
     description: "A stylish jacket designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -3013,11 +2849,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Pants",
     title: "Las Vegas T7",
-    prevPrice: 1500,
+    prevPrice: null,
     price: 1350,
     description: "Comfortable pants designed for everyday wear.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -3032,12 +2867,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Pants",
     title: "Low Rise Track Pants",
-    prevPrice: 1800,
+    prevPrice: null,
     price: 1650,
     description:
       "Lightweight and durable pants designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -3048,12 +2882,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Bags",
     title: "Black Puma Bag",
-    prevPrice: 1800,
+    prevPrice: null,
     price: 1650,
     description:
       "A stylish black Puma bag designed for everyday comfort and style.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -3068,11 +2901,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shorts",
     title: "HARRY POTTER Shorts",
-    prevPrice: 1800,
+    prevPrice: null,
     price: 1650,
     description: "Comfortable shorts designed for everyday casual wear.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -3085,11 +2917,10 @@ export const products: ProductInput[] = [
     gender: "Men's",
     category: "Shorts",
     title: "Red Woven Shorts",
-    prevPrice: 1800,
+    prevPrice: null,
     price: 1650,
     description: "Comfortable shorts designed for everyday casual wear.",
     brand: "Puma",
-    discount: false,
   },
   {
     images: [
@@ -3103,12 +2934,11 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Shorts",
     title: "Half RC Short",
-    prevPrice: 1800,
+    prevPrice: null,
     price: 1650,
     description:
       "The ultimate performance short, tailored for every run. Features four-way stretch fabric and a built-in brief for support.",
     brand: "New Balance",
-    discount: false,
   },
   {
     images: [
@@ -3123,12 +2953,11 @@ export const products: ProductInput[] = [
     gender: "Unisex",
     category: "Hoodies",
     title: "Lux Oversized Hoodie",
-    prevPrice: 1900,
+    prevPrice: null,
     price: 1450,
     description:
       "A luxury oversized hoodie designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
   {
     images: [
@@ -3143,11 +2972,10 @@ export const products: ProductInput[] = [
     gender: "Women's",
     category: "Hoodies",
     title: "Mid-Layer Sweatshirt",
-    prevPrice: 1700,
+    prevPrice: null,
     price: 1250,
     description:
       "A mid-layer sweatshirt designed for everyday comfort and style.",
     brand: "Reebok",
-    discount: false,
   },
 ];

@@ -11,7 +11,7 @@ function toProduct(row: Record<string, unknown>): ProductOutput {
     gender: String(row.gender),
     price: Number(row.price),
     prev_price: row.prev_price == null ? null : Number(row.prev_price),
-    discount: Boolean(row.discount),
+    discount: row.prev_price != null && Number(row.prev_price) > Number(row.price),
     created_at: String(row.created_at),
     category_name: String(row.category_name),
     brand_name: String(row.brand_name),
@@ -169,8 +169,8 @@ export const productRepo = {
   create: (data: ProductCreate): ProductOutput => {
     const result = db
       .prepare(
-        `INSERT INTO products (title, description, gender, price, prev_price, discount, category_name, brand_name)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO products (title, description, gender, price, prev_price, category_name, brand_name)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
       )
       .run(
         data.title,
@@ -178,7 +178,6 @@ export const productRepo = {
         data.gender,
         data.price,
         data.prev_price ?? null,
-        Number(data.discount),
         data.category_name ?? "Other",
         data.brand_name ?? "Angular Apparel",
       );

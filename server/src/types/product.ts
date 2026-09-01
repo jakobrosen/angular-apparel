@@ -8,10 +8,9 @@ export interface ProductInput {
   category?: string;
   brand?: string;
   title: string;
-  prevPrice?: number;
+  prevPrice?: number | null;
   price: number;
   description: string;
-  discount?: boolean;
 }
 
 /**
@@ -51,7 +50,6 @@ export interface ProductCreate {
   gender: string;
   price: number;
   prev_price?: number | null;
-  discount?: boolean;
   category_name?: string;
   brand_name?: string;
 }

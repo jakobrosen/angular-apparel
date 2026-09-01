@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS products (
   gender TEXT NOT NULL,
   price NUMERIC NOT NULL DEFAULT 0 CHECK (price >= 0),
   prev_price NUMERIC CHECK (prev_price >= 0),
-  discount BOOLEAN NOT NULL DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   category_name TEXT NOT NULL DEFAULT 'Other',
   brand_name TEXT NOT NULL DEFAULT 'Angular Apparel',
