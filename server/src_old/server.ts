@@ -1,9 +1,11 @@
 import "./config/variables.js";
 import express from "express";
+import { sequelize } from "./models/index.js";
 import { registerProductsRoutes } from "./routes/products.js";
 import { registerBrandsRoutes } from "./routes/brands.js";
 import { registerCategoriesRoutes } from "./routes/categories.js";
 import { registerAdminRoutes } from "./routes/admin.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
@@ -16,8 +18,15 @@ registerBrandsRoutes(app);
 registerCategoriesRoutes(app);
 registerAdminRoutes(app);
 
+app.use(errorHandler);
+
 const port = process.env.PORT || 8000;
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+async function start() {
+  await sequelize.sync();
+  app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}
+
+start();

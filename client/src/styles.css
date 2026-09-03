@@ -4,4 +4,6 @@
 @theme {
   --font-logo: 'Unica One', system-ui, sans-serif;
   --font-sans: 'Open Sans', system-ui, sans-serif;
+
+  --text-fluid-logo: clamp(1.2rem, 0.3rem + 4.8vw, 1.5rem);
 }
