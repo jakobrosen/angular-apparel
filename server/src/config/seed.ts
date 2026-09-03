@@ -10,10 +10,15 @@ import {
 import { categories, brands, products } from "./dummyData.js";
 import type { Gender } from "../types/validators.js";
 
+// Seed-function that adds dummy data to the db.
 async function seed(): Promise<void> {
   console.log("Starting seed...");
+
+  // Basically corresponds to CREATE TABLE IF NOT EXISTS
+  // for each model defined with .init().
   await sequelize.sync();
 
+  //
   await sequelize.transaction(async (transaction) => {
     // Admin user
     const passwordHash = bcrypt.hashSync("admin", 10);
