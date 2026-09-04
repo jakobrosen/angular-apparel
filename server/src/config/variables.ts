@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
 
-dotenv.config();
+// quiet: true - suppresses dotenv's own stdout logging, including its
+// randomly-picked promotional "tips" (some of which advertise unrelated
+// third-party products - not something this server's logs should carry).
+dotenv.config({ quiet: true });
 
 /**
  * Reads a required env var, throwing immediately if it's missing. Anything

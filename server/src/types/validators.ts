@@ -57,20 +57,11 @@ export const paginationSchema = z.object({
   limit: z.coerce.number().int().positive().default(48),
 });
 
-// Pagination schema used for the GET by query endpoint
-export const searchQuerySchema = paginationSchema.extend({
-  q: z.string().min(1),
-});
-
-// Optional product-browsing filters shared by every "browse" route (all
-// products, by brand, by category, by gender) so they can be combined,
-// e.g. men's shoes under $100. Each route merges this with
-// paginationSchema, omitting whichever one dimension its own URL already
-// fixes (e.g. /api/brands/:name/products omits `brandId`). Brand/category
-// are ids here, not names — the frontend already has both from
-// GET /api/brands / GET /api/categories, and it keeps this schema (and the
-// where-building code that reads it) a plain synchronous lookup with no DB
-// round-trip, unlike the `:name` path segments, which do resolve a name.
+// Optional product-browsing filters, combinable with each other and with
+// `q` below, e.g. men's shoes under $100. Brand/category are ids here, not
+// names — the frontend already has both from GET /api/brands /
+// GET /api/categories, and it keeps the where-building code that reads
+// this a plain synchronous lookup with no DB round-trip.
 export const productFilterSchema = z.object({
   brandId: z.coerce.number().int().positive().optional(),
   categoryId: z.coerce.number().int().positive().optional(),
@@ -79,3 +70,16 @@ export const productFilterSchema = z.object({
   maxPrice: z.coerce.number().min(0).optional(),
 });
 export type ProductFilters = z.infer<typeof productFilterSchema>;
+
+// The one query schema for GET /api/products: pagination + every filter +
+// an optional free-text `q` (matches title, brand name, or category name).
+// There's deliberately no separate per-route schema (by brand, by
+// category, by gender, search-only) — the backend has one flexible browse
+// endpoint, and it's the frontend's job to map its own clean URLs
+// (/mens, /brands/nike, ...) to the right query params against it.
+export const productQuerySchema = paginationSchema.extend(
+  productFilterSchema.shape,
+).extend({
+  q: z.string().min(1).optional(),
+});
+export type ProductQuery = z.infer<typeof productQuerySchema>;

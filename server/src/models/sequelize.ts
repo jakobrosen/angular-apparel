@@ -1,9 +1,14 @@
 import { Sequelize } from "sequelize";
 import path from "path";
 
-// Absolute path so the server behaves the same regardless of which
-// directory it's launched from.
-const dbPath = path.join(import.meta.dirname, "..", "config", "database.db");
+// Resolved from the current working directory (every npm script in this
+// project - dev, seed, build, watch - is documented to run from server/),
+// NOT from import.meta.dirname. import.meta.dirname points at wherever the
+// *executing* file lives, which differs between `tsx` running src/ directly
+// and `node` running the compiled dist/ output - that mismatch previously
+// pointed dev/seed and the built server at two different, disconnected
+// database files.
+const dbPath = path.join(process.cwd(), "config", "database.db");
 
 // Sequelize database connection object.
 export const sequelize = new Sequelize({

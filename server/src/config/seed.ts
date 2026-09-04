@@ -50,33 +50,44 @@ async function seed(): Promise<void> {
       (await Brand.findAll({ transaction })).map((b) => [b.name, b.id]),
     );
 
-    // Products + images. Inserted one at a time (rather than bulkCreate) so
-    // each product's generated id is reliably available for its images —
-    // 172 sequential inserts inside one transaction is effectively instant.
-    for (const p of products) {
-      const product = await Product.create(
-        {
-          title: p.title,
-          description: p.description,
-          gender: p.gender as Gender,
-          price: p.price,
-          prevPrice: p.prevPrice ?? null,
-          categoryId: p.category
-            ? (categoryIdByName.get(p.category) ?? null)
-            : null,
-          brandId: p.brand ? (brandIdByName.get(p.brand) ?? null) : null,
-        },
-        { transaction },
-      );
-
-      if (p.images.length) {
-        await ProductImage.bulkCreate(
-          p.images.map((url) => ({ url, productId: product.id })),
+    // Products + images. Unlike categories/brands (deduped via
+    // `ignoreDuplicates`, backed by a `unique` name column) or the admin
+    // user (`findOrCreate`), products have no natural unique key to dedupe
+    // against - so re-running the seed is guarded at the table level
+    // instead: skip entirely if it's already been seeded once, rather than
+    // appending another full copy of all 172 products on every run.
+    const existingProductCount = await Product.count({ transaction });
+    if (existingProductCount > 0) {
+      console.log(`  Products: skipped (${existingProductCount} already present)`);
+    } else {
+      // Inserted one at a time (rather than bulkCreate) so each product's
+      // generated id is reliably available for its images — 172 sequential
+      // inserts inside one transaction is effectively instant.
+      for (const p of products) {
+        const product = await Product.create(
+          {
+            title: p.title,
+            description: p.description,
+            gender: p.gender as Gender,
+            price: p.price,
+            prevPrice: p.prevPrice ?? null,
+            categoryId: p.category
+              ? (categoryIdByName.get(p.category) ?? null)
+              : null,
+            brandId: p.brand ? (brandIdByName.get(p.brand) ?? null) : null,
+          },
           { transaction },
         );
+
+        if (p.images.length) {
+          await ProductImage.bulkCreate(
+            p.images.map((url) => ({ url, productId: product.id })),
+            { transaction },
+          );
+        }
       }
+      console.log(`  Products: ${products.length}`);
     }
-    console.log(`  Products: ${products.length}`);
   });
 
   console.log("Seed complete!");
