@@ -61,3 +61,21 @@ export const paginationSchema = z.object({
 export const searchQuerySchema = paginationSchema.extend({
   q: z.string().min(1),
 });
+
+// Optional product-browsing filters shared by every "browse" route (all
+// products, by brand, by category, by gender) so they can be combined,
+// e.g. men's shoes under $100. Each route merges this with
+// paginationSchema, omitting whichever one dimension its own URL already
+// fixes (e.g. /api/brands/:name/products omits `brandId`). Brand/category
+// are ids here, not names — the frontend already has both from
+// GET /api/brands / GET /api/categories, and it keeps this schema (and the
+// where-building code that reads it) a plain synchronous lookup with no DB
+// round-trip, unlike the `:name` path segments, which do resolve a name.
+export const productFilterSchema = z.object({
+  brandId: z.coerce.number().int().positive().optional(),
+  categoryId: z.coerce.number().int().positive().optional(),
+  gender: genderEnum.optional(),
+  minPrice: z.coerce.number().min(0).optional(),
+  maxPrice: z.coerce.number().min(0).optional(),
+});
+export type ProductFilters = z.infer<typeof productFilterSchema>;
