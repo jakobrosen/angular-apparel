@@ -7,11 +7,12 @@ import {
   phosphorList,
   phosphorX,
 } from '@ng-icons/phosphor-icons/regular';
+import { Cart } from '../cart/cart';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgIcon],
+  imports: [RouterLink, RouterLinkActive, NgIcon, Cart],
   providers: [provideIcons({ phosphorBag, phosphorMagnifyingGlass, phosphorList, phosphorX })],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',

@@ -1,0 +1,15 @@
+<div class="p-4">
+  <div class="flex justify-between items-center">
+    <!-- Header -->
+    <h2 class="text-lg font-semibold">Your Cart</h2>
+
+    <!-- Close cart icon -->
+    <ng-icon
+      name="phosphorX"
+      class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
+      (click)="close.emit()"
+    ></ng-icon>
+  </div>
+
+  <p class="text-gray-500 mt-2">Your cart is empty.</p>
+</div>
