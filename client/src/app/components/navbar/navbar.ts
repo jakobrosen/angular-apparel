@@ -13,13 +13,23 @@ import {
   standalone: true,
   imports: [RouterLink, RouterLinkActive, NgIcon],
   providers: [provideIcons({ phosphorBag, phosphorMagnifyingGlass, phosphorList, phosphorX })],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css',
+  templateUrl: './navbar.html',
+  styleUrl: './navbar.css',
 })
-export class NavbarComponent {
-  isOpen = signal(false);
+export class Navbar {
+  menuIsOpen = signal(false);
+  cartIsOpen = signal(false);
 
   toggleMenu(): void {
-    this.isOpen.update((value) => !value);
+    this.menuIsOpen.update((value) => !value);
+  }
+
+  toggleCart(): void {
+    this.cartIsOpen.update((value) => !value);
+  }
+
+  closeAllMenus(): void {
+    this.menuIsOpen.set(false);
+    this.cartIsOpen.set(false);
   }
 }

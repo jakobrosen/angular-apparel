@@ -9,19 +9,23 @@
         >
           ANGULAR APPAREL
         </a>
-        @if (isOpen()) {
-          <ng-icon
-            name="phosphorX"
-            class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
-            (click)="toggleMenu()"
-          ></ng-icon>
-        } @else {
-          <ng-icon
-            name="phosphorList"
-            class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer lg:hidden!"
-            (click)="toggleMenu()"
-          ></ng-icon>
-        }
+
+        <!-- Menu icon -->
+        <div class="flex items-center mr-1.5">
+          @if (menuIsOpen()) {
+            <ng-icon
+              name="phosphorX"
+              class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
+              (click)="toggleMenu()"
+            ></ng-icon>
+          } @else {
+            <ng-icon
+              name="phosphorList"
+              class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer lg:hidden!"
+              (click)="toggleMenu()"
+            ></ng-icon>
+          }
+        </div>
       </div>
 
       <!-- Desktop navigation -->
@@ -63,13 +67,13 @@
       </div>
       <a
         routerLink="/products/all"
-        class="flex lg:hidden text-fluid-logo font-logo text-gray-950 whitespace-nowrap"
+        class="flex lg:hidden text-2xl font-logo text-gray-950 whitespace-nowrap"
       >
         ANGULAR APPAREL
       </a>
 
       <!-- Right side icons -->
-      <div class="w-41 flex justify-end items-center space-x-4 text-fluid-logo">
+      <div class="w-41 flex justify-end items-center space-x-4 text-2xl ml-1.5">
         <!-- Search icon -->
         <ng-icon
           name="phosphorMagnifyingGlass"
@@ -77,18 +81,28 @@
         ></ng-icon>
 
         <!-- Cart icon -->
-        <ng-icon
-          name="phosphorBag"
-          class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
-        ></ng-icon>
+        @if (cartIsOpen()) {
+          <ng-icon
+            name="phosphorX"
+            class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer lg:hidden!"
+            (click)="toggleCart()"
+          ></ng-icon>
+        } @else {
+          <ng-icon
+            name="phosphorBag"
+            class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
+            (click)="toggleCart()"
+          ></ng-icon>
+        }
       </div>
     </div>
   </div>
 </header>
+
 <!-- Mobile navigation menu -->
 <aside
   [class]="
-    isOpen()
+    menuIsOpen()
       ? 'opacity-100 translate-y-0 pointer-events-auto'
       : 'opacity-0 -translate-y-2 pointer-events-none'
   "
@@ -129,12 +143,14 @@
     </a>
   </div>
 </aside>
+
+<!-- Menu background -->
 <div
   [class]="
-    isOpen()
+    menuIsOpen() || cartIsOpen()
       ? 'opacity-50 pointer-events-auto duration-300'
       : 'opacity-0 pointer-events-none duration-75'
   "
   class="bg-black w-full h-full top-0 left-0 fixed transition-opacity lg:hidden"
-  (click)="toggleMenu()"
+  (click)="closeAllMenus()"
 ></div>
