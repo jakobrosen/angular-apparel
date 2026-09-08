@@ -1,0 +1,16 @@
+<article class="flex flex-col gap-2">
+  <img
+    [src]="product().images[0]"
+    [alt]="product().title"
+    loading="lazy"
+    class="aspect-4/5 w-full object-cover"
+  />
+
+  <div class="flex flex-col font-sans">
+    @if (product().brand) {
+      <p class="text-sm text-gray-500">{{ product().brand }}</p>
+    }
+    <h3 class="text-sm text-gray-950">{{ product().title }}</h3>
+    <p class="text-sm font-semibold text-gray-950">${{ product().price }}</p>
+  </div>
+</article>

@@ -3,10 +3,7 @@
     <div class="flex justify-between items-center select-none">
       <!-- Logo -->
       <div class="w-41 flex items-center">
-        <a
-          routerLink="/products/all"
-          class="hidden lg:flex text-2xl font-logo text-gray-950 whitespace-nowrap"
-        >
+        <a routerLink="/" class="hidden lg:flex text-2xl font-logo text-gray-950 whitespace-nowrap">
           ANGULAR APPAREL
         </a>
 
@@ -65,10 +62,7 @@
           MEN
         </a>
       </div>
-      <a
-        routerLink="/products/all"
-        class="flex lg:hidden text-2xl font-logo text-gray-950 whitespace-nowrap"
-      >
+      <a routerLink="/" class="flex lg:hidden text-2xl font-logo text-gray-950 whitespace-nowrap">
         ANGULAR APPAREL
       </a>
 
@@ -143,7 +137,7 @@
 <!-- Menu background -->
 <div
   [class]="menuIsOpen() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"
-  class="bg-black w-full h-full top-0 left-0 fixed transition-opacity duration-300 lg:hidden"
+  class="bg-black w-full h-full top-0 left-0 fixed transition-opacity duration-300 lg:hidden z-10"
   (click)="closeAllMenus()"
 ></div>
 

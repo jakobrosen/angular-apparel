@@ -5,5 +5,11 @@
   --font-logo: 'Unica One', system-ui, sans-serif;
   --font-sans: 'Open Sans', system-ui, sans-serif;
 
-  --text-fluid-logo: clamp(1.2rem, 0.3rem + 4.8vw, 1.5rem);
+  --color-bg-1: hsl(0, 0%, 100%);
+  --color-bg-2: hsl(42, 20%, 90%);
+  --color-text: hsl(0, 0%, 15%);
+  --color-accent-blue: hsl(209.1892, 16%, 44%);
+  --color-accent-brown: hsl(10.909091, 7%, 31%);
+  --color-accent-red: hsl(8.108107, 15%, 47%);
+  --color-accent-green: hsl(101.99997, 4%, 51%);
 }
