@@ -1,16 +1,15 @@
-import type { Request, Response } from "express";
+import type { Request } from "express";
+import { HttpError } from "./httpError.js";
 
 /**
- * Reads `req.params.id` as a positive integer. On failure, sends a 400 and
- * returns `null` — callers should `return` when they get `null` back, same
- * convention as `validate`.
+ * Reads `req.params.id` as a positive integer, throwing a 400 HttpError if it
+ * isn't one.
  */
-export function parseId(req: Request, res: Response): number | null {
+export function parseId(req: Request): number {
   const raw = req.params["id"];
   const id = typeof raw === "string" ? Number(raw) : NaN;
   if (!Number.isInteger(id) || id <= 0) {
-    res.status(400).json({ error: "Invalid id" });
-    return null;
+    throw new HttpError(400, "Invalid id");
   }
   return id;
 }

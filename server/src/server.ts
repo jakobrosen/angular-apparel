@@ -32,6 +32,13 @@ registerBrandsRoutes(app);
 registerCategoriesRoutes(app);
 registerAdminRoutes(app);
 
+// Nothing above matched the URL. Without this, Express falls back to its own
+// HTML error page, which would be the one response in the API that isn't the
+// { error } JSON shape every client here expects.
+app.use((_req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
+
 // Must be registered last - Express only treats a 4-arg function as error
 // middleware, and only routes it errors from earlier in the chain.
 app.use(errorHandler);
@@ -43,4 +50,9 @@ async function start(): Promise<void> {
   });
 }
 
-start();
+// Nothing can serve requests if the DB or the listener fails, so fail loudly
+// and exit rather than leaving a half-started process behind.
+start().catch((err) => {
+  console.error("Failed to start server:", err);
+  process.exit(1);
+});

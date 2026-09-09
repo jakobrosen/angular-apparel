@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/variables.js";
+import { HttpError } from "../utilities/httpError.js";
 
 /**
  * Gates admin routes behind a valid `Authorization: Bearer <token>` header.
@@ -9,7 +10,7 @@ import { JWT_SECRET } from "../config/variables.js";
  */
 export function requireAuth(
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction,
 ): void {
   const authHeader = req.headers.authorization;
@@ -17,15 +18,17 @@ export function requireAuth(
     ? authHeader.slice("Bearer ".length)
     : undefined;
 
-  if (!token) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
+  if (!token) throw new HttpError(401, "Unauthorized");
 
   try {
     jwt.verify(token, JWT_SECRET);
-    next();
   } catch {
-    res.status(401).json({ error: "Unauthorized" });
+    // Same message whether the token is expired, malformed or signed with the
+    // wrong secret - which of those it is isn't the caller's business.
+    throw new HttpError(401, "Unauthorized");
   }
+
+  // Outside the try on purpose: anything the rest of the chain throws is for
+  // errorHandler to classify, not for the catch above to relabel as a 401.
+  next();
 }

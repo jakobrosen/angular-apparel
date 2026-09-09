@@ -4,11 +4,9 @@ import type { ProductFilters } from "../types/validators.js";
 
 /**
  * Turns a parsed `ProductFilters` into a Sequelize `where` clause for
- * `Product`. Shared by every browse route (general list, brand-scoped,
- * category-scoped, gender-scoped) so the price range and the
- * gender-includes-Unisex rule are each implemented once instead of copied
- * into every route. `brandId`/`categoryId` are plain ids already, so this
- * needs no DB lookup and stays synchronous.
+ * `Product`. Keeps the price-range and gender-includes-Unisex rules in one
+ * place, out of the route handler that reads them. `brandId`/`categoryId`
+ * are plain ids already, so this needs no DB lookup and stays synchronous.
  */
 export function buildProductWhere(
   filters: ProductFilters,

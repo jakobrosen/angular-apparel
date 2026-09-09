@@ -93,4 +93,9 @@ async function seed(): Promise<void> {
   console.log("Seed complete!");
 }
 
-seed();
+// Without this a failed seed exits 0 with only an unhandled-rejection warning,
+// which in a terminal looks a lot like success.
+seed().catch((error: unknown) => {
+  console.error("Seed failed:", error);
+  process.exit(1);
+});

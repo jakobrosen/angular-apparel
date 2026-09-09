@@ -23,16 +23,20 @@ const baseProductSchema = z.object({
   images: z.array(z.url()),
 });
 
-// Schema used when a product is created.
+// Schema used when a product is created. Every optional field gets an explicit
+// default, so a parsed create body always carries a value for every column -
+// which lets the route pass it straight to Product.create() instead of
+// rewriting undefined to null one field at a time.
 export const productCreateSchema = baseProductSchema.extend({
   gender: genderEnum.default("Unisex"),
   images: z.array(z.url()).default([]),
+  prevPrice: z.number().min(0).nullable().default(null),
+  categoryId: z.number().int().positive().nullable().default(null),
+  brandId: z.number().int().positive().nullable().default(null),
 });
-export type ProductCreateInput = z.infer<typeof productCreateSchema>;
 
 // Schema used when a product is updated.
 export const productUpdateSchema = baseProductSchema.partial();
-export type ProductUpdateInput = z.infer<typeof productUpdateSchema>;
 
 // Schema used when a brand is created.
 export const brandCreateSchema = z.object({ name: z.string().min(1) });

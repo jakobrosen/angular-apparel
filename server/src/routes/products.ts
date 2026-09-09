@@ -1,11 +1,19 @@
 import type { Request, Response, Router } from "express";
-import { Op } from "sequelize";
-import { Brand, Category, Product, ProductImage } from "../models/index.js";
+import { Op, type Includeable } from "sequelize";
+import {
+  sequelize,
+  Brand,
+  Category,
+  Product,
+  ProductImage,
+} from "../models/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../utilities/validate.js";
 import { paginate } from "../utilities/pagination.js";
 import { buildProductWhere } from "../services/productFilters.js";
 import { parseId } from "../utilities/parseId.js";
+import { findOrFail } from "../utilities/findOrFail.js";
+import { HttpError } from "../utilities/httpError.js";
 import {
   productQuerySchema,
   productCreateSchema,
@@ -14,11 +22,17 @@ import {
 } from "../types/validators.js";
 
 // Every product response includes its category, brand, and images.
-const includeAll = [
+const includeAll: Includeable[] = [
   { model: Category, as: "category" },
   { model: Brand, as: "brand" },
   { model: ProductImage, as: "images" },
 ];
+
+// Reads one product back with its associations attached - the shape every
+// single-product response returns. 404s if the id doesn't exist.
+function findFullProduct(id: number): Promise<Product> {
+  return findOrFail(Product, id, "Product", { include: includeAll });
+}
 
 /**
  * Layers a free-text match (title, brand name, or category name) onto the
@@ -57,8 +71,7 @@ async function withSearch(query: ProductQuery, q: string) {
 // separate route per brand/category/gender - the frontend maps its own
 // clean URLs (/mens, /brands/nike, ...) to query params against this.
 async function listProducts(req: Request, res: Response): Promise<void> {
-  const query = validate(productQuerySchema, req.query, res);
-  if (!query) return;
+  const query = validate(productQuerySchema, req.query);
 
   const where = query.q ? await withSearch(query, query.q) : buildProductWhere(query);
   res.json(
@@ -71,77 +84,67 @@ async function listProducts(req: Request, res: Response): Promise<void> {
 }
 
 async function getProductById(req: Request, res: Response): Promise<void> {
-  const id = parseId(req, res);
-  if (id === null) return;
+  const id = parseId(req);
 
-  const product = await Product.findByPk(id, { include: includeAll });
-  if (!product) {
-    res.status(404).json({ error: "Product not found" });
-    return;
-  }
-  res.json(product);
+  res.json(await findFullProduct(id));
 }
 
 async function createProduct(req: Request, res: Response): Promise<void> {
-  const data = validate(productCreateSchema, req.body, res);
-  if (!data) return;
+  const data = validate(productCreateSchema, req.body);
+  const { images, ...fields } = data;
 
-  const product = await Product.create({
-    title: data.title,
-    description: data.description,
-    gender: data.gender,
-    price: data.price,
-    prevPrice: data.prevPrice ?? null,
-    categoryId: data.categoryId ?? null,
-    brandId: data.brandId ?? null,
+  // One transaction so a product is never left committed without the images
+  // that were posted alongside it.
+  const product = await sequelize.transaction(async (transaction) => {
+    const created = await Product.create(fields, { transaction });
+
+    if (images.length) {
+      await ProductImage.bulkCreate(
+        images.map((url) => ({ url, productId: created.id })),
+        { transaction },
+      );
+    }
+    return created;
   });
 
-  if (data.images.length) {
-    await ProductImage.bulkCreate(
-      data.images.map((url) => ({ url, productId: product.id })),
-    );
-  }
-
-  res.status(201).json(await Product.findByPk(product.id, { include: includeAll }));
+  res.status(201).json(await findFullProduct(product.id));
 }
 
 async function updateProduct(req: Request, res: Response): Promise<void> {
-  const id = parseId(req, res);
-  if (id === null) return;
-
-  const data = validate(productUpdateSchema, req.body, res);
-  if (!data) return;
-
-  const product = await Product.findByPk(id);
-  if (!product) {
-    res.status(404).json({ error: "Product not found" });
-    return;
-  }
+  const id = parseId(req);
+  const data = validate(productUpdateSchema, req.body);
+  const product = await findOrFail(Product, id, "Product");
 
   const { images, ...fields } = data;
-  await product.update(fields);
 
-  // Images have no identity beyond "belongs to this product + a URL", so a
-  // full replace is simpler and safer than diffing old vs. new URLs.
-  if (images !== undefined) {
-    await ProductImage.destroy({ where: { productId: id } });
-    if (images.length) {
-      await ProductImage.bulkCreate(images.map((url) => ({ url, productId: id })));
+  await sequelize.transaction(async (transaction) => {
+    await product.update(fields, { transaction });
+
+    // Images have no identity beyond "belongs to this product + a URL", so a
+    // full replace is simpler and safer than diffing old vs. new URLs. The
+    // transaction is what stops a failed re-insert from leaving the product
+    // with the old images already deleted.
+    if (images !== undefined) {
+      await ProductImage.destroy({ where: { productId: id }, transaction });
+
+      if (images.length) {
+        await ProductImage.bulkCreate(
+          images.map((url) => ({ url, productId: id })),
+          { transaction },
+        );
+      }
     }
-  }
+  });
 
-  res.json(await Product.findByPk(id, { include: includeAll }));
+  res.json(await findFullProduct(id));
 }
 
 async function deleteProduct(req: Request, res: Response): Promise<void> {
-  const id = parseId(req, res);
-  if (id === null) return;
+  const id = parseId(req);
 
   const deleted = await Product.destroy({ where: { id } });
-  if (!deleted) {
-    res.status(404).json({ error: "Product not found" });
-    return;
-  }
+  if (!deleted) throw new HttpError(404, "Product not found");
+
   res.json({ message: "Product deleted" });
 }
 
