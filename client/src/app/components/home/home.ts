@@ -15,5 +15,5 @@ import { ProductService } from '../../services/product';
 export class Home {
   private readonly productService = inject(ProductService);
 
-  products = toSignal(this.productService.getProductCards(), { initialValue: [] });
+  products = toSignal(this.productService.getProductCards({ limit: 8 }), { initialValue: [] });
 }
