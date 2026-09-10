@@ -21,3 +21,6 @@ app.use(
     legacyHeaders: false, // Avaktiverar stöd för gamla headers
   }),
 );
+
+// Registrerar min egna error handler.
+app.use(errorHandler);
