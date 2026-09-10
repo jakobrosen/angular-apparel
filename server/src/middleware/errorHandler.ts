@@ -1,45 +1,66 @@
 import type { NextFunction, Request, Response } from "express";
 import { UniqueConstraintError } from "sequelize";
-import { HttpError } from "../utilities/httpError.js";
 
-// Express 5 forwards rejected promises from async route handlers here
-// automatically, and catches synchronous throws from ordinary middleware too,
-// so routes don't need their own try/catch or a wrapper.
+/**
+ * Egen error-klass som underlättar när ett fel kastas i route handlers.
+ * Tack vare denna kan statuskod och felmeddelande matas in direkt i
+ * constructorn istället för att bara använda oss av Errors .message.
+ */
+export class HttpError extends Error {
+  constructor(
+    readonly status: number,
+    // .details kan vara en sträng eller ett zod-object.
+    readonly details: string | object,
+  ) {
+    // Om .details är en sträng så dupliceras den till .message också.
+    // Annars (om det är ett zod-object) får .message ett standardvärde.
+    super(typeof details === "string" ? details : "Request validation failed");
+    this.name = "HttpError";
+  }
+}
+
+/**
+ * Tack vare att vi registrerar error handlern med app.use(errorHandler)
+ * i server.ts så skickas alla fel som kastas hit automatiskt. Eftersom
+ * vi använder Express 5 så skickas även rejected promises hit, vilket
+ * innebär att try/catch inte behöver användas alls i route handlers.
+ */
 export function errorHandler(
   err: unknown,
   _req: Request,
   res: Response,
   next: NextFunction,
 ): void {
-  // A response is already on the wire and can't be replaced with an error
-  // one - Express's built-in handler is the only thing that can close it out.
+  // Om en response redan är på väg till klienten när ett fel kastas så
+  // anropas next(err) här för att skicka vidare felet till nästa error
+  // handler i kedjan, i detta fall express egna. Detta görs eftersom att
+  // min egna error handler inte kan hantera denna situation.
   if (res.headersSent) {
     next(err);
     return;
   }
 
-  // Deliberate, client-caused failures (bad input, missing row, bad token).
-  // Not logged: they're expected outcomes, not faults on our side.
+  // Om felet kastas som ett HttpError kan vi svara direkt med statuskoden
+  // och details-strängen/objektet.
   if (err instanceof HttpError) {
     res.status(err.status).json({ error: err.details });
     return;
   }
 
-  // Reaches us from the database rather than from a validator - e.g. creating
-  // a brand whose name is already taken - but it's still the request at fault,
-  // so it shouldn't be reported as a server error.
+  // Kastas av sequelize vid unique constraint violations (om en resurs redan finns).
   if (err instanceof UniqueConstraintError) {
-    res.status(409).json({ error: "Already exists" });
+    // 409 conflict.
+    res.status(409).json({ error: "A resource with that name already exists" });
     return;
   }
 
-  // express.json() rejects an unparseable body with a SyntaxError that already
-  // carries the status it wants. Also the client's fault, not ours.
+  // Kastas av express.json() om klienten skickar ogiltig JSON i request body.
   if (err instanceof SyntaxError && "status" in err && err.status === 400) {
-    res.status(400).json({ error: "Malformed JSON body" });
+    res.status(400).json({ error: "Invalid JSON body" });
     return;
   }
 
+  // Skickar ett generiskt felmeddelande om ingen av if-satserna ovan triggats.
   console.error(err);
   res.status(500).json({ error: "Internal server error" });
 }

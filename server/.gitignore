@@ -3,3 +3,4 @@ config/*.db
 dist/
 .env
 .qwen/
+src_old/

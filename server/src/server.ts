@@ -1,58 +1,23 @@
 import express from "express";
 import rateLimit from "express-rate-limit";
 import { sequelize } from "./models/index.js";
-import { PORT } from "./config/variables.js";
-import { registerProductsRoutes } from "./routes/products.js";
-import { registerBrandsRoutes } from "./routes/brands.js";
-import { registerCategoriesRoutes } from "./routes/categories.js";
-import { registerAdminRoutes } from "./routes/admin.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
+// Skapar en ny expressapplikation
 const app = express();
 
-// Parse JSON request bodies (limit to 1MB to prevent abuse).
+// Middleware för att kunna parsa JSON.
+// Limit på 1mb per request för att
+// motverka DDOS eller liknande.
 app.use(express.json({ limit: "1mb" }));
 
-// Basic per-IP rate limit across the whole API. 300 requests / 15 min is
-// generous for a shopper paging through products (well above anything
-// normal browsing would hit) while still bounding scripted abuse. One
-// global limit, not a per-route policy - simplest thing that satisfies the
-// spec's "rate limiting, simplest way possible" ask.
+// Basic middleware som hanterar rate limit.
+// Inställd på att tillåta 300 requests var tionde minut.
 app.use(
   rateLimit({
-    windowMs: 15 * 60 * 1000,
-    limit: 300,
-    standardHeaders: true,
-    legacyHeaders: false,
+    windowMs: 60000, // 10 minuters minne
+    limit: 300, // 300 requests
+    standardHeaders: true, // Aktiverar stöd för nya headers
+    legacyHeaders: false, // Avaktiverar stöd för gamla headers
   }),
 );
-
-registerProductsRoutes(app);
-registerBrandsRoutes(app);
-registerCategoriesRoutes(app);
-registerAdminRoutes(app);
-
-// Nothing above matched the URL. Without this, Express falls back to its own
-// HTML error page, which would be the one response in the API that isn't the
-// { error } JSON shape every client here expects.
-app.use((_req, res) => {
-  res.status(404).json({ error: "Not found" });
-});
-
-// Must be registered last - Express only treats a 4-arg function as error
-// middleware, and only routes it errors from earlier in the chain.
-app.use(errorHandler);
-
-async function start(): Promise<void> {
-  await sequelize.sync();
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
-
-// Nothing can serve requests if the DB or the listener fails, so fail loudly
-// and exit rather than leaving a half-started process behind.
-start().catch((err) => {
-  console.error("Failed to start server:", err);
-  process.exit(1);
-});
