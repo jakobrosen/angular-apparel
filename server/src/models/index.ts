@@ -15,10 +15,11 @@ Product.belongsTo(Brand, { foreignKey: "brandId", as: "brand" });
 
 // Kopplar ihop produkter och bilder
 Product.hasMany(ProductImage, {
-  foreignKey: "productId",
+  foreignKey: "sku",
+  sourceKey: "sku",
   as: "images",
   onDelete: "CASCADE",
 });
-ProductImage.belongsTo(Product, { foreignKey: "productId" });
+ProductImage.belongsTo(Product, { foreignKey: "sku" });
 
 export { sequelize, Category, Brand, Product, ProductImage, AdminUser };

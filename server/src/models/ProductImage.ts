@@ -13,14 +13,14 @@ export class ProductImage extends Model<
 > {
   declare id: CreationOptional<number>;
   declare url: string;
-  declare productId: number;
+  declare sku: string;
 }
 
 ProductImage.init(
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     url: { type: DataTypes.STRING, allowNull: false },
-    productId: { type: DataTypes.INTEGER, allowNull: false },
+    sku: { type: DataTypes.STRING, allowNull: false },
   },
   {
     sequelize,

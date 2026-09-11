@@ -30,6 +30,7 @@ export class Product extends Model<
   declare gender: string;
   declare price: number;
   declare prevPrice: number | null;
+  declare sku: string;
   declare categoryId: number | null;
   declare brandId: number | null;
 }
@@ -54,6 +55,11 @@ Product.init(
       type: DataTypes.FLOAT,
       allowNull: true,
       validate: { min: 0 },
+    },
+    sku: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
     categoryId: { type: DataTypes.INTEGER, allowNull: true },
     brandId: { type: DataTypes.INTEGER, allowNull: true },
