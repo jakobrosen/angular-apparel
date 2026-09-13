@@ -1,6 +1,10 @@
+import { PORT } from "./config/variables.js";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import { sequelize } from "./models/index.js";
+import { registerBrandRoutes } from "./routes/brands.js";
+import { registerCategoryRoutes } from "./routes/categories.js";
+import { registerProductRoutes } from "./routes/products.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 // Skapar en ny expressapplikation
@@ -22,5 +26,29 @@ app.use(
   }),
 );
 
+// Registrerar routes.
+registerBrandRoutes(app);
+registerCategoryRoutes(app);
+registerProductRoutes(app);
+
+// Fallback-route.
+app.use((_req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
+
 // Registrerar min egna error handler.
 app.use(errorHandler);
+
+// Syncar alla models till databasen, och startar servern.
+async function start(): Promise<void> {
+  await sequelize.sync();
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
+
+// Kastar ett fel om något misslyckas vid start av servern.
+start().catch((err) => {
+  console.error("Failed to start server:", err);
+  process.exit(1);
+});

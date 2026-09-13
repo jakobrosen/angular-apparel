@@ -1,7 +1,10 @@
 export interface DummyProduct {
   gender: string;
   categoryId: number;
+  categoryName: string;
+  type: string;
   brandId: number;
+  brandName: string;
   title: string;
   price: number;
   prevPrice: number | null;

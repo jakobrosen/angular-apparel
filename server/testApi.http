@@ -1,1 +1,11 @@
-http://localhost:8000/api/products?page=2&limit=48
+### Get all brands
+GET http://localhost:8000/api/brands
+
+### Get all categories
+GET http://localhost:8000/api/categories
+
+### Get all products
+GET http://localhost:8000/api/products
+
+### Get products with filters
+GET http://localhost:8000/api/products/?q=shirt&brand=adidas

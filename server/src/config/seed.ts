@@ -30,7 +30,7 @@ async function seed(): Promise<void> {
   const transaction = await sequelize.transaction();
 
   /**
-   * Samma kod användes för tre modeller, så det fick bli
+   * Samma kod användes för fyra modeller, så det fick bli
    * en funktion.
    */
   async function standardBulkCreate<M extends Model>(

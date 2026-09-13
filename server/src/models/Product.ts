@@ -32,7 +32,10 @@ export class Product extends Model<
   declare prevPrice: number | null;
   declare sku: string;
   declare categoryId: number | null;
+  declare brandName: string | null;
+  declare categoryName: string | null;
   declare brandId: number | null;
+  declare type: string;
 }
 
 // Initierar modellen.
@@ -44,7 +47,7 @@ Product.init(
     gender: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "Unisex",
+      defaultValue: "unisex",
     },
     price: {
       type: DataTypes.FLOAT,
@@ -63,6 +66,9 @@ Product.init(
     },
     categoryId: { type: DataTypes.INTEGER, allowNull: true },
     brandId: { type: DataTypes.INTEGER, allowNull: true },
+    categoryName: { type: DataTypes.STRING, allowNull: true },
+    brandName: { type: DataTypes.STRING, allowNull: true },
+    type: { type: DataTypes.STRING, allowNull: false },
   },
   {
     sequelize,
