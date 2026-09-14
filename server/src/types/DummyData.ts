@@ -1,10 +1,9 @@
+import type { Gender } from "./schemas.js";
+
 export interface DummyProduct {
-  gender: string;
+  gender: Gender;
   categoryId: number;
-  categoryName: string;
-  type: string;
   brandId: number;
-  brandName: string;
   title: string;
   price: number;
   prevPrice: number | null;

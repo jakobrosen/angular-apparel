@@ -6,6 +6,7 @@ import {
   type InferAttributes,
   type InferCreationAttributes,
 } from "sequelize";
+import type { Gender } from "../types/schemas.js";
 
 /**
  * Skapar en sequelize-model genom att extenda klassen Model
@@ -27,15 +28,12 @@ export class Product extends Model<
   declare id: CreationOptional<number>;
   declare title: string;
   declare description: string;
-  declare gender: string;
+  declare gender: Gender;
   declare price: number;
   declare prevPrice: number | null;
   declare sku: string;
   declare categoryId: number | null;
-  declare brandName: string | null;
-  declare categoryName: string | null;
   declare brandId: number | null;
-  declare type: string;
 }
 
 // Initierar modellen.
@@ -47,7 +45,6 @@ Product.init(
     gender: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "unisex",
     },
     price: {
       type: DataTypes.FLOAT,
@@ -66,9 +63,6 @@ Product.init(
     },
     categoryId: { type: DataTypes.INTEGER, allowNull: true },
     brandId: { type: DataTypes.INTEGER, allowNull: true },
-    categoryName: { type: DataTypes.STRING, allowNull: true },
-    brandName: { type: DataTypes.STRING, allowNull: true },
-    type: { type: DataTypes.STRING, allowNull: false },
   },
   {
     sequelize,

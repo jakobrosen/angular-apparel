@@ -8,4 +8,4 @@ GET http://localhost:8000/api/categories
 GET http://localhost:8000/api/products
 
 ### Get products with filters
-GET http://localhost:8000/api/products/?q=shirt&brand=adidas
+GET http://localhost:8000/api/products/?minPrice=1000
