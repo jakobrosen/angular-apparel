@@ -1,7 +1,19 @@
 import { HttpError } from "../middleware/errorHandler.js";
+import { z, flattenError, type ZodType } from "zod";
 
-export function validateSKU(sku: string): void {
-  const SKURegex = /^[A-Z]{3}\d{3}$/;
+/**
+ * Används för att validera data mot ett zod-schema.
+ * Kastar ett fel om valideringen misslyckas.
+ */
+export function validate<T extends ZodType>(
+  schema: T,
+  input: unknown,
+): z.infer<T> {
+  const validation = schema.safeParse(input);
 
-  if (!SKURegex.test(sku)) throw new HttpError(400, "Invalid SKU format");
+  if (!validation.success) {
+    throw new HttpError(400, flattenError(validation.error).fieldErrors);
+  }
+
+  return validation.data;
 }

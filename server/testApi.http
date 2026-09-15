@@ -9,3 +9,71 @@ GET http://localhost:8000/api/products
 
 ### Get products with filters
 GET http://localhost:8000/api/products/?minPrice=1000
+
+### Admin login
+POST http://localhost:8000/api/admin/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+### Token
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzg5NDcwNTQ1LCJleHAiOjE3ODk1NTY5NDV9.qluZqEpoRSVWZfbFGr9XGqxzbCGoAFKhwxEPWWbgXjI
+
+### Create category (admin)
+POST http://localhost:8000/api/admin/categories
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "hgjggf"
+}
+
+### Update category (admin)
+PUT http://localhost:8000/api/admin/categories
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": "4",
+  "name": "fas"
+}
+
+### Delete category (admin)
+DELETE http://localhost:8000/api/admin/categories
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": "25"
+}
+
+### Create brand (admin)
+POST http://localhost:8000/api/admin/brands
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "testBrand"
+}
+
+### Update brand (admin)
+PUT http://localhost:8000/api/admin/brands
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": "9",
+  "name": "sdgsdsdgsgdgsgd"
+}
+
+### Delete brand (admin)
+DELETE http://localhost:8000/api/admin/brands
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": "1"
+}

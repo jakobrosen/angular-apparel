@@ -2,10 +2,10 @@ import { Product, Category, Brand } from "../models/index.js";
 import { Op, WhereOptions, col, where as sequelizeWhere } from "sequelize";
 import type { Request, Response, Router } from "express";
 import { productQuerySchema } from "../types/schemas.js";
+import { validate } from "../utilities/validation.js";
 
 async function getProducts(req: Request, res: Response): Promise<void> {
-  // Parsear eventuella query-params mot sitt zod-schema.
-  const query = productQuerySchema.parse(req.query);
+  const query = validate(productQuerySchema, req.query);
 
   // Skapar en tom array för att lagra query conditions dynamiskt.
   const filters: WhereOptions[] = [];
@@ -22,26 +22,21 @@ async function getProducts(req: Request, res: Response): Promise<void> {
   }
 
   // Fortsätter bygga upp filters-arrayen.
-  if (query.category?.length) {
+  if (query.category) {
     filters.push({ "$category.name$": { [Op.in]: query.category } });
   }
-
-  if (query.brand?.length) {
+  if (query.brand) {
     filters.push({ "$brand.name$": { [Op.in]: query.brand } });
   }
-
-  if (query.gender?.length) {
+  if (query.gender) {
     filters.push({ gender: { [Op.in]: query.gender } });
   }
-
   if (query.minPrice != null) {
     filters.push({ price: { [Op.gte]: query.minPrice } });
   }
-
   if (query.maxPrice != null) {
     filters.push({ price: { [Op.lte]: query.maxPrice } });
   }
-
   if (query.discount) {
     filters.push(sequelizeWhere(col("price"), Op.lte, col("prevPrice")));
   }

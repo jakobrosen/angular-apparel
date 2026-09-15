@@ -5,6 +5,7 @@ import { sequelize } from "./models/index.js";
 import { registerBrandRoutes } from "./routes/brands.js";
 import { registerCategoryRoutes } from "./routes/categories.js";
 import { registerProductRoutes } from "./routes/products.js";
+import { registerAdminRoutes } from "./routes/adminUser.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 // Skapar en ny expressapplikation
@@ -30,6 +31,7 @@ app.use(
 registerBrandRoutes(app);
 registerCategoryRoutes(app);
 registerProductRoutes(app);
+registerAdminRoutes(app);
 
 // Fallback-route.
 app.use((_req, res) => {
