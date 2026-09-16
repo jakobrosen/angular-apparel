@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { UniqueConstraintError } from "sequelize";
+import { ForeignKeyConstraintError, UniqueConstraintError } from "sequelize";
 
 /**
  * Egen error-klass som underlättar när ett fel kastas i route handlers.
@@ -49,8 +49,18 @@ export function errorHandler(
 
   // Kastas av sequelize vid unique constraint violations (om en resurs redan finns).
   if (err instanceof UniqueConstraintError) {
+    const field = err.errors[0]?.path ?? "value";
     // 409 conflict.
-    res.status(409).json({ error: "A resource with that name already exists" });
+    res
+      .status(409)
+      .json({ error: `A resource with that ${field} already exists` });
+    return;
+  }
+
+  // Kastas av sequelize när en foreign key (t.ex. categoryId) pekar på
+  // en rad som inte finns.
+  if (err instanceof ForeignKeyConstraintError) {
+    res.status(400).json({ error: "Referenced resource does not exist" });
     return;
   }
 

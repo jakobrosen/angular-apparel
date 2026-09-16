@@ -34,13 +34,16 @@ async function deleteBrand(req: Request, res: Response): Promise<void> {
   const id = Number.parseInt(req.body.id);
 
   const deleted = await Brand.destroy({ where: { id } });
-  if (!deleted) throw new HttpError(404, `Brand with ID ${id} not found`);
+  if (!deleted) {
+    throw new HttpError(404, `Brand with ID ${id} not found`);
+  }
 
   res.json({ message: "Brand deleted" });
 }
 
 export function registerBrandRoutes(app: Router) {
   app.get("/api/brands", getAllBrands);
+
   app.post("/api/admin/brands", requireAuth, createBrand);
   app.put("/api/admin/brands", requireAuth, updateBrand);
   app.delete("/api/admin/brands", requireAuth, deleteBrand);

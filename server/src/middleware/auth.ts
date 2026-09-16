@@ -16,7 +16,9 @@ export function requireAuth(
     ? authHeader.slice("Bearer ".length)
     : undefined;
 
-  if (!token) throw new HttpError(401, "Unauthorized");
+  if (!token) {
+    throw new HttpError(401, "Unauthorized");
+  }
 
   try {
     jwt.verify(token, JWT_SECRET);

@@ -1,17 +1,15 @@
-### Get all brands
-GET http://localhost:8000/api/brands
+@baseUrl = http://localhost:8000/api
 
-### Get all categories
-GET http://localhost:8000/api/categories
+# Run "Admin login" first. Its token is picked up automatically by the
+# admin requests below via {{login.response.body.token}}.
 
-### Get all products
-GET http://localhost:8000/api/products
-
-### Get products with filters
-GET http://localhost:8000/api/products/?minPrice=1000
+###############################################################################
+# Auth
+###############################################################################
 
 ### Admin login
-POST http://localhost:8000/api/admin/auth/login
+# @name login
+POST {{baseUrl}}/admin/auth/login
 Content-Type: application/json
 
 {
@@ -19,61 +17,181 @@ Content-Type: application/json
   "password": "admin"
 }
 
-### Token
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzg5NDcwNTQ1LCJleHAiOjE3ODk1NTY5NDV9.qluZqEpoRSVWZfbFGr9XGqxzbCGoAFKhwxEPWWbgXjI
+###
 
-### Create category (admin)
-POST http://localhost:8000/api/admin/categories
+@token = {{login.response.body.token}}
+
+###############################################################################
+# Products
+###############################################################################
+
+### Get all products (default page 1, limit 48)
+GET {{baseUrl}}/products
+
+### Search products by text (matches title, brand or category)
+GET {{baseUrl}}/products?q=black
+
+### Filter products by gender
+GET {{baseUrl}}/products?gender=women
+
+### Filter products by category (comma-separated for multiple)
+GET {{baseUrl}}/products?category=shirts,jackets
+
+### Filter products by brand (comma-separated for multiple)
+GET {{baseUrl}}/products?brand=adidas
+
+### Filter products by price range
+GET {{baseUrl}}/products?minPrice=500&maxPrice=1500
+
+### Filter discounted products only
+GET {{baseUrl}}/products?discount=true
+
+### Pagination
+GET {{baseUrl}}/products?page=2&limit=10
+
+### Combined filters
+GET {{baseUrl}}/products?q=shirt&gender=men&brand=adidas,nike&limit=5
+
+### Get product by ID
+GET {{baseUrl}}/products/5
+
+### Create product (admin)
+# @name createProduct
+POST {{baseUrl}}/admin/products
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "hgjggf"
+  "title": "Test Product",
+  "description": "A stylish suit designed for everyday comfort and style.",
+  "gender": "women",
+  "price": 2200,
+  "prevPrice": 3200,
+  "sku": "AAA111",
+  "categoryId": 1,
+  "brandId": 1,
+  "images": [
+    "https://example.com/images/test-1.jpg",
+    "https://example.com/images/test-2.jpg"
+  ]
 }
 
-### Update category (admin)
-PUT http://localhost:8000/api/admin/categories
+### Update product (admin) - partial, only sent fields change
+PUT {{baseUrl}}/admin/products/{{createProduct.response.body.id}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "id": "4",
-  "name": "fas"
+  "price": 1999,
+  "images": [
+    "https://example.com/images/test-updated.jpg"
+  ]
 }
 
-### Delete category (admin)
-DELETE http://localhost:8000/api/admin/categories
-Content-Type: application/json
+### Delete product (admin)
+DELETE {{baseUrl}}/admin/products/{{createProduct.response.body.id}}
 Authorization: Bearer {{token}}
 
-{
-  "id": "25"
-}
+###############################################################################
+# Brands
+###############################################################################
+
+### Get all brands
+GET {{baseUrl}}/brands
 
 ### Create brand (admin)
-POST http://localhost:8000/api/admin/brands
+# @name createBrand
+POST {{baseUrl}}/admin/brands
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "testBrand"
+  "name": "test-brand"
 }
 
 ### Update brand (admin)
-PUT http://localhost:8000/api/admin/brands
+PUT {{baseUrl}}/admin/brands
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "id": "9",
-  "name": "sdgsdsdgsgdgsgd"
+  "id": {{createBrand.response.body.id}},
+  "name": "test-brand-renamed"
 }
 
 ### Delete brand (admin)
-DELETE http://localhost:8000/api/admin/brands
+DELETE {{baseUrl}}/admin/brands
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "id": "1"
+  "id": {{createBrand.response.body.id}}
 }
+
+###############################################################################
+# Categories
+###############################################################################
+
+### Get all categories
+GET {{baseUrl}}/categories
+
+### Create category (admin)
+# @name createCategory
+POST {{baseUrl}}/admin/categories
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "test-category"
+}
+
+### Update category (admin)
+PUT {{baseUrl}}/admin/categories
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": {{createCategory.response.body.id}},
+  "name": "test-category-renamed"
+}
+
+### Delete category (admin)
+DELETE {{baseUrl}}/admin/categories
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": {{createCategory.response.body.id}}
+}
+
+###############################################################################
+# Error cases
+###############################################################################
+
+### 400 - invalid product body (missing fields, empty images)
+POST {{baseUrl}}/admin/products
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "",
+  "price": -1,
+  "images": []
+}
+
+### 400 - invalid product ID
+GET {{baseUrl}}/products/abc
+
+### 401 - missing token
+POST {{baseUrl}}/admin/brands
+Content-Type: application/json
+
+{
+  "name": "unauthorized"
+}
+
+### 404 - product not found
+GET {{baseUrl}}/products/999999
+
+### 404 - unknown route
+GET {{baseUrl}}/nope

@@ -34,13 +34,16 @@ async function deleteCategory(req: Request, res: Response): Promise<void> {
   const id = Number.parseInt(req.body.id);
 
   const deleted = await Category.destroy({ where: { id } });
-  if (!deleted) throw new HttpError(404, `Category with ID ${id} not found`);
+  if (!deleted) {
+    throw new HttpError(404, `Category with ID ${id} not found`);
+  }
 
   res.json({ message: "Category deleted" });
 }
 
 export function registerCategoryRoutes(app: Router) {
   app.get("/api/categories", getAllCategories);
+
   app.post("/api/admin/categories", requireAuth, createCategory);
   app.put("/api/admin/categories", requireAuth, updateCategory);
   app.delete("/api/admin/categories", requireAuth, deleteCategory);

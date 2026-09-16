@@ -53,16 +53,24 @@ function resolveFilters(
 ): ProductFilters | null {
   const slug = slugify(filter);
 
-  if (slug === 'all') return {};
+  if (slug === 'all') {
+    return {};
+  }
 
   const gender = GENDER_SLUGS[slug];
-  if (gender) return { gender };
+  if (gender) {
+    return { gender };
+  }
 
   const brand = brands.find((b) => slugify(b.name) === slug);
-  if (brand) return { brandId: brand.id };
+  if (brand) {
+    return { brandId: brand.id };
+  }
 
   const category = categories.find((c) => slugify(c.name) === slug);
-  if (category) return { categoryId: category.id };
+  if (category) {
+    return { categoryId: category.id };
+  }
 
   return null;
 }

@@ -31,10 +31,18 @@ export class ProductService {
 
   getProductCards(filters: ProductFilters = {}): Observable<Product[]> {
     const params: Record<string, string | number> = {};
-    if (filters.gender) params['gender'] = filters.gender;
-    if (filters.brandId) params['brandId'] = filters.brandId;
-    if (filters.categoryId) params['categoryId'] = filters.categoryId;
-    if (filters.limit) params['limit'] = filters.limit;
+    if (filters.gender) {
+      params['gender'] = filters.gender;
+    }
+    if (filters.brandId) {
+      params['brandId'] = filters.brandId;
+    }
+    if (filters.categoryId) {
+      params['categoryId'] = filters.categoryId;
+    }
+    if (filters.limit) {
+      params['limit'] = filters.limit;
+    }
 
     return this.http.get<PaginatedResponse<ApiProduct>>('/api/products', { params }).pipe(
       map((response) =>
