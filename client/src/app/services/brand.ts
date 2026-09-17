@@ -1,6 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { httpResource } from '@angular/common/http';
 
 export interface Brand {
   id: number;
@@ -9,9 +8,5 @@ export interface Brand {
 
 @Injectable({ providedIn: 'root' })
 export class BrandService {
-  private readonly http = inject(HttpClient);
-
-  getBrands(): Observable<Brand[]> {
-    return this.http.get<Brand[]>('/api/brands');
-  }
+  readonly brands = httpResource<Brand[]>(() => '/api/brands', { defaultValue: [] });
 }

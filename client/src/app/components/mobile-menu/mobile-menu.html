@@ -1,0 +1,51 @@
+<nav
+  id="mobile-menu"
+  aria-label="Mobile"
+  [attr.inert]="isOpen() ? null : ''"
+  [class]="isOpen() ? 'translate-y-0' : '-translate-y-full'"
+  class="lg:hidden fixed inset-x-0 z-40 top-14 border-t shadow-sm border-gray-200 bg-white transition-transform duration-300"
+>
+  <ul class="flex flex-col space-y-2 p-4">
+    <li>
+      <a
+        routerLink="/products"
+        [queryParams]="{ sort: 'newest' }"
+        routerLinkActive="text-blue-600 font-semibold"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
+      >
+        NEW ARRIVALS
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/products"
+        routerLinkActive="text-blue-600 font-semibold"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
+      >
+        ALL PRODUCTS
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/products/men"
+        routerLinkActive="text-blue-600 font-semibold"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
+      >
+        MEN
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/products/women"
+        routerLinkActive="text-blue-600 font-semibold"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
+      >
+        WOMEN
+      </a>
+    </li>
+  </ul>
+</nav>

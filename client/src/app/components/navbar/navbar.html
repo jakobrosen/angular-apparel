@@ -1,148 +1,157 @@
-<header class="bg-white shadow-sm sticky top-0 z-50">
-  <div class="mx-auto px-4 py-3 h-14">
-    <div class="flex justify-between items-center select-none">
-      <!-- Logo -->
-      <div class="w-41 flex items-center">
-        <a routerLink="/" class="hidden lg:flex text-2xl font-logo text-gray-950 whitespace-nowrap">
+<div class="sticky top-0 z-50" (mouseleave)="closeHoverMenu()">
+  <header class="bg-white shadow-sm relative z-20">
+    <div class="mx-auto px-4 py-3 h-14">
+      <div class="flex justify-between items-center select-none">
+        <!-- Logo -->
+        <div class="w-41 flex items-center">
+          <a
+            routerLink="/"
+            class="hidden lg:flex text-2xl font-logo text-gray-950 whitespace-nowrap"
+          >
+            ANGULAR APPAREL
+          </a>
+
+          <!-- Menu icon -->
+          <div class="flex items-center mr-1.5 lg:hidden">
+            <button
+              type="button"
+              aria-controls="mobile-menu"
+              [attr.aria-expanded]="mobileMenuIsOpen()"
+              [attr.aria-label]="mobileMenuIsOpen() ? 'Close menu' : 'Open menu'"
+              class="flex items-center cursor-pointer"
+              (click)="toggleMobileMenu()"
+            >
+              <ng-icon
+                [name]="mobileMenuIsOpen() ? 'phosphorX' : 'phosphorList'"
+                class="text-gray-700 hover:text-gray-950 transition-colors text-2xl"
+              ></ng-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Desktop navigation -->
+        <nav aria-label="Main" class="hidden lg:block">
+          <ul
+            class="flex text-sm font-sans font-semibold whitespace-nowrap items-center justify-center space-x-8"
+          >
+            <li>
+              <a
+                routerLink="/products"
+                [queryParams]="{ sort: 'newest' }"
+                routerLinkActive="text-blue-600 font-sans"
+                [routerLinkActiveOptions]="{ exact: false }"
+                class="text-gray-700 hover:text-gray-950 transition-colors"
+                (mouseenter)="openHoverMenu()"
+              >
+                NEW ARRIVALS
+              </a>
+            </li>
+            <li>
+              <a
+                routerLink="/products"
+                routerLinkActive="text-blue-600 font-semibold"
+                [routerLinkActiveOptions]="{ exact: false }"
+                class="text-gray-700 hover:text-gray-950 transition-colors"
+                (mouseenter)="openHoverMenu()"
+              >
+                ALL PRODUCTS
+              </a>
+            </li>
+            <li>
+              <a
+                routerLink="/products/women"
+                routerLinkActive="text-blue-600 font-semibold"
+                [routerLinkActiveOptions]="{ exact: false }"
+                class="text-gray-700 hover:text-gray-950 transition-colors"
+                (mouseenter)="openHoverMenu()"
+              >
+                WOMEN
+              </a>
+            </li>
+            <li>
+              <a
+                routerLink="/products/men"
+                routerLinkActive="text-blue-600 font-semibold"
+                [routerLinkActiveOptions]="{ exact: false }"
+                class="text-gray-700 hover:text-gray-950 transition-colors"
+                (mouseenter)="openHoverMenu()"
+              >
+                MEN
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <a routerLink="/" class="flex lg:hidden text-2xl font-logo text-gray-950 whitespace-nowrap">
           ANGULAR APPAREL
         </a>
 
-        <!-- Menu icon -->
-        <div class="flex items-center mr-1.5 lg:hidden">
-          @if (menuIsOpen()) {
+        <!-- Right side icons -->
+        <div class="w-41 flex justify-end items-center space-x-4 text-2xl ml-1.5">
+          <!-- Search icon -->
+          <button type="button" aria-label="Search" class="flex items-center cursor-pointer">
             <ng-icon
-              name="phosphorX"
-              class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
-              (click)="toggleMenu()"
+              name="phosphorMagnifyingGlass"
+              class="text-gray-700 hover:text-gray-950 transition-colors text-2xl"
             ></ng-icon>
-          } @else {
+          </button>
+
+          <!-- Cart icon -->
+          <button
+            type="button"
+            aria-label="Open cart"
+            aria-controls="cart-panel"
+            [attr.aria-expanded]="cartIsOpen()"
+            class="flex items-center cursor-pointer"
+            (click)="toggleCart()"
+          >
             <ng-icon
-              name="phosphorList"
-              class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
-              (click)="toggleMenu()"
+              name="phosphorBag"
+              class="text-gray-700 hover:text-gray-950 transition-colors text-2xl"
             ></ng-icon>
-          }
+          </button>
         </div>
       </div>
-
-      <!-- Desktop navigation -->
-      <div
-        class="hidden lg:flex text-sm font-sans font-semibold whitespace-nowrap items-center justify-center space-x-8"
-      >
-        <a
-          routerLink="/new"
-          routerLinkActive="text-blue-600 font-sans"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="text-gray-700 hover:text-gray-950 transition-colors"
-        >
-          NEW ARRIVALS
-        </a>
-        <a
-          routerLink="/all"
-          routerLinkActive="text-blue-600 font-semibold"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="text-gray-700 hover:text-gray-950 transition-colors"
-        >
-          ALL PRODUCTS
-        </a>
-        <a
-          routerLink="/women"
-          routerLinkActive="text-blue-600 font-semibold"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="text-gray-700 hover:text-gray-950 transition-colors"
-        >
-          WOMEN
-        </a>
-        <a
-          routerLink="/men"
-          routerLinkActive="text-blue-600 font-semibold"
-          [routerLinkActiveOptions]="{ exact: false }"
-          class="text-gray-700 hover:text-gray-950 transition-colors"
-        >
-          MEN
-        </a>
-      </div>
-      <a routerLink="/" class="flex lg:hidden text-2xl font-logo text-gray-950 whitespace-nowrap">
-        ANGULAR APPAREL
-      </a>
-
-      <!-- Right side icons -->
-      <div class="w-41 flex justify-end items-center space-x-4 text-2xl ml-1.5">
-        <!-- Search icon -->
-        <ng-icon
-          name="phosphorMagnifyingGlass"
-          class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
-        ></ng-icon>
-
-        <!-- Cart icon -->
-        <ng-icon
-          name="phosphorBag"
-          class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
-          (click)="toggleCart()"
-        ></ng-icon>
-      </div>
     </div>
-  </div>
-</header>
+  </header>
+
+  <app-hover-menu [isOpen]="hoverMenuIsOpen()" />
+</div>
 
 <!-- Mobile navigation menu -->
-<aside
-  [class]="menuIsOpen() ? 'translate-y-0' : '-translate-y-full'"
-  class="lg:hidden fixed inset-x-0 z-40 top-14 border-t shadow-sm border-gray-200 bg-white transition-transform duration-300"
->
-  <div class="flex flex-col space-y-2 p-4">
-    <a
-      routerLink="/unisex"
-      routerLinkActive="text-blue-600 font-semibold"
-      [routerLinkActiveOptions]="{ exact: false }"
-      class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
-    >
-      NEW ARRIVALS
-    </a>
-    <a
-      routerLink="/all"
-      routerLinkActive="text-blue-600 font-semibold"
-      [routerLinkActiveOptions]="{ exact: false }"
-      class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
-    >
-      ALL PRODUCTS
-    </a>
-    <a
-      routerLink="/men"
-      routerLinkActive="text-blue-600 font-semibold"
-      [routerLinkActiveOptions]="{ exact: false }"
-      class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
-    >
-      MEN
-    </a>
-    <a
-      routerLink="/women"
-      routerLinkActive="text-blue-600 font-semibold"
-      [routerLinkActiveOptions]="{ exact: false }"
-      class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
-    >
-      WOMEN
-    </a>
-  </div>
-</aside>
+<app-mobile-menu [isOpen]="mobileMenuIsOpen()" />
 
 <!-- Cart slide-in panel -->
-<aside
+<div
+  id="cart-panel"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Shopping cart"
+  [attr.inert]="cartIsOpen() ? null : ''"
   [class]="cartIsOpen() ? 'translate-x-0' : 'translate-x-full'"
   class="fixed top-0 right-0 z-60 h-full w-full max-w-sm bg-white shadow-lg transition-transform duration-300"
 >
   <app-cart (close)="toggleCart()" />
-</aside>
+</div>
 
 <!-- Menu background -->
 <div
-  [class]="menuIsOpen() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"
+  aria-hidden="true"
+  [class]="mobileMenuIsOpen() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"
   class="bg-black w-full h-full top-0 left-0 fixed transition-opacity duration-300 lg:hidden z-10"
+  (click)="closeAllMenus()"
+></div>
+
+<!-- Hover menu background -->
+<div
+  aria-hidden="true"
+  [class]="hoverMenuIsOpen() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"
+  class="bg-black w-full h-full top-0 left-0 hidden lg:block fixed transition-opacity duration-300 z-30"
   (click)="closeAllMenus()"
 ></div>
 
 <!-- Cart background -->
 <div
+  aria-hidden="true"
   [class]="cartIsOpen() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"
   class="bg-black w-full h-full top-0 left-0 z-55 fixed transition-opacity duration-300"
   (click)="closeAllMenus()"

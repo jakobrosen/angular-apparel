@@ -1,17 +1,16 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { httpResource } from '@angular/common/http';
 
 export interface Category {
   id: number;
   name: string;
 }
 
+// Injectable som hämtar alla kategorier från backenden.
+// providedIn: 'root' innebär att endast en instans av
+// denna injectable kan finnas i hela applikationen,
+// så det blir ett HTTP-anrop vid varje page reload.
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
-  private readonly http = inject(HttpClient);
-
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>('/api/categories');
-  }
+  readonly categories = httpResource<Category[]>(() => '/api/categories', { defaultValue: [] });
 }
