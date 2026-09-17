@@ -3,5 +3,26 @@
   [class]="isOpen() ? 'translate-y-0' : '-translate-y-full'"
   class="hidden lg:block fixed inset-x-0 z-10 top-14 border-t shadow-sm border-gray-200 bg-white transition-transform duration-300"
 >
-  <div class="h-64"></div>
+  <div
+    class="border-b border-gray-200 py-3 text-center font-sans text-sm font-semibold text-gray-950"
+  >
+    {{ heading() }}
+  </div>
+
+  <div class="h-64">
+    @switch (heading()) {
+      @case ('NEW ARRIVALS') {
+        <p>New arrivals working</p>
+      }
+      @case ('ALL PRODUCTS') {
+        <!-- ALL PRODUCTS content -->
+      }
+      @case ('WOMEN') {
+        <!-- WOMEN content -->
+      }
+      @case ('MEN') {
+        <!-- MEN content -->
+      }
+    }
+  </div>
 </div>

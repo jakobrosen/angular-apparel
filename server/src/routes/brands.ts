@@ -1,10 +1,7 @@
 import { Brand } from "../models/index.js";
 import type { Request, Response, Router } from "express";
 import { validate } from "../utilities/validation.js";
-import {
-  brandOrCategorySchema,
-  brandOrCategorySchemaWithId,
-} from "../types/schemas.js";
+import { brandSchema, brandSchemaWithId } from "../types/schemas.js";
 import { HttpError } from "../middleware/errorHandler.js";
 import { requireAuth } from "../middleware/auth.js";
 
@@ -14,13 +11,13 @@ async function getAllBrands(_req: Request, res: Response): Promise<void> {
 }
 
 async function createBrand(req: Request, res: Response): Promise<void> {
-  const data = validate(brandOrCategorySchema, req.body);
+  const data = validate(brandSchema, req.body);
 
   res.status(201).json(await Brand.create(data));
 }
 
 async function updateBrand(req: Request, res: Response): Promise<void> {
-  const data = validate(brandOrCategorySchemaWithId, req.body);
+  const data = validate(brandSchemaWithId, req.body);
   const brand = await Brand.findByPk(data.id);
   if (!brand) {
     throw new HttpError(404, `Brand with ID ${data.id} not found`);

@@ -142,7 +142,8 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "test-category"
+  "name": "test-category",
+  "type": "accessory"
 }
 
 ### Update category (admin)
@@ -152,7 +153,8 @@ Authorization: Bearer {{token}}
 
 {
   "id": {{createCategory.response.body.id}},
-  "name": "test-category-renamed"
+  "name": "test-category-renamed",
+  "type": "clothing"
 }
 
 ### Delete category (admin)
@@ -181,6 +183,15 @@ Authorization: Bearer {{token}}
 
 ### 400 - invalid product ID
 GET {{baseUrl}}/products/abc
+
+### 400 - category without a type
+POST {{baseUrl}}/admin/categories
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "no-type"
+}
 
 ### 401 - missing token
 POST {{baseUrl}}/admin/brands

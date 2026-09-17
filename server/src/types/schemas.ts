@@ -6,6 +6,9 @@ import { z } from "zod";
 export const genderEnum = z.enum(["men", "women"]);
 export type Gender = z.infer<typeof genderEnum>;
 
+export const categoryTypeEnum = z.enum(["accessory", "clothing"]);
+export type CategoryType = z.infer<typeof categoryTypeEnum>;
+
 // Regex som matchar ett giltigt SKU.
 const SKU_REGEX = /^[A-Z]{3}\d{3}$/;
 
@@ -45,11 +48,24 @@ export const productCreateSchema = z.object({
 
 export const productUpdateSchema = productCreateSchema.partial();
 
-export const brandOrCategorySchema = z.object({ name: z.string().min(1) });
+export const brandSchema = z.object({ name: z.string().min(1) });
 
-export const brandOrCategorySchemaWithId = z.object({
+export const brandSchemaWithId = z.object({
   id: z.number().int().min(1),
   name: z.string().min(1),
+});
+
+// Kategorier har till skillnad från märken även en "type", så
+// de kan inte längre dela schema med brands.
+export const categorySchema = z.object({
+  name: z.string().min(1),
+  type: categoryTypeEnum,
+});
+
+export const categorySchemaWithId = z.object({
+  id: z.number().int().min(1),
+  name: z.string().min(1),
+  type: categoryTypeEnum,
 });
 
 export const loginSchema = z.object({

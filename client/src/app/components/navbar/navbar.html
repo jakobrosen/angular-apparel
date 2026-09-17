@@ -41,7 +41,7 @@
                 routerLinkActive="text-blue-600 font-sans"
                 [routerLinkActiveOptions]="{ exact: false }"
                 class="text-gray-700 hover:text-gray-950 transition-colors"
-                (mouseenter)="openHoverMenu()"
+                (mouseenter)="openHoverMenu('NEW ARRIVALS')"
               >
                 NEW ARRIVALS
               </a>
@@ -52,7 +52,7 @@
                 routerLinkActive="text-blue-600 font-semibold"
                 [routerLinkActiveOptions]="{ exact: false }"
                 class="text-gray-700 hover:text-gray-950 transition-colors"
-                (mouseenter)="openHoverMenu()"
+                (mouseenter)="openHoverMenu('ALL PRODUCTS')"
               >
                 ALL PRODUCTS
               </a>
@@ -63,7 +63,7 @@
                 routerLinkActive="text-blue-600 font-semibold"
                 [routerLinkActiveOptions]="{ exact: false }"
                 class="text-gray-700 hover:text-gray-950 transition-colors"
-                (mouseenter)="openHoverMenu()"
+                (mouseenter)="openHoverMenu('WOMEN')"
               >
                 WOMEN
               </a>
@@ -74,7 +74,7 @@
                 routerLinkActive="text-blue-600 font-semibold"
                 [routerLinkActiveOptions]="{ exact: false }"
                 class="text-gray-700 hover:text-gray-950 transition-colors"
-                (mouseenter)="openHoverMenu()"
+                (mouseenter)="openHoverMenu('MEN')"
               >
                 MEN
               </a>
@@ -114,7 +114,7 @@
     </div>
   </header>
 
-  <app-hover-menu [isOpen]="hoverMenuIsOpen()" />
+  <app-hover-menu [isOpen]="hoverMenuIsOpen()" [heading]="hoverMenuHeading()" />
 </div>
 
 <!-- Mobile navigation menu -->

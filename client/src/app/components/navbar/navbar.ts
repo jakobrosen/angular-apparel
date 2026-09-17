@@ -26,11 +26,13 @@ export class Navbar {
   mobileMenuIsOpen = signal(false);
   cartIsOpen = signal(false);
   hoverMenuIsOpen = signal(false);
+  hoverMenuHeading = signal('');
 
   toggleMobileMenu(): void {
     this.mobileMenuIsOpen.update((value) => !value);
   }
-  openHoverMenu(): void {
+  openHoverMenu(heading: string): void {
+    this.hoverMenuHeading.set(heading);
     this.hoverMenuIsOpen.set(true);
   }
   closeHoverMenu(): void {

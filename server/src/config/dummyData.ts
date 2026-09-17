@@ -6,20 +6,19 @@ import type {
 } from "../types/DummyData.js";
 
 export const dummyCategoryData: DummyCategory[] = [
-  { name: "bags" },
-  { name: "belts" },
-  { name: "dresses" },
-  { name: "hats" },
-  { name: "hoodies" },
-  { name: "jackets" },
-  { name: "other" },
-  { name: "pants" },
-  { name: "shirts" },
-  { name: "shoes" },
-  { name: "shorts" },
-  { name: "socks" },
-  { name: "suits" },
-  { name: "tops" },
+  { name: "bags", type: "accessory" },
+  { name: "belts", type: "accessory" },
+  { name: "dresses", type: "clothing" },
+  { name: "hats", type: "accessory" },
+  { name: "hoodies", type: "clothing" },
+  { name: "jackets", type: "clothing" },
+  { name: "pants", type: "clothing" },
+  { name: "shirts", type: "clothing" },
+  { name: "shoes", type: "clothing" },
+  { name: "shorts", type: "clothing" },
+  { name: "socks", type: "accessory" },
+  { name: "suits", type: "clothing" },
+  { name: "tops", type: "clothing" },
 ];
 
 export const dummyBrandData: DummyBrand[] = [
@@ -35,7 +34,7 @@ export const dummyBrandData: DummyBrand[] = [
 export const dummyProductData: DummyProduct[] = [
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Classic Black Cotton Shirt",
     prevPrice: null,
     price: 700,
@@ -46,7 +45,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Black Vest",
     prevPrice: 300,
     price: 200,
@@ -57,7 +56,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Washed Cargo Baggy Trousers",
     prevPrice: null,
     price: 1100,
@@ -68,7 +67,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Blue Loose-Fit Jeans",
     prevPrice: 1200,
     price: 700,
@@ -79,7 +78,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 13,
+    categoryId: 12,
     title: "Basic Black Blazer",
     prevPrice: 3200,
     price: 2200,
@@ -141,7 +140,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Lightbrown Sambas",
     prevPrice: 4200,
     price: 3800,
@@ -152,7 +151,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Light Pink Shirt",
     prevPrice: null,
     price: 700,
@@ -205,7 +204,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 12,
+    categoryId: 11,
     title: "Pack Of 3 Pairs Of Socks",
     prevPrice: null,
     price: 850,
@@ -215,7 +214,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Wide-Leg Tracksuit Sweatpant",
     prevPrice: 1250,
     price: 1150,
@@ -226,7 +225,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 14,
+    categoryId: 13,
     title: "Navyblue Sil Top",
     prevPrice: null,
     price: 650,
@@ -236,7 +235,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 14,
+    categoryId: 13,
     title: "Halter Top With Contrast Trims",
     prevPrice: 600,
     price: 500,
@@ -246,7 +245,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 10,
+    categoryId: 9,
     title: "High-Heel Sandals",
     prevPrice: 3400,
     price: 3200,
@@ -278,7 +277,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Straight-Leg High-Waist Jeans",
     prevPrice: null,
     price: 1050,
@@ -289,7 +288,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Low-Rise Jorts",
     prevPrice: 2400,
     price: 1900,
@@ -309,7 +308,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 10,
+    categoryId: 9,
     title: "Floatzig 1 Shoes",
     prevPrice: null,
     price: 3200,
@@ -410,7 +409,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Skater Trainers",
     prevPrice: null,
     price: 2750,
@@ -421,7 +420,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Rubberised Sandals",
     prevPrice: null,
     price: 1200,
@@ -432,7 +431,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Buckled Leather Clogs",
     prevPrice: 1800,
     price: 1350,
@@ -443,7 +442,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Nike Air Force 1 '07 Easyon",
     prevPrice: null,
     price: 1500,
@@ -454,7 +453,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Air Jordan 1 Low",
     prevPrice: null,
     price: 2350,
@@ -465,7 +464,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Air Jordan 1 Mid",
     prevPrice: null,
     price: 3500,
@@ -476,7 +475,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 10,
+    categoryId: 9,
     title: "Strappy Heeled Sandals",
     prevPrice: null,
     price: 2350,
@@ -487,7 +486,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "YEEZY Earth Brown Slides",
     prevPrice: 2000,
     price: 1850,
@@ -498,7 +497,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Jumpman MVP",
     prevPrice: null,
     price: 4750,
@@ -509,7 +508,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Classic White Shirt",
     prevPrice: 700,
     price: 550,
@@ -520,7 +519,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Classic Cotton Shirt",
     prevPrice: 39.88,
     price: 25.99,
@@ -531,7 +530,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Classic Cotton Sh   Irt",
     prevPrice: 39.88,
     price: 25.99,
@@ -542,7 +541,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Entrada 22 Shorts",
     prevPrice: null,
     price: 890,
@@ -553,7 +552,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Club Tennis Short",
     prevPrice: 688,
     price: 540,
@@ -563,7 +562,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 11,
+    categoryId: 10,
     title: "Classic Cargo Shorts",
     prevPrice: null,
     price: 650,
@@ -606,7 +605,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Nike Air Jordan 4 Retro",
     prevPrice: 4500,
     price: 3750,
@@ -617,7 +616,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Loose Open-Hem Pants",
     prevPrice: null,
     price: 1300,
@@ -638,7 +637,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Classic Flow Short",
     prevPrice: 988,
     price: 599,
@@ -659,7 +658,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "White Cotton Shirt",
     prevPrice: 988,
     price: 599,
@@ -670,7 +669,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Dark Grey Cotton Shirt",
     prevPrice: null,
     price: 670,
@@ -681,7 +680,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Blue Cotton Shirt",
     prevPrice: null,
     price: 550,
@@ -692,7 +691,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Men's Workout Ready Shorts 9",
     prevPrice: null,
     price: 700,
@@ -703,7 +702,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 11,
+    categoryId: 10,
     title: "Women's Speed Shorts 3",
     prevPrice: 1200,
     price: 850,
@@ -714,7 +713,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Workout Ready Shorts",
     prevPrice: null,
     price: 990,
@@ -725,7 +724,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Nylon Satin Track Pants",
     prevPrice: null,
     price: 2100,
@@ -768,7 +767,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Cityride Running Shoes",
     prevPrice: null,
     price: 1200,
@@ -779,7 +778,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Pique Polo Shirt",
     prevPrice: 800,
     price: 700,
@@ -790,7 +789,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Classic Red Shirt",
     prevPrice: null,
     price: 1200,
@@ -801,7 +800,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Classic Cotton Short",
     prevPrice: null,
     price: 1200,
@@ -822,7 +821,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 9,
+    categoryId: 8,
     title: "Debut Sculpture T-Shirt",
     prevPrice: null,
     price: 900,
@@ -833,7 +832,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 9,
+    categoryId: 8,
     title: "Flower Cropped T-Shirt",
     prevPrice: 1200,
     price: 700,
@@ -844,7 +843,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Shoe Schematics T-Shirt",
     prevPrice: null,
     price: 800,
@@ -855,7 +854,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Classic Crest Shirt",
     prevPrice: null,
     price: 1100,
@@ -866,7 +865,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "574 Photoreal T-Shirt",
     prevPrice: 800,
     price: 750,
@@ -877,7 +876,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Essentials Logo T-Shirt",
     prevPrice: null,
     price: 800,
@@ -888,7 +887,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Graphic Vintage T-Shirt",
     prevPrice: null,
     price: 1200,
@@ -899,7 +898,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Two Swords T-Shirt",
     prevPrice: null,
     price: 500,
@@ -910,7 +909,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Classic Jean Pant",
     prevPrice: 1345,
     price: 1230,
@@ -921,7 +920,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Men's Basketball Shoes",
     prevPrice: null,
     price: 1650,
@@ -932,7 +931,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Black Puma Slides",
     prevPrice: null,
     price: 590,
@@ -943,7 +942,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 9,
+    categoryId: 8,
     title: "Relaxed Heavy Tee",
     prevPrice: 1200,
     price: 1100,
@@ -954,7 +953,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Classic Purple Short",
     prevPrice: null,
     price: 2200,
@@ -1007,7 +1006,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Dream Men's Sweatpants",
     prevPrice: null,
     price: 2200,
@@ -1028,7 +1027,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Men’s Explore Camp Sandals",
     prevPrice: null,
     price: 950,
@@ -1050,7 +1049,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Men’s Wander Joggers",
     prevPrice: 1500,
     price: 1200,
@@ -1061,7 +1060,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Women’s Evolution Pants",
     prevPrice: null,
     price: 2200,
@@ -1072,7 +1071,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Paramount Convertible Pants",
     prevPrice: null,
     price: 2200,
@@ -1093,7 +1092,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Green Cotton Short",
     prevPrice: null,
     price: 700,
@@ -1103,7 +1102,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Class V Shorts",
     prevPrice: null,
     price: 1200,
@@ -1153,7 +1152,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Men's Relaxed Track Jeans",
     prevPrice: 1100,
     price: 670,
@@ -1164,7 +1163,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Black Loose-Fit Jeans",
     prevPrice: null,
     price: 730,
@@ -1175,7 +1174,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Navy Blue Loose-Fit Jeans",
     prevPrice: 1100,
     price: 980,
@@ -1197,7 +1196,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 10,
+    categoryId: 9,
     title: "Glenclyffe Urban Boots",
     prevPrice: null,
     price: 1230,
@@ -1229,7 +1228,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 10,
+    categoryId: 9,
     title: "Runfalcon 5 Shoes",
     prevPrice: null,
     price: 2150,
@@ -1240,7 +1239,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Swift Run 1 Shoes",
     prevPrice: null,
     price: 1100,
@@ -1262,7 +1261,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Essentials Tee",
     prevPrice: null,
     price: 900,
@@ -1273,7 +1272,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 9,
+    categoryId: 8,
     title: "White Tshirt Top",
     prevPrice: null,
     price: 600,
@@ -1284,7 +1283,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Firebird Track Pants",
     prevPrice: null,
     price: 980,
@@ -1295,7 +1294,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Adicolor Baggy Pants",
     prevPrice: null,
     price: 700,
@@ -1335,7 +1334,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 10,
+    categoryId: 9,
     title: "Nike Dunk Low Next Nature",
     prevPrice: null,
     price: 2150,
@@ -1357,7 +1356,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 9,
+    categoryId: 8,
     title: "Chain Print T-Shirt",
     prevPrice: null,
     price: 1250,
@@ -1368,7 +1367,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Nature Embroidery T-Shirt",
     prevPrice: null,
     price: 1050,
@@ -1379,7 +1378,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Nike Sportswear Pant",
     prevPrice: null,
     price: 1750,
@@ -1390,7 +1389,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Nike Club Pants",
     prevPrice: null,
     price: 2250,
@@ -1422,7 +1421,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 11,
+    categoryId: 10,
     title: "Phoenix Fleece Short",
     prevPrice: null,
     price: 1150,
@@ -1432,7 +1431,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 11,
+    categoryId: 10,
     title: "Black Cotton Short",
     prevPrice: null,
     price: 1250,
@@ -1442,7 +1441,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 9,
+    categoryId: 8,
     title: "Identity Big Logo T-Shirt",
     prevPrice: null,
     price: 1250,
@@ -1453,7 +1452,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "High-Rise Colorblock Leggings",
     prevPrice: null,
     price: 1150,
@@ -1496,7 +1495,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 10,
+    categoryId: 9,
     title: "574 Core Shoe",
     prevPrice: null,
     price: 2250,
@@ -1507,7 +1506,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Fresh Foam X",
     prevPrice: null,
     price: 2250,
@@ -1540,7 +1539,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Piped Tapered Pant",
     prevPrice: null,
     price: 2250,
@@ -1551,7 +1550,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 8,
+    categoryId: 7,
     title: "Numeric Standard Pant",
     prevPrice: null,
     price: 1250,
@@ -1562,7 +1561,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Performance Woven Pant",
     prevPrice: null,
     price: 550,
@@ -1584,7 +1583,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Shohei Signature Fleece 9",
     prevPrice: null,
     price: 1250,
@@ -1594,7 +1593,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 11,
+    categoryId: 10,
     title: "Cotton Nylon Short",
     prevPrice: null,
     price: 950,
@@ -1647,7 +1646,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Base Camp Mules",
     prevPrice: null,
     price: 1750,
@@ -1711,7 +1710,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 10,
+    categoryId: 9,
     title: "Voltaic Evo Shoes",
     prevPrice: null,
     price: 2250,
@@ -1722,7 +1721,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 10,
+    categoryId: 9,
     title: "Speedcat OG",
     prevPrice: null,
     price: 2250,
@@ -1755,7 +1754,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Black Label Shirt",
     prevPrice: null,
     price: 1050,
@@ -1766,7 +1765,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 9,
+    categoryId: 8,
     title: "Milkish White Shirt",
     prevPrice: null,
     price: 750,
@@ -1787,7 +1786,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Las Vegas T7",
     prevPrice: null,
     price: 1350,
@@ -1797,7 +1796,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 8,
+    categoryId: 7,
     title: "Low Rise Track Pants",
     prevPrice: null,
     price: 1650,
@@ -1819,7 +1818,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 11,
+    categoryId: 10,
     title: "HARRY POTTER Shorts",
     prevPrice: null,
     price: 1650,
@@ -1829,7 +1828,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "men",
-    categoryId: 11,
+    categoryId: 10,
     title: "Red Woven Shorts",
     prevPrice: null,
     price: 1650,
@@ -1839,7 +1838,7 @@ export const dummyProductData: DummyProduct[] = [
   },
   {
     gender: "women",
-    categoryId: 11,
+    categoryId: 10,
     title: "Half RC Short",
     prevPrice: null,
     price: 1650,

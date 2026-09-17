@@ -1,4 +1,4 @@
-import type { Gender } from "./schemas.js";
+import type { CategoryType, Gender } from "./schemas.js";
 
 export interface DummyProduct {
   gender: Gender;
@@ -17,6 +17,7 @@ export interface DummyBrand {
 
 export interface DummyCategory {
   name: string;
+  type: CategoryType;
 }
 
 export interface DummyImage {
