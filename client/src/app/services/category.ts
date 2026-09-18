@@ -4,6 +4,7 @@ import { httpResource } from '@angular/common/http';
 export interface Category {
   id: number;
   name: string;
+  type: 'clothing' | 'accessory';
 }
 
 // Injectable som hämtar alla kategorier från backenden.

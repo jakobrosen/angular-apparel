@@ -1,0 +1,24 @@
+<div>
+  <!-- Mobilmenyn visar rubriken i sin egen topprad och utelämnar den här. -->
+  @if (!mobile()) {
+    <h3 class="mb-2 font-semibold font-sans text-gray-950">{{ column().heading }}</h3>
+  }
+  <ul [class]="mobile() ? 'space-y-2' : 'gap-1 mb-4 text-sm'" class="flex flex-col">
+    @for (link of links(); track link.name) {
+      <li>
+        <a
+          [routerLink]="link.path"
+          [class]="
+            mobile()
+              ? 'block px-3 py-2 rounded-md text-md text-gray-700 hover:text-gray-950 transition-colors'
+              : 'text-sm'
+          "
+          class="capitalize font-sans"
+          (click)="linkClicked.emit()"
+        >
+          {{ link.label }}
+        </a>
+      </li>
+    }
+  </ul>
+</div>

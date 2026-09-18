@@ -1,51 +1,109 @@
 <nav
   id="mobile-menu"
   aria-label="Mobile"
-  [attr.inert]="isOpen() ? null : ''"
-  [class]="isOpen() ? 'translate-y-0' : '-translate-y-full'"
-  class="lg:hidden fixed inset-x-0 z-40 top-14 border-t shadow-sm border-gray-200 bg-white transition-transform duration-300"
+  [attr.inert]="open() ? null : ''"
+  [class]="open() ? 'translate-x-0' : '-translate-x-full'"
+  class="lg:hidden fixed inset-x-0 z-40 top-14 border-t shadow-sm border-gray-200 bg-white transition-transform duration-300 h-[calc(100dvh-3.5rem)] overflow-hidden"
+  (transitionend)="onTransitionEnd($event)"
 >
-  <ul class="flex flex-col space-y-2 p-4">
-    <li>
-      <a
-        routerLink="/products"
-        [queryParams]="{ sort: 'newest' }"
-        routerLinkActive="text-blue-600 font-semibold"
-        [routerLinkActiveOptions]="{ exact: false }"
-        class="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
+  <div
+    [class]="openHeading() === null ? 'translate-x-0' : '-translate-x-full'"
+    class="flex h-full transition-transform duration-300"
+    (transitionend)="onRowTransitionEnd($event)"
+  >
+    <!-- Panel 1: huvudrubriker -->
+    <div
+      class="w-full shrink-0 h-full overflow-y-auto"
+      [attr.inert]="openHeading() === null ? null : ''"
+    >
+      <ul class="flex flex-col space-y-2 p-4 font-sans text-md font-semibold">
+        @for (section of menuService.sections(); track section.heading) {
+          <li>
+            <button
+              type="button"
+              class="flex w-full items-center justify-between text-gray-700 hover:text-gray-950 px-3 py-2 rounded-md transition-colors cursor-pointer"
+              (click)="openHeading.set(section.heading)"
+            >
+              {{ section.heading }}
+              <ng-icon name="phosphorCaretRight" class="text-lg"></ng-icon>
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <!-- Panel 2: underrubriker -->
+    <div
+      class="w-full shrink-0 h-full overflow-hidden"
+      [attr.inert]="openHeading() === null ? '' : null"
+    >
+      <div
+        [class]="openSubheading() === null ? 'translate-x-0' : '-translate-x-full'"
+        class="flex h-full transition-transform duration-300"
       >
-        NEW ARRIVALS
-      </a>
-    </li>
-    <li>
-      <a
-        routerLink="/products"
-        routerLinkActive="text-blue-600 font-semibold"
-        [routerLinkActiveOptions]="{ exact: false }"
-        class="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
-      >
-        ALL PRODUCTS
-      </a>
-    </li>
-    <li>
-      <a
-        routerLink="/products/men"
-        routerLinkActive="text-blue-600 font-semibold"
-        [routerLinkActiveOptions]="{ exact: false }"
-        class="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
-      >
-        MEN
-      </a>
-    </li>
-    <li>
-      <a
-        routerLink="/products/women"
-        routerLinkActive="text-blue-600 font-semibold"
-        [routerLinkActiveOptions]="{ exact: false }"
-        class="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors"
-      >
-        WOMEN
-      </a>
-    </li>
-  </ul>
+        <div
+          class="w-full shrink-0 h-full overflow-y-auto"
+          [attr.inert]="openSubheading() === null ? null : ''"
+        >
+          <div
+            class="relative border-b border-gray-200 py-3 text-center font-sans text-lg font-semibold text-gray-950"
+          >
+            <button
+              type="button"
+              class="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-1 text-sm font-semibold text-gray-700 hover:text-gray-950 transition-colors cursor-pointer"
+              (click)="openHeading.set(null)"
+            >
+              <ng-icon name="phosphorCaretLeft" class="text-lg"></ng-icon>
+              BACK
+            </button>
+            {{ panelHeading() }}
+          </div>
+
+          <ul class="flex flex-col space-y-2 p-4 font-sans text-md font-semibold">
+            @for (column of panelSection()?.columns; track column.heading) {
+              <li>
+                <button
+                  type="button"
+                  class="flex w-full items-center justify-between text-gray-700 hover:text-gray-950 px-3 py-2 rounded-md transition-colors cursor-pointer"
+                  (click)="openSubheading.set(column.heading)"
+                >
+                  {{ column.heading }}
+                  <ng-icon name="phosphorCaretRight" class="text-lg"></ng-icon>
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
+
+        <div
+          class="w-full shrink-0 h-full overflow-y-auto"
+          [attr.inert]="openSubheading() === null ? '' : null"
+        >
+          <div
+            class="relative border-b border-gray-200 py-3 text-center font-sans text-lg font-semibold text-gray-950"
+          >
+            <button
+              type="button"
+              class="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-1 text-sm font-semibold text-gray-700 hover:text-gray-950 transition-colors cursor-pointer"
+              (click)="openSubheading.set(null)"
+            >
+              <ng-icon name="phosphorCaretLeft" class="text-lg"></ng-icon>
+              BACK
+            </button>
+            {{ panelSubheading() }}
+          </div>
+
+          <div class="p-4">
+            @if (panelColumn(); as column) {
+              <app-menu-column
+                [column]="column"
+                [mobile]="true"
+                (linkClicked)="linkClicked.emit()"
+              />
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </nav>

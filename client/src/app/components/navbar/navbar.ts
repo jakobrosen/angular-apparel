@@ -1,4 +1,4 @@
-import { Component, ElementRef, computed, inject, signal, viewChildren } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -10,8 +10,6 @@ import {
 import { Cart } from '../cart/cart';
 import { HoverMenu } from '../hover-menu/hover-menu';
 import { MobileMenu } from '../mobile-menu/mobile-menu';
-import { CategoryService } from '../../services/category';
-import { BrandService } from '../../services/brand';
 
 @Component({
   selector: 'app-navbar',
@@ -22,28 +20,28 @@ import { BrandService } from '../../services/brand';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  // Menu controls.
-  mobileMenuIsOpen = signal(false);
-  cartIsOpen = signal(false);
-  hoverMenuIsOpen = signal(false);
+  // Styr vilka menyer som är öppna.
+  mobileMenuOpen = signal(false);
+  cartOpen = signal(false);
+  hoverMenuOpen = signal(false);
   hoverMenuHeading = signal('');
 
   toggleMobileMenu(): void {
-    this.mobileMenuIsOpen.update((value) => !value);
+    this.mobileMenuOpen.update((value) => !value);
   }
   openHoverMenu(heading: string): void {
     this.hoverMenuHeading.set(heading);
-    this.hoverMenuIsOpen.set(true);
+    this.hoverMenuOpen.set(true);
   }
   closeHoverMenu(): void {
-    this.hoverMenuIsOpen.set(false);
+    this.hoverMenuOpen.set(false);
   }
   toggleCart(): void {
-    this.cartIsOpen.update((value) => !value);
+    this.cartOpen.update((value) => !value);
   }
   closeAllMenus(): void {
-    this.mobileMenuIsOpen.set(false);
-    this.cartIsOpen.set(false);
-    this.hoverMenuIsOpen.set(false);
+    this.mobileMenuOpen.set(false);
+    this.cartOpen.set(false);
+    this.hoverMenuOpen.set(false);
   }
 }
