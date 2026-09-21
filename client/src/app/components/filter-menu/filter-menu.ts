@@ -52,11 +52,24 @@ export class FilterMenu {
     },
   ]);
 
+  readonly sortOptions = [
+    { value: 'newest', label: 'Newest' },
+    { value: 'priceAsc', label: 'Price (low - high)' },
+    { value: 'priceDesc', label: 'Price (high - low)' },
+  ];
+
   // Antal träffar.
   readonly total = computed(() => this.productService.products.value().pagination.total);
 
-  // Sektionerna som är utfällda.
-  private readonly openSections = signal<string[]>(['gender', 'category', 'brand', 'price']);
+  // Sektionerna som är utfällda som default.
+  private readonly openSections = signal<string[]>(['sort']);
+
+  // Ett klick på det redan valda alternativet nollställer sorteringen.
+  // Radioknappar avmarkerar sig inte själva, så det sköts här.
+  toggleSort(sort: string): void {
+    const currentSort = this.productService.queryParams()['sort'];
+    this.productService.setSort(currentSort === sort ? '' : sort);
+  }
 
   isOpen(section: string): boolean {
     return this.openSections().includes(section);

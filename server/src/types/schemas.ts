@@ -9,6 +9,11 @@ export type Gender = z.infer<typeof genderEnum>;
 export const categoryTypeEnum = z.enum(["accessory", "clothing"]);
 export type CategoryType = z.infer<typeof categoryTypeEnum>;
 
+// Sorteringsalternativen för GET /api/products. parseOrder översätter
+// värdet till en order-clause.
+export const sortEnum = z.enum(["newest", "priceAsc", "priceDesc"]);
+export type Sort = z.infer<typeof sortEnum>;
+
 // Regex som matchar ett giltigt SKU.
 const SKU_REGEX = /^[A-Z]{3}\d{3}$/;
 
@@ -30,6 +35,7 @@ export const productQuerySchema = z.object({
   minPrice: z.coerce.number().nonnegative().optional(),
   maxPrice: z.coerce.number().nonnegative().optional(),
   discount: z.stringbool().optional(),
+  sort: sortEnum.optional(),
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(96).default(48),
 });

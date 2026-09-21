@@ -5,6 +5,15 @@ import { filter, map } from 'rxjs';
 import { httpResource } from '@angular/common/http';
 import type { ProductResponse } from '../types/Product';
 
+// Värdet resurserna har innan svaret kommit, så .value() aldrig är undefined.
+const EMPTY_RESPONSE: ProductResponse = {
+  pagination: { page: 1, limit: 48, total: 0, totalPages: 0 },
+  data: [],
+};
+
+// Startsidans urval.
+const LATEST_PARAMS = { sort: 'newest', limit: 8 };
+
 @Injectable({ providedIn: 'root' })
 export class ProductService {
   private readonly router = inject(Router);
@@ -63,6 +72,12 @@ export class ProductService {
     this.updateParams({ [key]: value || null });
   }
 
+  // Sortering är ett enskilt val, inte en lista som filtren. Tom sträng
+  // tar bort parametern, och då sorterar backenden på id.
+  setSort(sort: string): void {
+    this.updateParams({ sort: sort || null });
+  }
+
   // Egen toggle för discount eftersom backenden bara tar emot "true" eller null.
   toggleDiscount(): void {
     this.updateParams({ discount: this.queryParams()['discount'] ? null : 'true' });
@@ -85,7 +100,14 @@ export class ProductService {
       this.url().startsWith('/products')
         ? { url: '/api/products', params: this.queryParams() }
         : undefined,
-    { defaultValue: { pagination: { page: 1, limit: 48, total: 0, totalPages: 0 }, data: [] } },
+    { defaultValue: EMPTY_RESPONSE },
+  );
+
+  // De åtta senaste produkterna till startsidan. Parametrarna är fasta,
+  // så den här resursen bryr sig inte om filtren i URLen.
+  readonly latestProducts = httpResource<ProductResponse>(
+    () => (this.url() === '/' ? { url: '/api/products', params: LATEST_PARAMS } : undefined),
+    { defaultValue: EMPTY_RESPONSE },
   );
 
   constructor() {

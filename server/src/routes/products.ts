@@ -12,7 +12,12 @@ import {
   productUpdateSchema,
 } from "../types/schemas.js";
 import { validate } from "../utilities/validation.js";
-import { parseFilters, parseProduct, parseId } from "../utilities/parsing.js";
+import {
+  parseFilters,
+  parseOrder,
+  parseProduct,
+  parseId,
+} from "../utilities/parsing.js";
 import { HttpError } from "../middleware/errorHandler.js";
 import { requireAuth } from "../middleware/auth.js";
 
@@ -25,6 +30,7 @@ const includeAll = [
 async function getProducts(req: Request, res: Response): Promise<void> {
   const query = validate(productQuerySchema, req.query);
   const filters = parseFilters(query);
+  const order = parseOrder(query);
 
   const { page, limit } = query;
   const offset = (page - 1) * limit;
@@ -32,6 +38,7 @@ async function getProducts(req: Request, res: Response): Promise<void> {
   const { rows, count } = await Product.findAndCountAll({
     where: filters,
     include: includeAll,
+    order,
     limit,
     offset,
     distinct: true,

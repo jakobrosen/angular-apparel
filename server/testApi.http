@@ -46,6 +46,21 @@ GET {{baseUrl}}/products?minPrice=500&maxPrice=1500
 ### Filter discounted products only
 GET {{baseUrl}}/products?discount=true
 
+### Sort products
+GET {{baseUrl}}/products?sort=priceAsc
+
+### Sort products by highest price
+GET {{baseUrl}}/products?sort=priceDesc
+
+### Sort products by newest (default when sort is omitted)
+GET {{baseUrl}}/products?sort=newest
+
+### Sort combined with a filter
+GET {{baseUrl}}/products?gender=women&sort=priceDesc
+
+### Invalid sort value (400)
+GET {{baseUrl}}/products?sort=cheapest
+
 ### Pagination
 GET {{baseUrl}}/products?page=2&limit=10
 

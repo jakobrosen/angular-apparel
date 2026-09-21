@@ -1,6 +1,13 @@
-import { Op, WhereOptions, col, where as sequelizeWhere } from "sequelize";
+import {
+  Op,
+  Order,
+  OrderItem,
+  WhereOptions,
+  col,
+  where as sequelizeWhere,
+} from "sequelize";
 import z from "zod";
-import { productQuerySchema } from "../types/schemas.js";
+import { productQuerySchema, type Sort } from "../types/schemas.js";
 import { Product } from "../models/Product.js";
 import type { RawProduct, ParsedProduct } from "../types/Product.js";
 import { Request } from "express";
@@ -48,6 +55,28 @@ export function parseFilters(query: z.infer<typeof productQuerySchema>) {
   // Binder ihop alla filter med and-operatorn och returnerar
   // en färdig where-clause.
   return filters.length ? { [Op.and]: filters } : {};
+}
+
+// Sequelize tar order som en array av arrayer, en per sorteringsnivå.
+// Att slå upp i en färdig map istället för att bygga order av query-
+// strängen gör att användaren aldrig kan skicka in egen SQL.
+const ORDER_BY: Record<Sort, OrderItem[]> = {
+  newest: [["createdAt", "DESC"]],
+  priceAsc: [["price", "ASC"]],
+  priceDesc: [["price", "DESC"]],
+};
+
+/**
+ * Översätter query-parametern "sort" till en order-clause.
+ */
+export function parseOrder(query: z.infer<typeof productQuerySchema>): Order {
+  // Utan sort sorteras produkterna på id, alltså i den ordning de
+  // lades in i databasen.
+  if (!query.sort) return [["id", "ASC"]];
+
+  // id som sista nivå gör ordningen entydig. Utan den kan samma produkt
+  // dyka upp på flera sidor, eftersom alla seedade produkter delar createdAt.
+  return [...ORDER_BY[query.sort], ["id", "ASC"]];
 }
 
 /**

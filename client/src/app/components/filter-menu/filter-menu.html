@@ -36,6 +36,42 @@
 
   <!-- Renderar sektioner. -->
   <div class="flex-1 overflow-y-auto">
+    <!-- Sortering. Radioknappar eftersom bara ett val åt gången gäller. -->
+    <div class="border-b border-gray-200 px-6 py-4">
+      <button
+        type="button"
+        [attr.aria-expanded]="isOpen('sort')"
+        class="flex w-full cursor-pointer items-center justify-between font-sans font-semibold text-gray-950"
+        (click)="toggleSection('sort')"
+      >
+        Sort by
+        <ng-icon
+          name="phosphorCaretDown"
+          [class]="isOpen('sort') ? 'rotate-180' : ''"
+          class="text-lg transition-transform duration-200"
+        ></ng-icon>
+      </button>
+
+      @if (isOpen('sort')) {
+        <ul class="mt-4 flex flex-col gap-3">
+          @for (option of sortOptions; track option.value) {
+            <li>
+              <label class="flex cursor-pointer items-center gap-3 font-sans text-sm">
+                <input
+                  type="radio"
+                  name="sort"
+                  class="size-4 accent-gray-950"
+                  [checked]="productService.queryParams()['sort'] === option.value"
+                  (click)="toggleSort(option.value)"
+                />
+                <span class="text-gray-700">{{ option.label }}</span>
+              </label>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
     @for (section of sections(); track section.key) {
       <div class="border-b border-gray-200 px-6 py-4">
         <button

@@ -28,3 +28,14 @@
     </div>
   </div>
 </section>
+
+<section class="py-8">
+  <h2 class="mx-auto mb-8 max-w-350 px-4 font-sans text-4xl font-bold text-text lg:px-8">
+    LATEST DROPS
+  </h2>
+
+  <!-- Samma grid som produktsidan, men med startsidans resurs och utan sidbrytning. -->
+  <app-product-grid [products]="productService.latestProducts" [paginated]="false" />
+</section>
+
+<app-info-banner />

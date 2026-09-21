@@ -1,18 +1,12 @@
-<!-- Dynamisk header -->
-<app-product-grid-header />
-
-<!-- Filtermeny -->
-<app-filter-menu />
-
 <!-- Error state -->
-@if (products.error()) {
+@if (products().error()) {
   <div class="flex flex-col items-center gap-2 p-16 text-center font-sans">
     <p class="font-semibold text-gray-950">Something went wrong</p>
     <p class="text-sm text-gray-500">We couldn't load the products.</p>
     <button
       type="button"
       class="mt-4 cursor-pointer border border-gray-950 px-6 py-2.5 text-sm font-semibold text-gray-950 transition-colors hover:bg-gray-950 hover:text-white"
-      (click)="products.reload()"
+      (click)="products().reload()"
     >
       Try again
     </button>
@@ -34,11 +28,11 @@
 } @else {
   <div class="flex justify-center">
     <div
-      [attr.aria-busy]="products.isLoading()"
+      [attr.aria-busy]="products().isLoading()"
       class="mx-4 lg:mx-0.5 grid max-w-350 grid-cols-1 gap-x-3 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:px-8"
     >
       <!-- Skeleton loading vid loading state -->
-      @if (products.isLoading()) {
+      @if (products().isLoading()) {
         @for (skeleton of skeletons; track $index) {
           <div class="animate-pulse">
             <div class="aspect-square bg-gray-200"></div>
@@ -50,7 +44,7 @@
           </div>
         }
       } @else {
-        @for (product of products.value().data; track product.id) {
+        @for (product of products().value().data; track product.id) {
           <!-- Första raden laddas direkt, resten lazy. -->
           <app-product-card [product]="product" [eager]="$index < 4" />
         }
@@ -59,7 +53,7 @@
   </div>
 
   <!-- Sidbyte, dolt när allt ryms på en sida. -->
-  @if (pagination().totalPages > 1) {
+  @if (paginated() && pagination().totalPages > 1) {
     <div class="mt-8 pb-10 flex items-center justify-center gap-6 font-sans text-sm">
       <button
         type="button"
