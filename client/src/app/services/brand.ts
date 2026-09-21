@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-
-export interface Brand {
-  id: number;
-  name: string;
-}
+import { Brand } from '../types/Brand';
 
 @Injectable({ providedIn: 'root' })
 export class BrandService {

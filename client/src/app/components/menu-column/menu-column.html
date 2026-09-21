@@ -7,7 +7,8 @@
     @for (link of links(); track link.name) {
       <li>
         <a
-          [routerLink]="link.path"
+          routerLink="/products"
+          [queryParams]="link.queryParams"
           [class]="
             mobile()
               ? 'block px-3 py-2 rounded-md text-md text-gray-700 hover:text-gray-950 transition-colors'

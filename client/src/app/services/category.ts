@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-
-export interface Category {
-  id: number;
-  name: string;
-  type: 'clothing' | 'accessory';
-}
+import { Category } from '../types/Category';
 
 // Injectable som hämtar alla kategorier från backenden.
 // providedIn: 'root' innebär att endast en instans av

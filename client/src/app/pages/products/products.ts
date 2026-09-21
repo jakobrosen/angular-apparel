@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { BrandService } from '../../services/brand';
 import { CategoryService } from '../../services/category';
-import { CurrentUrlService } from '../../services/current-url';
+import { ProductService } from '../../services/product';
 
 @Component({
   selector: 'app-products',
@@ -12,5 +12,5 @@ import { CurrentUrlService } from '../../services/current-url';
 export default class Products {
   private readonly brandService = inject(BrandService);
   private readonly categoryService = inject(CategoryService);
-  protected readonly currentUrl = inject(CurrentUrlService);
+  protected readonly productService = inject(ProductService);
 }

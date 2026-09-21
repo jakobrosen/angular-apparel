@@ -1,35 +1,12 @@
 import { Injectable, computed, inject } from '@angular/core';
 import { BrandService } from './brand';
 import { CategoryService } from './category';
-
-// En länk i en menykolumn. name blir sista segmentet i länkens path
-// (t.ex. "shoes" eller "new-balance"). Både Brand och Category passar
-// in här direkt. label används för visningstext när namnet inte duger,
-// annars visas name med "-" utbytt mot mellanslag.
-export interface MenuItem {
-  name: string;
-  label?: string;
-}
-
-// En kolumn i menyn, t.ex. "WOMEN'S CLOTHING". Varje item länkar till
-// basePath + (extraPath) + item.name, t.ex. /products/women/new/shoes.
-export interface MenuColumnDef {
-  heading: string;
-  basePath: string;
-  extraPath?: string;
-  items: MenuItem[];
-}
-
-// En huvudrubrik i menyn ("WOMEN") med sina kolumner.
-export interface MenuSection {
-  heading: string;
-  columns: MenuColumnDef[];
-}
+import { MenuItem, MenuSection } from '../types/Menu';
 
 // FEATURED-kolumnernas länkar finns inte i backenden, så de skrivs här.
 const FEATURED: MenuItem[] = [
-  { name: 'new', label: 'New arrivals' },
-  { name: 'sale', label: 'Sale' },
+  { name: 'new', label: 'New arrivals', params: { new: 'true' } },
+  { name: 'sale', label: 'Sale', params: { discount: 'true' } },
 ];
 
 // Hela menystrukturen på ett ställe. Både hover-menyn (desktop) och
@@ -60,26 +37,26 @@ export class MenuService {
         columns: [
           {
             heading: "WOMEN'S CLOTHING",
-            basePath: '/products/women',
-            extraPath: 'new',
+            params: { gender: 'women', new: 'true' },
+            itemParam: 'category',
             items: clothing,
           },
           {
             heading: "WOMEN'S ACCESSORIES",
-            basePath: '/products/women',
-            extraPath: 'new',
+            params: { gender: 'women', new: 'true' },
+            itemParam: 'category',
             items: accessories,
           },
           {
             heading: "MEN'S CLOTHING",
-            basePath: '/products/men',
-            extraPath: 'new',
+            params: { gender: 'men', new: 'true' },
+            itemParam: 'category',
             items: clothing,
           },
           {
             heading: "MEN'S ACCESSORIES",
-            basePath: '/products/men',
-            extraPath: 'new',
+            params: { gender: 'men', new: 'true' },
+            itemParam: 'category',
             items: accessories,
           },
         ],
@@ -89,26 +66,26 @@ export class MenuService {
         columns: [
           {
             heading: "WOMEN'S CLOTHING",
-            basePath: '/products/women',
-            extraPath: 'sale',
+            params: { gender: 'women', discount: 'true' },
+            itemParam: 'category',
             items: clothing,
           },
           {
             heading: "WOMEN'S ACCESSORIES",
-            basePath: '/products/women',
-            extraPath: 'sale',
+            params: { gender: 'women', discount: 'true' },
+            itemParam: 'category',
             items: accessories,
           },
           {
             heading: "MEN'S CLOTHING",
-            basePath: '/products/men',
-            extraPath: 'sale',
+            params: { gender: 'men', discount: 'true' },
+            itemParam: 'category',
             items: clothing,
           },
           {
             heading: "MEN'S ACCESSORIES",
-            basePath: '/products/men',
-            extraPath: 'sale',
+            params: { gender: 'men', discount: 'true' },
+            itemParam: 'category',
             items: accessories,
           },
         ],
@@ -116,28 +93,48 @@ export class MenuService {
       {
         heading: 'ALL PRODUCTS',
         columns: [
-          { heading: 'CLOTHING', basePath: '/products', items: clothing },
-          { heading: 'ACCESSORIES', basePath: '/products', items: accessories },
-          { heading: 'BRANDS', basePath: '/products', items: brands },
-          { heading: 'FEATURED', basePath: '/products', items: FEATURED },
+          { heading: 'CLOTHING', params: {}, itemParam: 'category', items: clothing },
+          { heading: 'ACCESSORIES', params: {}, itemParam: 'category', items: accessories },
+          { heading: 'BRANDS', params: {}, itemParam: 'brand', items: brands },
+          { heading: 'FEATURED', params: {}, items: FEATURED },
         ],
       },
       {
         heading: 'WOMEN',
         columns: [
-          { heading: 'CLOTHING', basePath: '/products/women', items: clothing },
-          { heading: 'ACCESSORIES', basePath: '/products/women', items: accessories },
-          { heading: 'BRANDS', basePath: '/products/women', items: brands },
-          { heading: 'FEATURED', basePath: '/products/women', items: FEATURED },
+          {
+            heading: 'CLOTHING',
+            params: { gender: 'women' },
+            itemParam: 'category',
+            items: clothing,
+          },
+          {
+            heading: 'ACCESSORIES',
+            params: { gender: 'women' },
+            itemParam: 'category',
+            items: accessories,
+          },
+          { heading: 'BRANDS', params: { gender: 'women' }, itemParam: 'brand', items: brands },
+          { heading: 'FEATURED', params: { gender: 'women' }, items: FEATURED },
         ],
       },
       {
         heading: 'MEN',
         columns: [
-          { heading: 'CLOTHING', basePath: '/products/men', items: clothing },
-          { heading: 'ACCESSORIES', basePath: '/products/men', items: accessories },
-          { heading: 'BRANDS', basePath: '/products/men', items: brands },
-          { heading: 'FEATURED', basePath: '/products/men', items: FEATURED },
+          {
+            heading: 'CLOTHING',
+            params: { gender: 'men' },
+            itemParam: 'category',
+            items: clothing,
+          },
+          {
+            heading: 'ACCESSORIES',
+            params: { gender: 'men' },
+            itemParam: 'category',
+            items: accessories,
+          },
+          { heading: 'BRANDS', params: { gender: 'men' }, itemParam: 'brand', items: brands },
+          { heading: 'FEATURED', params: { gender: 'men' }, items: FEATURED },
         ],
       },
     ];

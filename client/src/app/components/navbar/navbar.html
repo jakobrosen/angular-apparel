@@ -37,6 +37,7 @@
             <li>
               <a
                 routerLink="/products"
+                [queryParams]="{ new: 'true' }"
                 routerLinkActive="text-blue-600 font-sans"
                 [routerLinkActiveOptions]="{ exact: false }"
                 class="text-gray-700 hover:text-gray-950 transition-colors"
@@ -49,6 +50,7 @@
             <li>
               <a
                 routerLink="/products"
+                [queryParams]="{ discount: 'true' }"
                 routerLinkActive="text-blue-600 font-sans"
                 [routerLinkActiveOptions]="{ exact: false }"
                 class="text-gray-700 hover:text-gray-950 transition-colors"
@@ -62,7 +64,7 @@
               <a
                 routerLink="/products"
                 routerLinkActive="text-blue-600 font-semibold"
-                [routerLinkActiveOptions]="{ exact: false }"
+                [routerLinkActiveOptions]="{ exact: true }"
                 class="text-gray-700 hover:text-gray-950 transition-colors"
                 (mouseenter)="openHoverMenu('ALL PRODUCTS')"
                 (click)="closeHoverMenu()"
@@ -72,7 +74,8 @@
             </li>
             <li>
               <a
-                routerLink="/products/women"
+                routerLink="/products"
+                [queryParams]="{ gender: 'women' }"
                 routerLinkActive="text-blue-600 font-semibold"
                 [routerLinkActiveOptions]="{ exact: false }"
                 class="text-gray-700 hover:text-gray-950 transition-colors"
@@ -84,7 +87,8 @@
             </li>
             <li>
               <a
-                routerLink="/products/men"
+                routerLink="/products"
+                [queryParams]="{ gender: 'men' }"
                 routerLinkActive="text-blue-600 font-semibold"
                 [routerLinkActiveOptions]="{ exact: false }"
                 class="text-gray-700 hover:text-gray-950 transition-colors"

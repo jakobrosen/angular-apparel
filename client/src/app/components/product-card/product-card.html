@@ -1,0 +1,48 @@
+<article class="font-sans">
+  <!-- Bild med brickan och hjärtat ovanpå -->
+  <div class="relative aspect-square overflow-hidden bg-bg-1">
+    <img
+      [src]="image()"
+      [alt]="product().title"
+      loading="lazy"
+      class="h-full w-full object-cover"
+    />
+
+    @if (isNew()) {
+      <span
+        class="absolute top-0 left-0 bg-gray-950 px-2 py-1 text-xs font-semibold tracking-wide text-white"
+      >
+        New
+      </span>
+    }
+
+    <!-- Hjärtat fylls i på hover, därav de två ikonerna. -->
+    <button
+      type="button"
+      aria-label="Add to favorites"
+      class="group absolute top-2 right-2 flex cursor-pointer items-center text-2xl text-gray-700 transition-colors hover:text-gray-950"
+    >
+      <ng-icon name="phosphorHeart" class="group-hover:hidden"></ng-icon>
+      <ng-icon name="phosphorHeartFill" class="hidden group-hover:block"></ng-icon>
+    </button>
+  </div>
+
+  <div class="mt-3">
+    @if (onSale()) {
+      <p class="font-semibold text-accent-red">
+        {{ product().price | currency: 'USD' : 'symbol' : '1.0-2' }}
+      </p>
+      <p class="mt-0.5 text-sm text-gray-500">
+        {{ product().prevPrice | currency: 'USD' : 'symbol' : '1.0-2' }} Original price
+        <span class="text-accent-red">-{{ discount() }}%</span>
+      </p>
+    } @else {
+      <p class="font-semibold text-gray-950">
+        {{ product().price | currency: 'USD' : 'symbol' : '1.0-2' }}
+      </p>
+    }
+
+    <h3 class="mt-1 text-sm text-gray-950">{{ product().title }}</h3>
+    <p class="text-sm capitalize text-gray-500">{{ brand() }}</p>
+  </div>
+</article>
