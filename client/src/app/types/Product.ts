@@ -12,3 +12,9 @@ export interface Product {
   images: string[];
   createdAt: string;
 }
+
+// Responsen som APIt returnerar.
+export interface ProductResponse {
+  pagination: { page: number; limit: number; total: number; totalPages: number };
+  data: Product[];
+}
