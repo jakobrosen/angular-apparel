@@ -1,0 +1,145 @@
+<!-- Knappen som öppnar panelen -->
+<div class="mx-auto flex max-w-420 justify-end px-4 py-4 lg:px-8">
+  <button
+    type="button"
+    aria-controls="filter-panel"
+    [attr.aria-expanded]="open()"
+    class="flex cursor-pointer items-center gap-3 border border-gray-950 px-4 py-2 font-sans text-sm font-semibold text-gray-950 transition-colors hover:bg-gray-950 hover:text-white"
+    (click)="open.set(true)"
+  >
+    Filter & Sort
+    <ng-icon name="phosphorFadersHorizontal" class="text-lg"></ng-icon>
+  </button>
+</div>
+
+<!-- Huvudpanelen -->
+<div
+  id="filter-panel"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Filters"
+  [attr.inert]="open() ? null : ''"
+  [class]="open() ? 'translate-x-0' : 'translate-x-full'"
+  class="fixed top-0 right-0 z-60 flex h-full w-full max-w-md flex-col bg-white shadow-lg transition-transform duration-300"
+>
+  <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+    <h2 class="font-sans text-lg font-semibold text-gray-950">FILTERS</h2>
+    <button
+      type="button"
+      aria-label="Close filters"
+      class="flex cursor-pointer items-center text-2xl text-gray-700 transition-colors hover:text-gray-950"
+      (click)="open.set(false)"
+    >
+      <ng-icon name="phosphorX"></ng-icon>
+    </button>
+  </div>
+
+  <!-- Renderar sektioner. -->
+  <div class="flex-1 overflow-y-auto">
+    @for (section of sections(); track section.key) {
+      <div class="border-b border-gray-200 px-6 py-4">
+        <button
+          type="button"
+          [attr.aria-expanded]="isOpen(section.key)"
+          class="flex w-full cursor-pointer items-center justify-between font-sans font-semibold text-gray-950"
+          (click)="toggleSection(section.key)"
+        >
+          {{ section.heading }}
+          <ng-icon
+            name="phosphorCaretDown"
+            [class]="isOpen(section.key) ? 'rotate-180' : ''"
+            class="text-lg transition-transform duration-200"
+          ></ng-icon>
+        </button>
+
+        @if (isOpen(section.key)) {
+          <ul class="mt-4 flex flex-col gap-3">
+            @for (item of section.items; track item.value) {
+              <li>
+                <label class="flex cursor-pointer items-center gap-3 font-sans text-sm">
+                  <input
+                    type="checkbox"
+                    class="size-4 accent-gray-950"
+                    [checked]="productService.getActiveFilters(section.key).includes(item.value)"
+                    (change)="productService.toggleFilter(section.key, item.value)"
+                  />
+                  <span class="capitalize text-gray-700">{{ item.label }}</span>
+                </label>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    }
+
+    <!-- Kontroller för min/max price. -->
+    <div class="border-b border-gray-200 px-6 py-4">
+      <button
+        type="button"
+        [attr.aria-expanded]="isOpen('price')"
+        class="flex w-full cursor-pointer items-center justify-between font-sans font-semibold text-gray-950"
+        (click)="toggleSection('price')"
+      >
+        Price
+        <ng-icon
+          name="phosphorCaretDown"
+          [class]="isOpen('price') ? 'rotate-180' : ''"
+          class="text-lg transition-transform duration-200"
+        ></ng-icon>
+      </button>
+
+      @if (isOpen('price')) {
+        <div class="mt-4 flex items-center gap-3">
+          <input
+            type="number"
+            min="0"
+            placeholder="Min"
+            aria-label="Minimum price"
+            class="w-full border border-gray-300 px-3 py-2 font-sans text-sm"
+            [value]="this.productService.queryParams()['minPrice'] ?? ''"
+            (change)="productService.setPrice('minPrice', $any($event.target).value)"
+          />
+          <span class="text-gray-500">–</span>
+          <input
+            type="number"
+            min="0"
+            placeholder="Max"
+            aria-label="Maximum price"
+            class="w-full border border-gray-300 px-3 py-2 font-sans text-sm"
+            [value]="this.productService.queryParams()['maxPrice'] ?? ''"
+            (change)="productService.setPrice('maxPrice', $any($event.target).value)"
+          />
+        </div>
+
+        <label class="mt-4 flex cursor-pointer items-center gap-3 font-sans text-sm">
+          <input
+            type="checkbox"
+            class="size-4 accent-gray-950"
+            [checked]="this.productService.queryParams()['discount']"
+            (change)="productService.toggleDiscount()"
+          />
+          <span class="text-gray-700">Discount only</span>
+        </label>
+      }
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between border-t border-gray-200 px-6 py-4">
+    <p class="font-sans text-sm text-gray-500">{{ total() }} items found</p>
+    <a
+      routerLink="/products"
+      class="font-sans text-sm font-semibold text-gray-950 underline"
+      (click)="open.set(false)"
+    >
+      Clear all
+    </a>
+  </div>
+</div>
+
+<!-- Bakgrund -->
+<div
+  aria-hidden="true"
+  [class]="open() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"
+  class="fixed top-0 left-0 z-55 h-full w-full bg-black transition-opacity duration-300"
+  (click)="open.set(false)"
+></div>
