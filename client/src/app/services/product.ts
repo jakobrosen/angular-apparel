@@ -75,6 +75,9 @@ export class ProductService {
     });
   }
 
+  // Antal träffar.
+  readonly total = computed(() => this.products.value().pagination.total);
+
   // Använder httpResource för att hämta produkter baserat på
   // de aktuella query-parametrarna.
   readonly products = httpResource<ProductResponse>(

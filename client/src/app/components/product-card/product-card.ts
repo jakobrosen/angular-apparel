@@ -18,6 +18,10 @@ const NEW_DAYS = 7;
 export class ProductCard {
   product = input.required<Product>();
 
+  // Sätts på korten i första raden. Deras bilder laddas direkt i stället
+  // för lazy, eftersom en av dem är sidans LCP-element.
+  eager = input(false);
+
   // Priset är nedsatt när det finns ett tidigare, högre pris.
   onSale = computed(() => {
     const { price, prevPrice } = this.product();
