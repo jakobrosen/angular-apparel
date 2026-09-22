@@ -24,7 +24,7 @@ export class ProductService {
   // från router.events, och hämtar ut värdet.
   private readonly url = toSignal(
     this.router.events.pipe(
-      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      filter((e) => e instanceof NavigationEnd),
       map((e) => e.urlAfterRedirects),
     ),
     { initialValue: this.router.url },

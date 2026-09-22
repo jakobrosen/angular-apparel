@@ -34,7 +34,7 @@ export const productQuerySchema = z.object({
   discount: z.stringbool().optional(),
   sort: sortEnum.optional(),
   page: z.coerce.number().int().min(1).default(1),
-  limit: z.coerce.number().int().min(1).max(96).default(48),
+  limit: z.coerce.number().int().min(1).max(500).default(48),
 });
 
 export const productCreateSchema = z.object({

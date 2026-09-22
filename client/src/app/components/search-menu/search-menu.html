@@ -1,0 +1,37 @@
+<div
+  id="search-menu"
+  [attr.inert]="open() ? null : ''"
+  [class]="open() ? 'translate-y-0' : '-translate-y-full'"
+  class="fixed inset-x-0 top-14 z-10 border-t border-gray-200 bg-white shadow-sm transition-transform duration-300"
+>
+  <!-- form ger enter-tangenten samma effekt som knappen. -->
+  <form
+    class="mx-auto flex max-w-350 flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center lg:px-8"
+    (submit)="search($event, queryInput.value)"
+  >
+    <label class="sr-only" for="search-query">Search products</label>
+    <div class="relative flex-1">
+      <ng-icon
+        name="phosphorMagnifyingGlass"
+        class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-xl text-gray-500"
+      ></ng-icon>
+
+      <!-- Template reference variable -->
+      <input
+        #queryInput
+        id="search-query"
+        type="search"
+        name="q"
+        placeholder="Search for products, brands and categories"
+        class="w-full border border-gray-300 bg-bg-1 py-2.5 pr-3 pl-10 font-sans text-sm text-gray-950 transition-colors placeholder:text-gray-500 focus:border-gray-950 focus:outline-none"
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="cursor-pointer border border-gray-950 bg-gray-950 px-6 py-2.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-gray-800"
+    >
+      Search
+    </button>
+  </form>
+</div>
