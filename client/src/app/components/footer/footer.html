@@ -1,0 +1,242 @@
+<footer class="border-t border-gray-200 bg-bg-2 font-sans">
+  <div class="mx-auto w-full max-w-350 px-4 py-12 lg:px-8">
+    <!-- Länkkolumner -->
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <nav aria-labelledby="footer-help">
+        <h2 id="footer-help" class="text-sm font-semibold text-gray-950">Help</h2>
+        <ul class="mt-4 space-y-3">
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Order status</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Shipping</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Returns and exchanges</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Size guide</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950">FAQ</a>
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Contact us</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-shop">
+        <h2 id="footer-shop" class="text-sm font-semibold text-gray-950">Shop</h2>
+        <ul class="mt-4 space-y-3">
+          <li>
+            <a
+              routerLink="/products"
+              [queryParams]="{ new: 'true' }"
+              class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >New arrivals</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/products"
+              [queryParams]="{ discount: 'true' }"
+              class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Sale</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/products"
+              [queryParams]="{ gender: 'women' }"
+              class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Women</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/products"
+              [queryParams]="{ gender: 'men' }"
+              class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Men</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/products"
+              class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >All products</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-extras">
+        <h2 id="footer-extras" class="text-sm font-semibold text-gray-950">Extras</h2>
+        <ul class="mt-4 space-y-3">
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Gift cards</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Student discount</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Brands</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Sustainability</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Careers</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-sm text-gray-700 transition-colors hover:text-gray-950"
+              >Press</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Kontaktkolumn, ikon plus etikett -->
+      <nav aria-labelledby="footer-contact">
+        <h2 id="footer-contact" class="text-sm font-semibold text-gray-950 sm:sr-only">Contact</h2>
+        <ul class="mt-4 space-y-4 sm:mt-0">
+          <li>
+            <a
+              href="#"
+              class="flex items-center gap-3 text-sm font-semibold text-gray-700 transition-colors hover:text-gray-950"
+            >
+              <ng-icon name="phosphorMapPin" class="shrink-0 text-2xl"></ng-icon>
+              Store locator
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex items-center gap-3 text-sm font-semibold text-gray-700 transition-colors hover:text-gray-950"
+            >
+              <ng-icon name="phosphorEnvelopeSimple" class="shrink-0 text-2xl"></ng-icon>
+              Sign up for email
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex items-center gap-3 text-sm font-semibold text-gray-700 transition-colors hover:text-gray-950"
+            >
+              <ng-icon name="phosphorDeviceMobile" class="shrink-0 text-2xl"></ng-icon>
+              Sign up for texts
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex items-center gap-3 text-sm font-semibold text-gray-700 transition-colors hover:text-gray-950"
+            >
+              <ng-icon name="phosphorChatCircleDots" class="shrink-0 text-2xl"></ng-icon>
+              Chat with us
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Sociala medier -->
+    <ul class="mt-12 flex flex-wrap items-center justify-center gap-6">
+      <li>
+        <a
+          href="#"
+          aria-label="Instagram"
+          class="text-gray-700 transition-colors hover:text-gray-950"
+        >
+          <ng-icon name="phosphorInstagramLogo" class="text-2xl"></ng-icon>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          aria-label="Facebook"
+          class="text-gray-700 transition-colors hover:text-gray-950"
+        >
+          <ng-icon name="phosphorFacebookLogo" class="text-2xl"></ng-icon>
+        </a>
+      </li>
+      <li>
+        <a href="#" aria-label="TikTok" class="text-gray-700 transition-colors hover:text-gray-950">
+          <ng-icon name="phosphorTiktokLogo" class="text-2xl"></ng-icon>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          aria-label="Pinterest"
+          class="text-gray-700 transition-colors hover:text-gray-950"
+        >
+          <ng-icon name="phosphorPinterestLogo" class="text-2xl"></ng-icon>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          aria-label="YouTube"
+          class="text-gray-700 transition-colors hover:text-gray-950"
+        >
+          <ng-icon name="phosphorYoutubeLogo" class="text-2xl"></ng-icon>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Nedre rad, staplad under md -->
+    <div
+      class="mt-10 flex flex-col gap-4 border-t border-gray-200 pt-6 md:flex-row md:items-center md:justify-between"
+    >
+      <ul class="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <li>
+          <a href="#" class="text-xs text-gray-700 transition-colors hover:text-gray-950"
+            >Privacy policy</a
+          >
+        </li>
+        <li aria-hidden="true" class="text-xs text-gray-400">|</li>
+        <li>
+          <a href="#" class="text-xs text-gray-700 transition-colors hover:text-gray-950"
+            >Terms of use</a
+          >
+        </li>
+        <li aria-hidden="true" class="text-xs text-gray-400">|</li>
+        <li>
+          <a href="#" class="text-xs text-gray-700 transition-colors hover:text-gray-950"
+            >Accessibility</a
+          >
+        </li>
+        <li aria-hidden="true" class="text-xs text-gray-400">|</li>
+        <li>
+          <a href="#" class="text-xs text-gray-700 transition-colors hover:text-gray-950"
+            >Cookie settings</a
+          >
+        </li>
+      </ul>
+
+      <p class="text-xs text-gray-700">© 2026 Angular Apparel. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

@@ -19,11 +19,10 @@ import { ProductResponse } from '../../types/Product';
 export class ProductGrid {
   protected readonly productService = inject(ProductService);
 
-  // Resursen som ska visas. Sidan bestämmer vilken, så samma grid kan
-  // visa både den filtrerade listan och startsidans urval.
+  // Input för de produkter som ska visas.
   readonly products = input.required<HttpResourceRef<ProductResponse>>();
 
-  // Startsidan visar ett fast urval och behöver ingen sidbrytning.
+  // Om pagination ska vara aktiverat.
   readonly paginated = input(true);
 
   // Sidinformationen som backenden skickar med svaret.

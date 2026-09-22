@@ -531,7 +531,7 @@ export const dummyProductData: DummyProduct[] = [
   {
     gender: "men",
     categoryId: 8,
-    title: "Classic Cotton Sh   Irt",
+    title: "Everyday Cotton Shirt",
     prevPrice: 39.88,
     price: 25.99,
     description:

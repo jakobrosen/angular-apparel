@@ -10,7 +10,7 @@ export interface Product {
   category: string | null;
   brand: string | null;
   images: string[];
-  createdAt: string;
+  publishedAt: string;
 }
 
 // Responsen som APIt returnerar.

@@ -1,16 +1,13 @@
 import { z } from "zod";
 
-// Zod-enum som används för validering av "gender".
-// "infer" returnerar en typ som innehåller värdet
-// av zod-enumen.
+// Zod-enums som används för validering. "infer" returnerar
+// en typ som innehåller värdet av zod-enumen.
 export const genderEnum = z.enum(["men", "women"]);
 export type Gender = z.infer<typeof genderEnum>;
 
 export const categoryTypeEnum = z.enum(["accessory", "clothing"]);
 export type CategoryType = z.infer<typeof categoryTypeEnum>;
 
-// Sorteringsalternativen för GET /api/products. parseOrder översätter
-// värdet till en order-clause.
 export const sortEnum = z.enum(["newest", "priceAsc", "priceDesc"]);
 export type Sort = z.infer<typeof sortEnum>;
 
@@ -49,6 +46,7 @@ export const productCreateSchema = z.object({
   sku: z.string().toUpperCase().regex(SKU_REGEX),
   categoryId: z.number().int().min(1),
   brandId: z.number().int().min(1),
+  publishedAt: z.string().pipe(z.coerce.date()).optional(),
   images: z.array(z.url()).min(1),
 });
 
@@ -61,8 +59,6 @@ export const brandSchemaWithId = z.object({
   name: z.string().min(1),
 });
 
-// Kategorier har till skillnad från märken även en "type", så
-// de kan inte längre dela schema med brands.
 export const categorySchema = z.object({
   name: z.string().min(1),
   type: categoryTypeEnum,

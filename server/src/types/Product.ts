@@ -8,6 +8,7 @@ export type RawProduct = {
   sku: string;
   categoryId: number | null;
   brandId: number | null;
+  publishedAt: Date;
   createdAt: string;
   updatedAt: string;
   category: { name: string } | null;
@@ -25,6 +26,7 @@ export type ParsedProduct = {
   sku: string;
   categoryId: number | null;
   brandId: number | null;
+  publishedAt: Date;
   createdAt: string;
   updatedAt: string;
   category: string | null;

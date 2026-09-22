@@ -15,6 +15,25 @@ import {
 } from "./dummyData.js";
 import bcrypt from "bcryptjs";
 
+// Hur långt bakåt i tiden produkternas publiceringsdatum sprids.
+const SPREAD_DAYS = 100;
+
+/**
+ * Räknar fram ett publiceringsdatum ur produktens SKU. Datumet härleds
+ * ur datat istället för att slumpas, så att ordningen blir densamma
+ * varje gång seed() körs.
+ */
+function publishedAtFromSku(sku: string): Date {
+  let hash = 0;
+  for (const char of sku) {
+    hash = (hash * 31 + char.charCodeAt(0)) % SPREAD_DAYS;
+  }
+
+  const date = new Date();
+  date.setDate(date.getDate() - hash);
+  return date;
+}
+
 /**
  * Skapar databastabeller och seedar databasen
  * med data från dummyData.ts.
@@ -54,7 +73,13 @@ async function seed(): Promise<void> {
 
   await standardBulkCreate(Category, dummyCategoryData);
   await standardBulkCreate(Brand, dummyBrandData);
-  await standardBulkCreate(Product, dummyProductData);
+  await standardBulkCreate(
+    Product,
+    dummyProductData.map((product) => ({
+      ...product,
+      publishedAt: publishedAtFromSku(product.sku),
+    })),
+  );
   await standardBulkCreate(ProductImage, dummyImageData);
 
   await transaction.commit();

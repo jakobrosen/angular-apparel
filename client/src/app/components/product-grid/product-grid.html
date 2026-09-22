@@ -31,7 +31,7 @@
       [attr.aria-busy]="products().isLoading()"
       class="mx-4 lg:mx-0.5 grid max-w-350 grid-cols-1 gap-x-3 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:px-8"
     >
-      <!-- Skeleton loading vid loading state -->
+      <!-- Skeleton loading -->
       @if (products().isLoading()) {
         @for (skeleton of skeletons; track $index) {
           <div class="animate-pulse">
@@ -45,14 +45,15 @@
         }
       } @else {
         @for (product of products().value().data; track product.id) {
-          <!-- Första raden laddas direkt, resten lazy. -->
+          <!-- Eager loading på de första 4 korten för att undvika
+          ett varningsmeddelande i webbläsarens konsol. -->
           <app-product-card [product]="product" [eager]="$index < 4" />
         }
       }
     </div>
   </div>
 
-  <!-- Sidbyte, dolt när allt ryms på en sida. -->
+  <!-- Pagination -->
   @if (paginated() && pagination().totalPages > 1) {
     <div class="mt-8 pb-10 flex items-center justify-center gap-6 font-sans text-sm">
       <button

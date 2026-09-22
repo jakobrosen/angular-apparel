@@ -34,13 +34,14 @@ export class Product extends Model<
   declare sku: string;
   declare categoryId: number | null;
   declare brandId: number | null;
+  declare publishedAt: CreationOptional<Date>;
 }
 
 // Initierar modellen.
 Product.init(
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    title: { type: DataTypes.STRING, allowNull: false },
+    title: { type: DataTypes.STRING, allowNull: false, unique: true },
     description: { type: DataTypes.TEXT, allowNull: false },
     gender: {
       type: DataTypes.STRING,
@@ -63,6 +64,11 @@ Product.init(
     },
     categoryId: { type: DataTypes.INTEGER, allowNull: true },
     brandId: { type: DataTypes.INTEGER, allowNull: true },
+    publishedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
   },
   {
     sequelize,

@@ -21,11 +21,4 @@ import {
   ],
   templateUrl: './info-banner.html',
 })
-export class InfoBanner {
-  readonly items = [
-    { icon: 'phosphorGlobeHemisphereWest', label: 'Free shipping and returns' },
-    { icon: 'phosphorAirplane', label: 'Express delivery' },
-    { icon: 'phosphorShieldCheck', label: 'Secure payments' },
-    { icon: 'phosphorSmiley', label: 'New arrivals daily' },
-  ];
-}
+export class InfoBanner {}

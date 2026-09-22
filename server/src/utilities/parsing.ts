@@ -61,7 +61,7 @@ export function parseFilters(query: z.infer<typeof productQuerySchema>) {
 // Att slå upp i en färdig map istället för att bygga order av query-
 // strängen gör att användaren aldrig kan skicka in egen SQL.
 const ORDER_BY: Record<Sort, OrderItem[]> = {
-  newest: [["createdAt", "DESC"]],
+  newest: [["publishedAt", "DESC"]],
   priceAsc: [["price", "ASC"]],
   priceDesc: [["price", "DESC"]],
 };
@@ -70,12 +70,11 @@ const ORDER_BY: Record<Sort, OrderItem[]> = {
  * Översätter query-parametern "sort" till en order-clause.
  */
 export function parseOrder(query: z.infer<typeof productQuerySchema>): Order {
-  // Utan sort sorteras produkterna på id, alltså i den ordning de
-  // lades in i databasen.
+  // Utan sort sorteras produkterna på id
   if (!query.sort) return [["id", "ASC"]];
 
   // id som sista nivå gör ordningen entydig. Utan den kan samma produkt
-  // dyka upp på flera sidor, eftersom alla seedade produkter delar createdAt.
+  // dyka upp på flera sidor när två produkter delar pris eller datum.
   return [...ORDER_BY[query.sort], ["id", "ASC"]];
 }
 

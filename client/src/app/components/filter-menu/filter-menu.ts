@@ -64,9 +64,7 @@ export class FilterMenu {
   // Sektionerna som är utfällda som default.
   private readonly openSections = signal<string[]>(['sort']);
 
-  // Ett klick på det redan valda alternativet nollställer sorteringen.
-  // Radioknappar avmarkerar sig inte själva, så det sköts här.
-  toggleSort(sort: string): void {
+  toggleRadioButton(sort: string): void {
     const currentSort = this.productService.queryParams()['sort'];
     this.productService.setSort(currentSort === sort ? '' : sort);
   }
