@@ -11,7 +11,7 @@ const EMPTY_RESPONSE: ProductResponse = {
   data: [],
 };
 
-// Startsidans urval.
+// Params för home.
 const LATEST_PARAMS = { sort: 'newest', limit: 8 };
 
 @Injectable({ providedIn: 'root' })

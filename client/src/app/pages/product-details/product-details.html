@@ -125,4 +125,13 @@
       </div>
     </div>
   </section>
+
+  <!-- Utanför sectionen ovan, den har redan en egen max-bredd och padding. -->
+  <app-product-carousel
+    [products]="relatedProducts"
+    [exclude]="item.id"
+    [max]="relatedLimit"
+    heading="RELATED PRODUCTS"
+    class="mt-4 mb-12 block"
+  />
 }

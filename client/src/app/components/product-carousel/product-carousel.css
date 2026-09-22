@@ -1,0 +1,9 @@
+/* Tailwind har ingen utility för att dölja scrollbaren, så det
+    behövde lösas här */
+.carousel-track {
+  scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}

@@ -10,14 +10,25 @@ import {
   phosphorShareNetwork,
   phosphorTruck,
 } from '@ng-icons/phosphor-icons/regular';
-import type { Product } from '../../types/Product';
+import type { Product, ProductResponse } from '../../types/Product';
 import { productIdFromSlug } from '../../utilities/slug';
-import { ProductGrid } from '../../components/product-grid/product-grid';
+import { ProductCarousel } from '../../components/product-carousel/product-carousel';
+
+// Antal produkter i karusellen med liknande produkter. Hämtar en extra,
+// eftersom den aktiva produkten själv finns med i träfflistan.
+const RELATED_LIMIT = 8;
+
+// Värdet karusellens resurs har innan svaret kommit, så .value()
+// aldrig är undefined.
+const EMPTY_RESPONSE: ProductResponse = {
+  pagination: { page: 1, limit: RELATED_LIMIT, total: 0, totalPages: 0 },
+  data: [],
+};
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CurrencyPipe, RouterLink, NgIcon, ProductGrid],
+  imports: [CurrencyPipe, RouterLink, NgIcon, ProductCarousel],
   providers: [
     provideIcons({
       phosphorCaretLeft,
@@ -34,12 +45,30 @@ export default class ProductDetails {
   // produkt som visas.
   slug = input.required<string>();
 
+  // Taket karusellen kapar träfflistan till.
+  protected readonly relatedLimit = RELATED_LIMIT;
+
   // Plockar ut ID för att kunna anropa getProductById i backenden.
   protected readonly productId = computed(() => productIdFromSlug(this.slug()));
   protected readonly product = httpResource<Product>(() => {
     const id = this.productId();
     return id === null ? undefined : { url: `/api/products/${id}` };
   });
+
+  // Liknande produkter, alltså samma kön och kategori som den aktiva.
+  // Väntar på att produkten hämtats, eftersom filtren kommer därifrån.
+  protected readonly relatedProducts = httpResource<ProductResponse>(
+    () => {
+      const product = this.product.value();
+      if (!product?.category) return undefined;
+
+      return {
+        url: '/api/products',
+        params: { gender: product.gender, category: product.category, limit: RELATED_LIMIT + 1 },
+      };
+    },
+    { defaultValue: EMPTY_RESPONSE },
+  );
 
   protected readonly images = computed(() => this.product.value()?.images ?? []);
 
