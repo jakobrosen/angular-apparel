@@ -35,6 +35,9 @@ export class ProductService {
   // gör även så att queryParams blir en signal.
   readonly queryParams = computed(() => this.router.parseUrl(this.url()).queryParams);
 
+  // Sökvägen utan query-sträng, så resurserna kan matcha på exakt sida.
+  private readonly path = computed(() => this.url().split('?')[0]);
+
   // Tar in en ny query-parameter som ett Params-objekt, och använder
   // router.navigate för att ändra URLen. queryParamsHandling: 'merge'
   // mergar automatiskt ihop den nya parametern med de gamla.
@@ -97,16 +100,15 @@ export class ProductService {
   // de aktuella query-parametrarna.
   readonly products = httpResource<ProductResponse>(
     () =>
-      this.url().startsWith('/products')
+      this.path() === '/products'
         ? { url: '/api/products', params: this.queryParams() }
         : undefined,
     { defaultValue: EMPTY_RESPONSE },
   );
 
-  // De åtta senaste produkterna till startsidan. Parametrarna är fasta,
-  // så den här resursen bryr sig inte om filtren i URLen.
+  // De åtta senaste produkterna till home.
   readonly latestProducts = httpResource<ProductResponse>(
-    () => (this.url() === '/' ? { url: '/api/products', params: LATEST_PARAMS } : undefined),
+    () => (this.path() === '/' ? { url: '/api/products', params: LATEST_PARAMS } : undefined),
     { defaultValue: EMPTY_RESPONSE },
   );
 

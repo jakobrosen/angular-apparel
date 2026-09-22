@@ -1,0 +1,128 @@
+@if (productId() === null) {
+  <section class="mx-auto w-full max-w-350 px-4 py-16 font-sans lg:px-8">
+    <h1 class="text-xl font-semibold text-gray-950">Product not found</h1>
+    <p class="mt-2 text-sm text-gray-700">
+      The address is missing a product id.
+      <a routerLink="/products" class="underline transition-colors hover:text-gray-950"
+        >Browse all products</a
+      >
+    </p>
+  </section>
+} @else if (product.isLoading()) {
+  <section class="mx-auto w-full max-w-350 px-4 py-16 font-sans lg:px-8">
+    <p class="text-sm text-gray-700">Loading product…</p>
+  </section>
+} @else if (product.error()) {
+  <section class="mx-auto w-full max-w-350 px-4 py-16 font-sans lg:px-8">
+    <h1 class="text-xl font-semibold text-gray-950">Product not found</h1>
+    <p class="mt-2 text-sm text-gray-700">
+      We could not load this product.
+      <a routerLink="/products" class="underline transition-colors hover:text-gray-950"
+        >Browse all products</a
+      >
+    </p>
+  </section>
+} @else if (product.value(); as item) {
+  <section class="mx-auto w-full max-w-350 px-4 py-6 font-sans lg:px-8">
+    <div class="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
+      <!-- Galleri -->
+      <div>
+        <div class="relative aspect-square overflow-hidden bg-bg-1">
+          <img
+            [src]="activeImage()"
+            [alt]="item.title"
+            fetchpriority="high"
+            class="h-full w-full object-cover"
+          />
+
+          <!-- Bilder -->
+          @if (images().length > 1) {
+            <button
+              type="button"
+              aria-label="Previous image"
+              class="absolute top-1/2 left-3 flex -translate-y-1/2 cursor-pointer items-center bg-bg-1 p-2 text-xl text-gray-700 shadow-sm transition-colors hover:text-gray-950"
+              (click)="step(-1)"
+            >
+              <ng-icon name="phosphorCaretLeft"></ng-icon>
+            </button>
+            <button
+              type="button"
+              aria-label="Next image"
+              class="absolute top-1/2 right-3 flex -translate-y-1/2 cursor-pointer items-center bg-bg-1 p-2 text-xl text-gray-700 shadow-sm transition-colors hover:text-gray-950"
+              (click)="step(1)"
+            >
+              <ng-icon name="phosphorCaretRight"></ng-icon>
+            </button>
+          }
+        </div>
+
+        <!-- Miniatyrer -->
+        @if (images().length > 1) {
+          <ul class="mt-3 flex gap-3 overflow-x-auto pb-1">
+            @for (image of images(); track image; let i = $index) {
+              <li class="shrink-0">
+                <button
+                  type="button"
+                  [attr.aria-label]="'Show image ' + (i + 1)"
+                  [attr.aria-current]="i === imageIndex() ? 'true' : null"
+                  [class]="i === imageIndex() ? 'border-text' : 'border-bg-2'"
+                  class="block w-20 cursor-pointer border bg-bg-1 transition-colors hover:border-text"
+                  (click)="imageIndex.set(i)"
+                >
+                  <img
+                    [src]="image"
+                    alt=""
+                    loading="lazy"
+                    class="aspect-square w-full object-cover"
+                  />
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <!-- Produktinformation -->
+      <div>
+        <p class="text-sm capitalize text-gray-500">{{ brand() }}</p>
+        <h1 class="mt-1 text-2xl font-semibold text-gray-950 lg:text-3xl">{{ item.title }}</h1>
+
+        <!-- Pris -->
+        <div class="mt-4 flex flex-wrap items-baseline gap-3 border-b border-gray-200 pb-5">
+          @if (onSale()) {
+            <span class="text-sm text-gray-500 line-through">
+              {{ item.prevPrice | currency: 'USD' : 'symbol' : '1.0-2' }}
+            </span>
+            <span class="text-2xl font-semibold text-red-700">
+              {{ item.price | currency: 'USD' : 'symbol' : '1.0-2' }}
+            </span>
+            <span class="text-sm text-red-700">Save {{ discount() }}%</span>
+          } @else {
+            <span class="text-2xl font-semibold text-gray-950">
+              {{ item.price | currency: 'USD' : 'symbol' : '1.0-2' }}
+            </span>
+          }
+        </div>
+
+        <!-- Beskrivning -->
+        <h2 class="mt-5 text-sm font-semibold text-gray-950">Description</h2>
+        <p class="mt-2 text-sm leading-relaxed text-gray-700">{{ item.description }}</p>
+
+        <dl class="mt-4 flex gap-2 text-sm">
+          <dt class="text-gray-500">Item number:</dt>
+          <dd class="text-gray-700">{{ item.sku }}</dd>
+        </dl>
+
+        <!-- Add to cart -->
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            class="flex-1 cursor-pointer bg-gray-950 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
+          >
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+}

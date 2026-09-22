@@ -1,5 +1,5 @@
 <article
-  class="flex h-full flex-col border border-bg-2 font-sans hover:border-text hover:bg-bg-1 cursor-pointer select-none"
+  class="relative flex h-full flex-col border border-bg-2 font-sans hover:border-text hover:bg-bg-1 cursor-pointer select-none"
 >
   <!-- Bild -->
   <div class="relative aspect-square overflow-hidden bg-bg-1">
@@ -24,7 +24,7 @@
     <button
       type="button"
       aria-label="Add to favorites"
-      class="group absolute top-2 right-2 flex cursor-pointer items-center text-2xl text-gray-700 transition-colors hover:text-gray-950"
+      class="group absolute top-2 right-2 z-10 flex cursor-pointer items-center text-2xl text-gray-700 transition-colors hover:text-gray-950"
     >
       <ng-icon name="phosphorHeart" class="group-hover:hidden!"></ng-icon>
       <ng-icon name="phosphorHeartFill" class="hidden! group-hover:block!"></ng-icon>
@@ -49,8 +49,11 @@
       </p>
     }
 
-    <!-- Produktnamn och märke -->
-    <h3 class="mt-1 text-sm text-gray-950">{{ product().title }}</h3>
+    <!-- Produktnamn och märke. Länken täcker hela kortet med ::after,
+         så hjärtknappen slipper ligga inuti en <a>. -->
+    <h3 class="mt-1 text-sm text-gray-950">
+      <a [routerLink]="link()" class="after:absolute after:inset-0">{{ product().title }}</a>
+    </h3>
     <p class="text-sm capitalize text-gray-500">{{ brand() }}</p>
   </div>
 </article>
