@@ -117,16 +117,26 @@
           <!-- Cart icon -->
           <button
             type="button"
-            aria-label="Open cart"
             aria-controls="cart-panel"
+            [attr.aria-label]="'Open cart, ' + cartService.items().length + ' items'"
             [attr.aria-expanded]="cartOpen()"
-            class="flex items-center cursor-pointer"
+            class="relative flex items-center cursor-pointer"
             (click)="toggleCart()"
           >
             <ng-icon
               name="phosphorBag"
               class="text-gray-700 hover:text-gray-950 transition-colors text-2xl"
             ></ng-icon>
+
+            <!-- Antal rader i korgen. Räknas upp i aria-label ovan. -->
+            @if (cartService.items().length) {
+              <span
+                aria-hidden="true"
+                class="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center bg-gray-950 px-1 text-xs font-semibold text-white"
+              >
+                {{ cartService.items().length }}
+              </span>
+            }
           </button>
         </div>
       </div>
@@ -151,7 +161,7 @@
   aria-label="Shopping cart"
   [attr.inert]="cartOpen() ? null : ''"
   [class]="cartOpen() ? 'translate-x-0' : 'translate-x-full'"
-  class="fixed top-0 right-0 z-60 h-full w-full max-w-sm bg-white shadow-lg transition-transform duration-300"
+  class="fixed top-0 right-0 z-60 h-full w-full max-w-lg bg-white shadow-lg transition-transform duration-300"
 >
   <app-cart (close)="toggleCart()" />
 </div>

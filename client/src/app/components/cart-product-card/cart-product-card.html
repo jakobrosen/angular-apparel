@@ -1,0 +1,80 @@
+<article class="flex border border-bg-2 bg-bg-1 font-sans">
+  <!-- Bild -->
+  <a [routerLink]="link()" class="block w-28 shrink-0 bg-bg-2 sm:w-40">
+    <img
+      [src]="image()"
+      [alt]="product().title"
+      loading="lazy"
+      class="aspect-square w-full object-cover"
+    />
+  </a>
+
+  <div class="flex min-w-0 flex-1 flex-col p-4">
+    <div class="flex items-start gap-4">
+      <!-- Produktnamn, märke och kategori -->
+      <div class="min-w-0 flex-1">
+        <h3 class="text-sm text-gray-950">
+          <a [routerLink]="link()" class="transition-colors hover:text-gray-700">
+            {{ product().title }}
+          </a>
+        </h3>
+        <p class="mt-1 text-sm capitalize text-gray-500">{{ brand() }}</p>
+        @if (product().category) {
+          <p class="text-sm capitalize text-gray-500">{{ product().category }}</p>
+        }
+      </div>
+
+      <!-- Ta bort och spara -->
+      <div class="flex shrink-0 flex-col gap-3 text-xl">
+        <button
+          type="button"
+          aria-label="Remove from cart"
+          class="flex cursor-pointer items-center text-gray-700 transition-colors hover:text-gray-950"
+          (click)="remove.emit()"
+        >
+          <ng-icon name="phosphorTrash"></ng-icon>
+        </button>
+        <button
+          type="button"
+          aria-label="Move to favorites"
+          class="flex cursor-pointer items-center text-gray-700 transition-colors hover:text-gray-950"
+          (click)="favorite.emit()"
+        >
+          <ng-icon name="phosphorHeart"></ng-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Antal och radpris -->
+    <div class="mt-auto flex flex-wrap items-end justify-between gap-3 pt-6">
+      <label class="sr-only" [attr.for]="'quantity-' + product().id">Quantity</label>
+      <select
+        #quantitySelect
+        [id]="'quantity-' + product().id"
+        class="cursor-pointer border border-gray-950 bg-bg-1 px-3 py-2 text-sm text-gray-950"
+        (change)="quantity.set(+quantitySelect.value)"
+      >
+        <!-- selected på option, inte value på select. Annars sätts värdet
+            innan optionerna renderats och väljaren visar alltid 1. -->
+        @for (option of quantities; track option) {
+          <option [value]="option" [selected]="option === quantity()">{{ option }}</option>
+        }
+      </select>
+
+      @if (onSale()) {
+        <p class="flex items-baseline gap-2">
+          <span class="text-sm text-gray-500 line-through">
+            {{ linePrevPrice() | currency: 'USD' : 'symbol' : '1.0-2' }}
+          </span>
+          <span class="font-semibold text-red-700">
+            {{ linePrice() | currency: 'USD' : 'symbol' : '1.0-2' }}
+          </span>
+        </p>
+      } @else {
+        <p class="font-semibold text-gray-950">
+          {{ linePrice() | currency: 'USD' : 'symbol' : '1.0-2' }}
+        </p>
+      }
+    </div>
+  </div>
+</article>

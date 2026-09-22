@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -10,6 +10,7 @@ import {
 import { Cart } from '../cart/cart';
 import { HoverMenu } from '../hover-menu/hover-menu';
 import { MobileMenu } from '../mobile-menu/mobile-menu';
+import { CartService } from '../../services/cart';
 
 @Component({
   selector: 'app-navbar',
@@ -20,10 +21,15 @@ import { MobileMenu } from '../mobile-menu/mobile-menu';
   styleUrl: './navbar.css',
 })
 export class Navbar {
+  protected readonly cartService = inject(CartService);
+
   // Styr vilka menyer som är öppna.
   mobileMenuOpen = signal(false);
-  cartOpen = signal(false);
   hoverMenuOpen = signal(false);
+
+  // Korgens läge ägs av servicen, så produktsidan kan öppna panelen.
+  readonly cartOpen = this.cartService.isOpen;
+
   hoverMenuHeading = signal('');
 
   toggleMobileMenu(): void {

@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, inject, input, linkedSignal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { httpResource } from '@angular/common/http';
@@ -13,9 +13,9 @@ import {
 import type { Product, ProductResponse } from '../../types/Product';
 import { productIdFromSlug } from '../../utilities/slug';
 import { ProductCarousel } from '../../components/product-carousel/product-carousel';
+import { CartService } from '../../services/cart';
 
-// Antal produkter i karusellen med liknande produkter. Hämtar en extra,
-// eftersom den aktiva produkten själv finns med i träfflistan.
+// Antal produkter i product-carousel.
 const RELATED_LIMIT = 8;
 
 // Värdet karusellens resurs har innan svaret kommit, så .value()
@@ -41,11 +41,12 @@ const EMPTY_RESPONSE: ProductResponse = {
   templateUrl: './product-details.html',
 })
 export default class ProductDetails {
+  protected readonly cartService = inject(CartService);
+
   // Input för att mata in en slug. Detta är vad som styr vilken
   // produkt som visas.
   slug = input.required<string>();
 
-  // Taket karusellen kapar träfflistan till.
   protected readonly relatedLimit = RELATED_LIMIT;
 
   // Plockar ut ID för att kunna anropa getProductById i backenden.
@@ -56,7 +57,6 @@ export default class ProductDetails {
   });
 
   // Liknande produkter, alltså samma kön och kategori som den aktiva.
-  // Väntar på att produkten hämtats, eftersom filtren kommer därifrån.
   protected readonly relatedProducts = httpResource<ProductResponse>(
     () => {
       const product = this.product.value();
@@ -69,6 +69,12 @@ export default class ProductDetails {
     },
     { defaultValue: EMPTY_RESPONSE },
   );
+
+  // Styr knappens text och färg.
+  protected readonly inCart = computed(() => {
+    const id = this.product.value()?.id;
+    return this.cartService.items().some((item) => item.product.id === id);
+  });
 
   protected readonly images = computed(() => this.product.value()?.images ?? []);
 
@@ -102,7 +108,7 @@ export default class ProductDetails {
 
     // Uträkning som gör det möjligt att "hoppa tillbaka" när man försöker
     // bläddra till nästa bild trots att man kommit till slutet,
-    // och vise versa.
+    // och vice versa.
     this.imageIndex.update((index) => (index + delta + count) % count);
   }
 }
