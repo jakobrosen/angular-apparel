@@ -1,0 +1,70 @@
+<section class="mx-auto w-full max-w-350 px-4 py-10 font-sans lg:px-8">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div class="flex flex-wrap items-baseline gap-3">
+      <h1 class="text-2xl font-semibold text-gray-950">Products</h1>
+      <p class="text-sm text-gray-500">{{ total() }} in total</p>
+    </div>
+
+    <a
+      routerLink="/admin/products/new"
+      class="border border-gray-950 bg-gray-950 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
+    >
+      New product
+    </a>
+  </div>
+
+  @if (products.error()) {
+    <p role="alert" class="mt-6 text-sm text-red-700">Could not load products.</p>
+  } @else if (products.isLoading()) {
+    <p class="mt-6 text-sm text-gray-700">Loading products…</p>
+  } @else {
+    <div class="mt-6 overflow-x-auto border border-bg-2 bg-bg-1">
+      <table class="w-full text-left text-sm">
+        <thead class="border-b border-bg-2 text-gray-500">
+          <tr>
+            <th class="px-4 py-3 font-semibold">ID</th>
+            <th class="px-4 py-3 font-semibold">SKU</th>
+            <th class="px-4 py-3 font-semibold">Title</th>
+            <th class="px-4 py-3 font-semibold">Brand</th>
+            <th class="px-4 py-3 font-semibold">Category</th>
+            <th class="px-4 py-3 font-semibold">Gender</th>
+            <th class="px-4 py-3 text-right font-semibold">Price</th>
+            <th class="px-4 py-3"><span class="sr-only">Delete</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (product of items(); track product.id) {
+            <tr class="border-b border-bg-2 last:border-b-0 hover:bg-bg-2">
+              <td class="px-4 py-3 text-gray-500">{{ product.id }}</td>
+              <td class="px-4 py-3 text-gray-500">{{ product.sku }}</td>
+              <td class="px-4 py-3 text-gray-950">
+                <a
+                  [routerLink]="['/products', productSlug(product)]"
+                  class="transition-colors hover:underline"
+                >
+                  {{ product.title }}
+                </a>
+              </td>
+              <td class="px-4 py-3 capitalize text-gray-700">{{ product.brand }}</td>
+              <td class="px-4 py-3 capitalize text-gray-700">{{ product.category }}</td>
+              <td class="px-4 py-3 capitalize text-gray-700">{{ product.gender }}</td>
+              <td class="px-4 py-3 text-right text-gray-950">
+                {{ product.price | currency: 'USD' : 'symbol' : '1.0-2' }}
+              </td>
+              <td class="px-4 py-3 text-right">
+                <button
+                  type="button"
+                  [attr.aria-label]="'Delete ' + product.title"
+                  class="flex cursor-pointer items-center text-lg text-gray-500 transition-colors hover:text-red-700"
+                  (click)="remove(product.id)"
+                >
+                  <ng-icon name="phosphorTrash"></ng-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

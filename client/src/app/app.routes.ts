@@ -8,5 +8,10 @@ export const routes: Routes = [
     path: 'products/:slug',
     loadComponent: () => import('./pages/product-details/product-details'),
   },
-  { path: '**', redirectTo: '/products' },
+  { path: 'admin/products', loadComponent: () => import('./pages/admin-products/admin-products') },
+  {
+    path: 'admin/products/new',
+    loadComponent: () => import('./pages/admin-products-new/admin-products-new'),
+  },
+  { path: '**', redirectTo: '' },
 ];
