@@ -1,13 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { ProductGrid } from '../../components/product-grid/product-grid';
 import { ProductService } from '../../services/product';
+import { Hero } from '../../components/hero/hero';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgOptimizedImage, RouterLink, ProductGrid],
+  imports: [ProductGrid, Hero],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

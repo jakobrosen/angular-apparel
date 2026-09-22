@@ -5,12 +5,10 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { phosphorCaretLeft, phosphorCaretRight } from '@ng-icons/phosphor-icons/regular';
 import { ProductCard } from '../product-card/product-card';
 import { ProductService } from '../../services/product';
-import { FilterMenu } from '../filter-menu/filter-menu';
-import { ProductGridHeader } from '../product-grid-header/product-grid-header';
 import { ProductResponse } from '../../types/Product';
 
 @Component({
-  imports: [ProductCard, RouterLink, NgIcon, FilterMenu, ProductGridHeader],
+  imports: [ProductCard, RouterLink, NgIcon],
   providers: [provideIcons({ phosphorCaretLeft, phosphorCaretRight })],
   selector: 'app-product-grid',
   styleUrl: './product-grid.css',
