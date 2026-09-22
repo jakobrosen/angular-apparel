@@ -17,6 +17,7 @@ export class ProductGridHeader {
 
     if (key == 'discount' && rawSection == 'true') return 'DISCOUNT';
     if (key == 'new' && rawSection == 'true') return 'NEW';
+    if (key == 'q' && rawSection) return `"${rawSection}"`;
 
     return rawSection ? rawSection.split(',').join(' + ') : '';
   }
