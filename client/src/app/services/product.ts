@@ -30,6 +30,9 @@ export class ProductService {
     { initialValue: this.router.url },
   );
 
+  // ##### FILTER / QUERY PARAMS #####
+  // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
   // Hämtar ut query-parametrar. router.parseUrl returnerar ett
   // UrlTree-objekt som har egenskapen "queryParams". Computed
   // gör även så att queryParams blir en signal.
@@ -38,9 +41,7 @@ export class ProductService {
   // Sökvägen utan query-sträng, så resurserna kan matcha på exakt sida.
   private readonly path = computed(() => this.url().split('?')[0]);
 
-  // Tar in en ny query-parameter som ett Params-objekt, och använder
-  // router.navigate för att ändra URLen. queryParamsHandling: 'merge'
-  // mergar automatiskt ihop den nya parametern med de gamla.
+  // Hjälpfunktion som tar in nya query params och mergar med de existerande.
   private updateParams(params: Params): void {
     this.router.navigate([], {
       queryParams: { ...params, page: null },
@@ -86,6 +87,9 @@ export class ProductService {
     this.updateParams({ discount: this.queryParams()['discount'] ? null : 'true' });
   }
 
+  // ##### PAGINATION #####
+  // VVVVVVVVVVVVVVVVVVVVVV
+
   setPage(page: number): void {
     this.router.navigate([], {
       queryParams: { page },
@@ -95,6 +99,9 @@ export class ProductService {
 
   // Antal träffar.
   readonly total = computed(() => this.products.value().pagination.total);
+
+  // ##### API-ANROP #####
+  // VVVVVVVVVVVVVVVVVVVVV
 
   // Använder httpResource för att hämta produkter baserat på
   // de aktuella query-parametrarna.
@@ -112,9 +119,6 @@ export class ProductService {
     { defaultValue: EMPTY_RESPONSE },
   );
 
-  // Metoderna nedan skapar en resurs som lever lika länge som komponenten
-  // som anropar dem, så de måste anropas i komponentens fältinitiering.
-
   // En produkt via id. Hämtar inget så länge id är null.
   productById(id: () => number | null) {
     return httpResource<Product>(() => {
@@ -123,7 +127,7 @@ export class ProductService {
     });
   }
 
-  // Produkter med samma kön och kategori som den givna produkten.
+  // Produkter med samma kön och kategori som den aktiva produkten.
   relatedProducts(product: () => Product | undefined, limit: number) {
     return httpResource<ProductResponse>(
       () => {
