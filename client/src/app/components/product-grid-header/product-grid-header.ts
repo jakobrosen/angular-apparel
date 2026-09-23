@@ -1,6 +1,8 @@
 import { Component, computed, inject } from '@angular/core';
 import { ProductService } from '../../services/product';
 
+const HEADER_STRUCTURE = ['q', 'gender', 'category', 'brand', 'new', 'discount'];
+
 @Component({
   imports: [],
   selector: 'app-product-grid-header',
@@ -8,8 +10,6 @@ import { ProductService } from '../../services/product';
 })
 export class ProductGridHeader {
   readonly productService = inject(ProductService);
-
-  HEADER_STRUCTURE = ['q', 'gender', 'category', 'brand', 'new', 'discount'];
 
   private parseHeaderSection(key: string): string {
     const rawSection: string | undefined = this.productService.queryParams()[key];
@@ -33,5 +33,5 @@ export class ProductGridHeader {
     return parsedHeader.join(' · ');
   }
 
-  readonly headerText = computed(() => this.parseHeader(this.HEADER_STRUCTURE));
+  readonly headerText = computed(() => this.parseHeader(HEADER_STRUCTURE));
 }
