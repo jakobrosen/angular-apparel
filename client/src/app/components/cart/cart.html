@@ -37,12 +37,13 @@
         </span>
       </p>
 
-      <button
-        type="button"
-        class="mt-4 w-full cursor-pointer bg-gray-950 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
+      <a
+        routerLink="/checkout"
+        class="mt-4 block w-full bg-gray-950 px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-800"
+        (click)="close.emit()"
       >
         Checkout
-      </button>
+      </a>
 
       <button
         type="button"
