@@ -1,12 +1,12 @@
-import { Injectable, inject, computed, effect } from '@angular/core';
+import { Injectable, inject, computed } from '@angular/core';
 import { Router, NavigationEnd, Params } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { httpResource } from '@angular/common/http';
-import type { ProductResponse } from '../types/Product';
+import type { Product, ProductResponse } from '../types/Product';
 
 // Värdet resurserna har innan svaret kommit, så .value() aldrig är undefined.
-const EMPTY_RESPONSE: ProductResponse = {
+export const EMPTY_RESPONSE: ProductResponse = {
   pagination: { page: 1, limit: 48, total: 0, totalPages: 0 },
   data: [],
 };
@@ -112,8 +112,30 @@ export class ProductService {
     { defaultValue: EMPTY_RESPONSE },
   );
 
-  constructor() {
-    effect(() => console.log(this.queryParams()));
-    effect(() => console.log(this.products.value()));
+  // Metoderna nedan skapar en resurs som lever lika länge som komponenten
+  // som anropar dem, så de måste anropas i komponentens fältinitiering.
+
+  // En produkt via id. Hämtar inget så länge id är null.
+  productById(id: () => number | null) {
+    return httpResource<Product>(() => {
+      const productId = id();
+      return productId === null ? undefined : { url: `/api/products/${productId}` };
+    });
+  }
+
+  // Produkter med samma kön och kategori som den givna produkten.
+  relatedProducts(product: () => Product | undefined, limit: number) {
+    return httpResource<ProductResponse>(
+      () => {
+        const current = product();
+        if (!current?.category) return undefined;
+
+        return {
+          url: '/api/products',
+          params: { gender: current.gender, category: current.category, limit },
+        };
+      },
+      { defaultValue: EMPTY_RESPONSE },
+    );
   }
 }

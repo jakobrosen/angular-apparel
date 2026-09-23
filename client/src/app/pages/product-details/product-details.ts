@@ -1,7 +1,6 @@
 import { Component, computed, inject, input, linkedSignal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { httpResource } from '@angular/common/http';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   phosphorCaretLeft,
@@ -10,20 +9,13 @@ import {
   phosphorShareNetwork,
   phosphorTruck,
 } from '@ng-icons/phosphor-icons/regular';
-import type { Product, ProductResponse } from '../../types/Product';
 import { productIdFromSlug } from '../../utilities/slug';
 import { ProductCarousel } from '../../components/product-carousel/product-carousel';
 import { CartService } from '../../services/cart';
+import { ProductService } from '../../services/product';
 
 // Antal produkter i product-carousel.
 const RELATED_LIMIT = 8;
-
-// Värdet karusellens resurs har innan svaret kommit, så .value()
-// aldrig är undefined.
-const EMPTY_RESPONSE: ProductResponse = {
-  pagination: { page: 1, limit: RELATED_LIMIT, total: 0, totalPages: 0 },
-  data: [],
-};
 
 @Component({
   selector: 'app-product-details',
@@ -42,6 +34,7 @@ const EMPTY_RESPONSE: ProductResponse = {
 })
 export default class ProductDetails {
   protected readonly cartService = inject(CartService);
+  private readonly productService = inject(ProductService);
 
   // Input för att mata in en slug. Detta är vad som styr vilken
   // produkt som visas.
@@ -51,23 +44,13 @@ export default class ProductDetails {
 
   // Plockar ut ID för att kunna anropa getProductById i backenden.
   protected readonly productId = computed(() => productIdFromSlug(this.slug()));
-  protected readonly product = httpResource<Product>(() => {
-    const id = this.productId();
-    return id === null ? undefined : { url: `/api/products/${id}` };
-  });
+  protected readonly product = this.productService.productById(this.productId);
 
   // Liknande produkter, alltså samma kön och kategori som den aktiva.
-  protected readonly relatedProducts = httpResource<ProductResponse>(
-    () => {
-      const product = this.product.value();
-      if (!product?.category) return undefined;
-
-      return {
-        url: '/api/products',
-        params: { gender: product.gender, category: product.category, limit: RELATED_LIMIT + 1 },
-      };
-    },
-    { defaultValue: EMPTY_RESPONSE },
+  // +1 eftersom den aktiva produkten filtreras bort i karusellen.
+  protected readonly relatedProducts = this.productService.relatedProducts(
+    this.product.value,
+    RELATED_LIMIT + 1,
   );
 
   // Styr knappens text och färg.

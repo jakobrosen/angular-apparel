@@ -1,11 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { HttpClient, httpResource } from '@angular/common/http';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { phosphorTrash } from '@ng-icons/phosphor-icons/regular';
-import type { ProductResponse } from '../../types/Product';
 import { productSlug } from '../../utilities/slug';
+import { AdminService } from '../../services/admin';
 
 @Component({
   selector: 'app-admin-products',
@@ -15,22 +14,19 @@ import { productSlug } from '../../utilities/slug';
   templateUrl: './admin-products.html',
 })
 export default class AdminProducts {
-  private readonly http = inject(HttpClient);
+  private readonly adminService = inject(AdminService);
 
-  protected readonly products = httpResource<ProductResponse>(() => ({
-    url: '/api/products',
-    params: { limit: 500 },
-  }));
+  protected readonly products = this.adminService.allProducts();
 
-  protected readonly items = computed(() => this.products.value()?.data ?? []);
+  protected readonly items = computed(() => this.products.value().data);
 
-  protected readonly total = computed(() => this.products.value()?.pagination.total ?? 0);
+  protected readonly total = computed(() => this.products.value().pagination.total);
 
   // Exponeras för mallen, som bygger länken till produktsidan.
   protected readonly productSlug = productSlug;
 
   // Tar bort produkten och hämtar om listan.
   protected remove(id: number): void {
-    this.http.delete(`/api/admin/products/${id}`).subscribe(() => this.products.reload());
+    this.adminService.deleteProduct(id).subscribe(() => this.products.reload());
   }
 }

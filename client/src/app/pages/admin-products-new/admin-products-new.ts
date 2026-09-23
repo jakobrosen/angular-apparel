@@ -1,9 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs';
 import { BrandService } from '../../services/brand';
 import { CategoryService } from '../../services/category';
+import { AdminService } from '../../services/admin';
+import type { NewProduct } from '../../types/Product';
 
 @Component({
   selector: 'app-admin-products-new',
@@ -12,7 +13,7 @@ import { CategoryService } from '../../services/category';
   templateUrl: './admin-products-new.html',
 })
 export default class AdminProductsNew {
-  private readonly http = inject(HttpClient);
+  private readonly adminService = inject(AdminService);
   private readonly router = inject(Router);
 
   protected readonly brandService = inject(BrandService);
@@ -28,10 +29,10 @@ export default class AdminProductsNew {
     const data = new FormData(form);
     const prevPrice = String(data.get('prevPrice') ?? '').trim();
 
-    const body = {
+    const body: NewProduct = {
       title: String(data.get('title') ?? '').trim(),
       description: String(data.get('description') ?? '').trim(),
-      gender: String(data.get('gender') ?? ''),
+      gender: String(data.get('gender') ?? '') as NewProduct['gender'],
       sku: String(data.get('sku') ?? '').trim(),
       price: Number(data.get('price')),
       prevPrice: prevPrice ? Number(prevPrice) : null,
@@ -47,10 +48,10 @@ export default class AdminProductsNew {
     this.error.set('');
     this.submitting.set(true);
 
-    this.http
-      // .post returnerar en observable som inte gör något. Man måste
+    this.adminService
+      // createProduct returnerar en observable som inte gör något. Man måste
       // prenumerera på den för att koden ska köras.
-      .post('/api/admin/products', body)
+      .createProduct(body)
 
       // Med .pipe kan man koppla på operatorer för en observable-ström.
       // finalize motsvarar "finally" hos en promise och körs efter

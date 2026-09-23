@@ -18,3 +18,16 @@ export interface ProductResponse {
   pagination: { page: number; limit: number; total: number; totalPages: number };
   data: Product[];
 }
+
+// Bodyn som skickas vid POST /api/admin/products.
+export interface NewProduct {
+  title: string;
+  description: string;
+  gender: Product['gender'];
+  sku: string;
+  price: number;
+  prevPrice: number | null;
+  categoryId: number;
+  brandId: number;
+  images: string[];
+}
