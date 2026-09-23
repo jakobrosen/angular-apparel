@@ -15,7 +15,6 @@ import { ProductService } from '../../services/product';
   standalone: true,
   imports: [RouterLink, NgIcon],
   providers: [provideIcons({ phosphorCaretDown, phosphorFadersHorizontal, phosphorX })],
-  styleUrl: './filter-menu.css',
   templateUrl: './filter-menu.html',
 })
 export class FilterMenu {

@@ -9,7 +9,6 @@ import { CartService } from '../../services/cart';
   imports: [CurrencyPipe, NgIcon, CartProductCard],
   providers: [provideIcons({ phosphorX })],
   selector: 'app-cart',
-  styleUrl: './cart.css',
   templateUrl: './cart.html',
 })
 export class Cart {

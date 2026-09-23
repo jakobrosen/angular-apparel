@@ -4,7 +4,6 @@ import { ProductService } from '../../services/product';
 @Component({
   imports: [],
   selector: 'app-product-grid-header',
-  styleUrl: './product-grid-header.css',
   templateUrl: './product-grid-header.html',
 })
 export class ProductGridHeader {

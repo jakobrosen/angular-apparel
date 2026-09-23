@@ -11,7 +11,6 @@ import { ProductResponse } from '../../types/Product';
   imports: [ProductCard, RouterLink, NgIcon],
   providers: [provideIcons({ phosphorCaretLeft, phosphorCaretRight })],
   selector: 'app-product-grid',
-  styleUrl: './product-grid.css',
   templateUrl: './product-grid.html',
 })
 export class ProductGrid {

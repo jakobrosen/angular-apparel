@@ -8,7 +8,6 @@ import { Hero } from '../../components/hero/hero';
   standalone: true,
   imports: [ProductGrid, Hero],
   templateUrl: './home.html',
-  styleUrl: './home.css',
 })
 export default class Home {
   protected readonly productService = inject(ProductService);

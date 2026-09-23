@@ -19,7 +19,6 @@ import { CartService } from '../../services/cart';
   imports: [RouterLink, RouterLinkActive, NgIcon, Cart, HoverMenu, MobileMenu, SearchMenu],
   providers: [provideIcons({ phosphorBag, phosphorMagnifyingGlass, phosphorList, phosphorX })],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css',
 })
 export class Navbar {
   protected readonly cartService = inject(CartService);
