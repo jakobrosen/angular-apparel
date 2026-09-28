@@ -29,5 +29,6 @@ export interface NewProduct {
   prevPrice: number | null;
   categoryId: number;
   brandId: number;
+  publishedAt?: string;
   images: string[];
 }

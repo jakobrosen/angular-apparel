@@ -9,12 +9,13 @@ import type { NewProduct, Product, ProductResponse } from '../types/Product';
 export class AdminService {
   private readonly http = inject(HttpClient);
 
-  // Alla produkter till admin-listan. Skapar en resurs, så den måste
-  // anropas i komponentens fältinitiering.
+  // Alla produkter till admin-listan, även schemalagda. Skapar en resurs,
+  // så den måste anropas i komponentens fältinitiering.
   allProducts() {
-    return httpResource<ProductResponse>(() => ({ url: '/api/products', params: { limit: 500 } }), {
-      defaultValue: EMPTY_RESPONSE,
-    });
+    return httpResource<ProductResponse>(
+      () => ({ url: '/api/admin/products', params: { limit: 500 } }),
+      { defaultValue: EMPTY_RESPONSE },
+    );
   }
 
   createProduct(product: NewProduct): Observable<Product> {

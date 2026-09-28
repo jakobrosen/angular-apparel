@@ -17,9 +17,17 @@ import { HttpError } from "../middleware/errorHandler.js";
  * Parsear eventuella filter från en query-parameter och returnerar
  * en färdig where-clause.
  */
-export function parseFilters(query: z.infer<typeof productQuerySchema>) {
+export function parseFilters(
+  query: z.infer<typeof productQuerySchema>,
+  includeScheduled = false,
+) {
   // Skapar en tom array för att lagra query conditions dynamiskt.
   const filters: WhereOptions[] = [];
+
+  // Döljer schemalagda produkter, alltså de med publishedAt i framtiden.
+  if (!includeScheduled) {
+    filters.push({ publishedAt: { [Op.lte]: new Date() } });
+  }
 
   // Matchar ett sökord mot antingen produktnamn, märke, eller kategori
   if (query.q) {

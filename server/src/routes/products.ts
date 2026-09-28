@@ -6,6 +6,7 @@ import {
   ProductImage,
 } from "../models/index.js";
 import { Request, Response, Router } from "express";
+import { Op } from "sequelize";
 import {
   productCreateSchema,
   productQuerySchema,
@@ -27,9 +28,17 @@ const includeAll = [
   { model: ProductImage, as: "images", attributes: ["url"], separate: true },
 ];
 
-async function getProducts(req: Request, res: Response): Promise<void> {
+/**
+ * Delad logik för den publika listan och admin-listan. Bara admin
+ * får se schemalagda produkter.
+ */
+async function listProducts(
+  req: Request,
+  res: Response,
+  includeScheduled: boolean,
+): Promise<void> {
   const query = validate(productQuerySchema, req.query);
-  const filters = parseFilters(query);
+  const filters = parseFilters(query, includeScheduled);
   const order = parseOrder(query);
 
   const { page, limit } = query;
@@ -57,10 +66,22 @@ async function getProducts(req: Request, res: Response): Promise<void> {
   });
 }
 
+async function getProducts(req: Request, res: Response): Promise<void> {
+  await listProducts(req, res, false);
+}
+
+async function getAdminProducts(req: Request, res: Response): Promise<void> {
+  await listProducts(req, res, true);
+}
+
 async function getProductById(req: Request, res: Response): Promise<void> {
   const id = parseId(req);
 
-  const product = await Product.findByPk(id, { include: includeAll });
+  // En schemalagd produkt ger 404 tills den är publicerad.
+  const product = await Product.findOne({
+    where: { id, publishedAt: { [Op.lte]: new Date() } },
+    include: includeAll,
+  });
 
   if (!product) {
     throw new HttpError(404, `Product with ID ${id} not found`);
@@ -131,6 +152,7 @@ export function registerProductRoutes(app: Router) {
   app.get("/api/products", getProducts);
   app.get("/api/products/:id", getProductById);
 
+  app.get("/api/admin/products", getAdminProducts);
   app.post("/api/admin/products", createProduct);
   app.put("/api/admin/products/:id", updateProduct);
   app.delete("/api/admin/products/:id", deleteProduct);

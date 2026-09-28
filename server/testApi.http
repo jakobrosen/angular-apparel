@@ -107,6 +107,38 @@ Authorization: Bearer {{token}}
 DELETE {{baseUrl}}/admin/products/{{createProduct.response.body.id}}
 Authorization: Bearer {{token}}
 
+### Get all products including scheduled ones (admin)
+GET {{baseUrl}}/admin/products?sort=newest&limit=5
+Authorization: Bearer {{token}}
+
+### Create scheduled product (admin) - publishedAt in the future
+# @name createScheduledProduct
+POST {{baseUrl}}/admin/products
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Scheduled Test Product",
+  "description": "A product that goes live in the future.",
+  "gender": "men",
+  "price": 1500,
+  "sku": "AAA222",
+  "categoryId": 1,
+  "brandId": 1,
+  "publishedAt": "2099-01-01T09:00:00.000Z",
+  "images": ["https://example.com/images/scheduled-1.jpg"]
+}
+
+### Scheduled product is hidden publicly (404)
+GET {{baseUrl}}/products/{{createScheduledProduct.response.body.id}}
+
+### Scheduled product is missing from the public list but shows up in the admin list above
+GET {{baseUrl}}/products?q=Scheduled
+
+### Delete scheduled product (admin)
+DELETE {{baseUrl}}/admin/products/{{createScheduledProduct.response.body.id}}
+Authorization: Bearer {{token}}
+
 ###############################################################################
 # Brands
 ###############################################################################

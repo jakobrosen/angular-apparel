@@ -28,6 +28,7 @@ export default class AdminProductsNew {
     // FormData hämtar alla formens fält på en gång.
     const data = new FormData(form);
     const prevPrice = String(data.get('prevPrice') ?? '').trim();
+    const publishedAt = String(data.get('publishedAt') ?? '');
 
     const body: NewProduct = {
       title: String(data.get('title') ?? '').trim(),
@@ -38,6 +39,8 @@ export default class AdminProductsNew {
       prevPrice: prevPrice ? Number(prevPrice) : null,
       categoryId: Number(data.get('categoryId')),
       brandId: Number(data.get('brandId')),
+      // datetime-local saknar tidszon, new Date() tolkar den som lokal tid.
+      publishedAt: publishedAt ? new Date(publishedAt).toISOString() : undefined,
 
       images: String(data.get('images') ?? '')
         .split('\n')

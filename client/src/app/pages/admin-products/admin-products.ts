@@ -1,15 +1,16 @@
 import { Component, computed, inject } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { phosphorTrash } from '@ng-icons/phosphor-icons/regular';
 import { productSlug } from '../../utilities/slug';
 import { AdminService } from '../../services/admin';
+import type { Product } from '../../types/Product';
 
 @Component({
   selector: 'app-admin-products',
   standalone: true,
-  imports: [CurrencyPipe, RouterLink, NgIcon],
+  imports: [CurrencyPipe, DatePipe, RouterLink, NgIcon],
   providers: [provideIcons({ phosphorTrash })],
   templateUrl: './admin-products.html',
 })
@@ -24,6 +25,11 @@ export default class AdminProducts {
 
   // Exponeras för mallen, som bygger länken till produktsidan.
   protected readonly productSlug = productSlug;
+
+  // Schemalagd = publiceringsdatumet ligger i framtiden.
+  protected isScheduled(product: Product): boolean {
+    return new Date(product.publishedAt).getTime() > Date.now();
+  }
 
   // Tar bort produkten och hämtar om listan.
   protected remove(id: number): void {

@@ -9,9 +9,6 @@ const FEATURED: MenuItem[] = [
   { name: 'sale', label: 'Sale', params: { discount: 'true' } },
 ];
 
-// Hela menystrukturen på ett ställe. Både hover-menyn (desktop) och
-// mobilmenyn renderar från sections, så en ny kolumn behöver bara
-// läggas till här för att dyka upp i båda.
 @Injectable({ providedIn: 'root' })
 export class MenuService {
   private readonly brandService = inject(BrandService);
