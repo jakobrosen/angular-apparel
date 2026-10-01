@@ -105,7 +105,7 @@ export class ProductService {
 
   // Använder httpResource för att hämta produkter baserat på
   // de aktuella query-parametrarna.
-  readonly products = httpResource<ProductResponse>(
+  products = httpResource<ProductResponse>(
     () =>
       this.path() === '/products'
         ? { url: '/api/products', params: this.queryParams() }
@@ -114,7 +114,7 @@ export class ProductService {
   );
 
   // De åtta senaste produkterna till home.
-  readonly latestProducts = httpResource<ProductResponse>(
+  latestProducts = httpResource<ProductResponse>(
     () => (this.path() === '/' ? { url: '/api/products', params: LATEST_PARAMS } : undefined),
     { defaultValue: EMPTY_RESPONSE },
   );
