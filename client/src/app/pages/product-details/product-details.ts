@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, linkedSignal } from '@angular/core';
+import { Component, computed, inject, input, linkedSignal, effect } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -11,8 +11,10 @@ import {
 } from '@ng-icons/phosphor-icons/regular';
 import { productIdFromSlug } from '../../utilities/slug';
 import { ProductCarousel } from '../../components/product-carousel/product-carousel';
+import { Title } from '@angular/platform-browser';
 import { CartService } from '../../services/cart';
 import { ProductService } from '../../services/product';
+import { runEffect } from '@angular/core/primitives/signals';
 
 // Antal produkter i product-carousel.
 const RELATED_LIMIT = 8;
@@ -33,6 +35,7 @@ const RELATED_LIMIT = 8;
   templateUrl: './product-details.html',
 })
 export default class ProductDetails {
+  private readonly titleService = inject(Title);
   protected readonly cartService = inject(CartService);
   private readonly productService = inject(ProductService);
 
@@ -93,5 +96,14 @@ export default class ProductDetails {
     // bläddra till nästa bild trots att man kommit till slutet,
     // och vice versa.
     this.imageIndex.update((index) => (index + delta + count) % count);
+  }
+
+  constructor() {
+    effect(() => {
+      const product = this.product.value();
+      if (product) {
+        this.titleService.setTitle(product.title);
+      }
+    });
   }
 }
