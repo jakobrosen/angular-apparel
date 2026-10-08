@@ -4,13 +4,10 @@ import { Observable } from 'rxjs';
 import { EMPTY_RESPONSE } from './product';
 import type { NewProduct, Product, ProductResponse } from '../types/Product';
 
-// Alla anrop som bara admin-sidorna använder.
 @Injectable({ providedIn: 'root' })
 export class AdminService {
   private readonly http = inject(HttpClient);
 
-  // Alla produkter till admin-listan, även schemalagda. Skapar en resurs,
-  // så den måste anropas i komponentens fältinitiering.
   allProducts() {
     return httpResource<ProductResponse>(
       () => ({ url: '/api/admin/products', params: { limit: 500 } }),

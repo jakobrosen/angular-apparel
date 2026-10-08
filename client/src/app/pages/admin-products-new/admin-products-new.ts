@@ -25,7 +25,6 @@ export default class AdminProductsNew {
   submit(event: Event, form: HTMLFormElement): void {
     event.preventDefault();
 
-    // FormData hämtar alla formens fält på en gång.
     const data = new FormData(form);
     const prevPrice = String(data.get('prevPrice') ?? '').trim();
     const publishedAt = String(data.get('publishedAt') ?? '');
@@ -39,7 +38,6 @@ export default class AdminProductsNew {
       prevPrice: prevPrice ? Number(prevPrice) : null,
       categoryId: Number(data.get('categoryId')),
       brandId: Number(data.get('brandId')),
-      // datetime-local saknar tidszon, new Date() tolkar den som lokal tid.
       publishedAt: publishedAt ? new Date(publishedAt).toISOString() : undefined,
 
       images: String(data.get('images') ?? '')
@@ -52,18 +50,10 @@ export default class AdminProductsNew {
     this.submitting.set(true);
 
     this.adminService
-      // createProduct returnerar en observable som inte gör något. Man måste
-      // prenumerera på den för att koden ska köras.
       .createProduct(body)
 
-      // Med .pipe kan man koppla på operatorer för en observable-ström.
-      // finalize motsvarar "finally" hos en promise och körs efter
-      // strömmen är avslutad.
       .pipe(finalize(() => this.submitting.set(false)))
 
-      // Här startar vi anropet genom att prenumerera på observablen med
-      // .subscribe. "next" definierar vad som ska hända om anropet lyckas,
-      // och "error" vad som händer vid fel.
       .subscribe({
         next: () => this.router.navigate(['/admin/products']),
         error: (error) => this.error.set(error.message),

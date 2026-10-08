@@ -1,9 +1,7 @@
 <div class="flex h-full flex-col font-sans">
-  <!-- Header -->
   <div class="flex items-center justify-between border-b border-gray-200 p-4">
     <h2 class="text-lg font-semibold">Your Cart</h2>
 
-    <!-- Close cart icon -->
     <ng-icon
       name="phosphorX"
       class="text-gray-700 hover:text-gray-950 transition-colors text-2xl cursor-pointer"
@@ -14,7 +12,6 @@
   @if (cartService.isEmpty()) {
     <p class="p-4 text-gray-500">Your cart is empty.</p>
   } @else {
-    <!-- Raderna, det enda som scrollar -->
     <ul class="flex-1 space-y-3 overflow-y-auto p-4">
       @for (item of cartService.items(); track item.product.id) {
         <li>
@@ -28,7 +25,6 @@
       }
     </ul>
 
-    <!-- Summering -->
     <div class="border-t border-gray-200 p-4">
       <p class="flex items-baseline justify-between">
         <span class="text-sm text-gray-700">Subtotal</span>

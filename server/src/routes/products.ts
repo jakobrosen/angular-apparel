@@ -28,10 +28,6 @@ const includeAll = [
   { model: ProductImage, as: "images", attributes: ["url"], separate: true },
 ];
 
-/**
- * Delad logik för den publika listan och admin-listan. Bara admin
- * får se schemalagda produkter.
- */
 async function listProducts(
   req: Request,
   res: Response,
@@ -77,7 +73,6 @@ async function getAdminProducts(req: Request, res: Response): Promise<void> {
 async function getProductById(req: Request, res: Response): Promise<void> {
   const id = parseId(req);
 
-  // En schemalagd produkt ger 404 tills den är publicerad.
   const product = await Product.findOne({
     where: { id, publishedAt: { [Op.lte]: new Date() } },
     include: includeAll,

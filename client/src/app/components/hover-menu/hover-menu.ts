@@ -14,11 +14,7 @@ export class HoverMenu {
   open = input.required<boolean>();
   heading = input.required<string>();
 
-  // Används för att trigga closeHoverMenu() i navbar-komponenten.
   linkClicked = output<void>();
 
-  // Sektionen (med sina kolumner) för den rubrik navbaren pekar på.
-  // Räknas om både när rubriken byts och när menydatan kommer in
-  // från backenden.
   section = computed(() => this.menuService.section(this.heading()));
 }

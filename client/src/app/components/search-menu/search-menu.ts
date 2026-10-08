@@ -15,21 +15,16 @@ export class SearchMenu {
 
   open = input.required<boolean>();
 
-  // Används för att stänga menyn i navbar-komponenten.
   searched = output<void>();
 
-  // Söker på "q" och byter samtidigt sida till produktlistan. Till
-  // skillnad från filtren mergas inte params, en ny sökning börjar om.
   search(event: Event, query: string): void {
     event.preventDefault();
 
     const trimmed = query.trim();
     if (!trimmed) return;
 
-    // Ändrar URLen till att bara innehålla en query param med söktermen.
     this.router.navigate(['/products'], { queryParams: { q: trimmed } });
 
-    // Emittar searched för att stänga menyn efter sökning.
     this.searched.emit();
   }
 }

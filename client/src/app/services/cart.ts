@@ -2,11 +2,8 @@ import { Injectable, computed, effect, signal } from '@angular/core';
 import type { Product } from '../types/Product';
 import type { CartItem } from '../types/Cart';
 
-// Max antal av samma produkt som kan finnas i korgen.
 export const MAX_QUANTITY = 10;
 
-// Läser korgen från localStorage. Trasig eller gammal data ska inte
-// krascha appen vid start, så allt som inte går att tolka blir en tom korg.
 function readStoredItems(): CartItem[] {
   try {
     const stored = localStorage.getItem('cart');
@@ -23,7 +20,6 @@ export class CartService {
   readonly isOpen = signal(false);
 
   constructor() {
-    // Syncar varukorgen varje gång den uppdateras.
     effect(() => {
       try {
         localStorage.setItem('cart', JSON.stringify(this.items()));
@@ -39,7 +35,6 @@ export class CartService {
 
   readonly isEmpty = computed(() => this.items().length === 0);
 
-  // Lägger till produkten om den inte redan finns, och visar korgen.
   add(product: Product, quantity = 1): void {
     this.items.update((items) =>
       items.some((item) => item.product.id === product.id)
@@ -50,7 +45,6 @@ export class CartService {
     this.isOpen.set(true);
   }
 
-  // Sätter ett exakt antal. 0 eller mindre tar bort produkten.
   setQuantity(productId: number, quantity: number): void {
     if (quantity < 1) {
       this.remove(productId);

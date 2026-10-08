@@ -3,7 +3,6 @@ import { BrandService } from './brand';
 import { CategoryService } from './category';
 import { MenuItem, MenuSection } from '../types/Menu';
 
-// FEATURED-kolumnernas länkar finns inte i backenden, så de skrivs här.
 const FEATURED: MenuItem[] = [
   { name: 'new', label: 'New arrivals', params: { new: 'true' } },
   { name: 'sale', label: 'Sale', params: { discount: 'true' } },
@@ -14,7 +13,6 @@ export class MenuService {
   private readonly brandService = inject(BrandService);
   private readonly categoryService = inject(CategoryService);
 
-  // Kategorierna delas upp på "type" för att bli egna kolumner.
   private readonly clothing = computed(() =>
     this.categoryService.categories.value().filter((category) => category.type === 'clothing'),
   );
@@ -22,7 +20,6 @@ export class MenuService {
     this.categoryService.categories.value().filter((category) => category.type === 'accessory'),
   );
 
-  // Räknas om när märken eller kategorier kommer in från backenden.
   readonly sections = computed<MenuSection[]>(() => {
     const clothing = this.clothing();
     const accessories = this.accessories();
@@ -137,8 +134,6 @@ export class MenuService {
     ];
   });
 
-  // Slår upp en sektion på dess rubrik. Menyerna håller den öppna
-  // rubriken som en sträng, så det är så de hittar sina kolumner.
   section(heading: string): MenuSection | undefined {
     return this.sections().find((section) => section.heading === heading);
   }

@@ -11,7 +11,6 @@
     class="flex h-full transition-transform duration-300"
     (transitionend)="onRowTransitionEnd($event)"
   >
-    <!-- Panel 1: huvudrubriker -->
     <div
       class="w-full shrink-0 h-full overflow-y-auto"
       [attr.inert]="openHeading() === null ? null : ''"
@@ -32,7 +31,6 @@
       </ul>
     </div>
 
-    <!-- Panel 2: underrubriker -->
     <div
       class="w-full shrink-0 h-full overflow-hidden"
       [attr.inert]="openHeading() === null ? '' : null"

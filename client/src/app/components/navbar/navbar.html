@@ -2,7 +2,6 @@
   <header class="bg-white shadow-sm relative z-20">
     <div class="mx-auto px-4 py-3 h-14">
       <div class="flex justify-between items-center select-none">
-        <!-- Logo -->
         <div class="w-41 flex items-center">
           <a
             routerLink="/"
@@ -11,7 +10,6 @@
             ANGULAR APPAREL
           </a>
 
-          <!-- Menu icon -->
           <div class="flex items-center mr-1.5 lg:hidden">
             <button
               type="button"
@@ -29,7 +27,6 @@
           </div>
         </div>
 
-        <!-- Desktop navigation -->
         <nav aria-label="Main" class="hidden lg:block">
           <ul
             class="flex text-sm font-sans font-semibold whitespace-nowrap items-center justify-center space-x-8"
@@ -104,9 +101,7 @@
           ANGULAR APPAREL
         </a>
 
-        <!-- Right side icons -->
         <div class="w-41 flex justify-end items-center space-x-4 text-2xl ml-1.5">
-          <!-- Search icon -->
           <button
             type="button"
             aria-controls="search-menu"
@@ -121,7 +116,6 @@
             ></ng-icon>
           </button>
 
-          <!-- Cart icon -->
           <button
             type="button"
             aria-controls="cart-panel"
@@ -135,7 +129,6 @@
               class="text-gray-700 hover:text-gray-950 transition-colors text-2xl"
             ></ng-icon>
 
-            <!-- Antal rader i korgen. Räknas upp i aria-label ovan. -->
             @if (cartService.items().length) {
               <span
                 aria-hidden="true"
@@ -159,10 +152,8 @@
   <app-search-menu [open]="searchOpen()" (searched)="searchOpen.set(false)" />
 </div>
 
-<!-- Mobile navigation menu -->
 <app-mobile-menu [open]="mobileMenuOpen()" (linkClicked)="mobileMenuOpen.set(false)" />
 
-<!-- Cart slide-in panel -->
 <div
   id="cart-panel"
   role="dialog"
@@ -175,7 +166,6 @@
   <app-cart (close)="toggleCart()" />
 </div>
 
-<!-- Menu background -->
 <div
   aria-hidden="true"
   [class]="mobileMenuOpen() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"
@@ -183,7 +173,6 @@
   (click)="closeAllMenus()"
 ></div>
 
-<!-- Hover menu background -->
 <div
   aria-hidden="true"
   [class]="hoverMenuOpen() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"
@@ -191,7 +180,6 @@
   (click)="closeAllMenus()"
 ></div>
 
-<!-- Search menu background -->
 <div
   aria-hidden="true"
   [class]="searchOpen() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"
@@ -199,7 +187,6 @@
   (click)="closeAllMenus()"
 ></div>
 
-<!-- Cart background -->
 <div
   aria-hidden="true"
   [class]="cartOpen() ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'"

@@ -23,12 +23,10 @@ import { CartService } from '../../services/cart';
 export class Navbar {
   protected readonly cartService = inject(CartService);
 
-  // Styr vilka menyer som är öppna.
   mobileMenuOpen = signal(false);
   hoverMenuOpen = signal(false);
   searchOpen = signal(false);
 
-  // Korgens läge ägs av servicen, så produktsidan kan öppna panelen.
   readonly cartOpen = this.cartService.isOpen;
 
   hoverMenuHeading = signal('');

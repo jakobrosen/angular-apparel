@@ -16,19 +16,14 @@ import { ProductResponse } from '../../types/Product';
 export class ProductGrid {
   protected readonly productService = inject(ProductService);
 
-  // Input för de produkter som ska visas.
   readonly products = input.required<HttpResourceRef<ProductResponse>>();
 
-  // Om pagination ska vara aktiverat.
   readonly paginated = input(true);
 
-  // Sidinformationen som backenden skickar med svaret.
   readonly pagination = computed(() => this.products().value().pagination);
 
-  // Antal skelettkort som visas medan produkterna hämtas.
   readonly skeletons = new Array(8);
 
-  // Condition för tomt resultat.
   readonly isEmpty = computed(
     () => !this.products().isLoading() && this.products().value().data.length === 0,
   );

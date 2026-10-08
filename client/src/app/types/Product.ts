@@ -1,4 +1,3 @@
-// En produkt så som GET /api/products returnerar den.
 export interface Product {
   id: number;
   title: string;
@@ -13,13 +12,11 @@ export interface Product {
   publishedAt: string;
 }
 
-// Responsen som APIt returnerar.
 export interface ProductResponse {
   pagination: { page: number; limit: number; total: number; totalPages: number };
   data: Product[];
 }
 
-// Bodyn som skickas vid POST /api/admin/products.
 export interface NewProduct {
   title: string;
   description: string;

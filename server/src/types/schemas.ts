@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-// Zod-enums som används för validering. "infer" returnerar
-// en typ som innehåller värdet av zod-enumen.
 export const genderEnum = z.enum(["men", "women"]);
 export type Gender = z.infer<typeof genderEnum>;
 
@@ -11,12 +9,8 @@ export type CategoryType = z.infer<typeof categoryTypeEnum>;
 export const sortEnum = z.enum(["newest", "priceAsc", "priceDesc"]);
 export type Sort = z.infer<typeof sortEnum>;
 
-// Regex som matchar ett giltigt SKU.
 const SKU_REGEX = /^[A-Z]{3}\d{3}$/;
 
-/**
- * Används vid parsing av query params med multi select filters.
- */
 function parseMultiSelectParams() {
   return z
     .string()

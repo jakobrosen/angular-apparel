@@ -14,8 +14,6 @@ export class Category extends Model<
 > {
   declare id: CreationOptional<number>;
   declare name: string;
-  // Delar upp kategorierna i kläder och accessoarer, vilket
-  // används för att gruppera dem i hover-menyn på frontenden.
   declare type: CategoryType;
 }
 

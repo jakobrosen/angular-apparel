@@ -3,9 +3,6 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/variables.js";
 import { HttpError } from "./errorHandler.js";
 
-/**
- * Middleware som kontrollerar att en giltig JWT skickats med.
- */
 export function requireAuth(
   req: Request,
   _res: Response,

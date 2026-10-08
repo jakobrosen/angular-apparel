@@ -1,7 +1,6 @@
 <article
   class="relative flex h-full flex-col border border-bg-2 font-sans hover:border-text hover:bg-bg-1 cursor-pointer select-none"
 >
-  <!-- Bild -->
   <div class="relative aspect-square overflow-hidden bg-bg-1">
     <img
       [src]="image()"
@@ -11,7 +10,6 @@
       class="h-full w-full object-cover"
     />
 
-    <!-- New-badge -->
     @if (isNew()) {
       <span
         class="absolute top-3 left-3 bg-gray-950 px-2 py-1 text-xs font-semibold tracking-wide text-white"
@@ -20,7 +18,6 @@
       </span>
     }
 
-    <!-- <3 -->
     <button
       type="button"
       aria-label="Add to favorites"
@@ -31,7 +28,6 @@
     </button>
   </div>
 
-  <!-- Pris -->
   <div class="mt-1.5 px-3 pb-5">
     @if (onSale()) {
       <p class="flex items-baseline gap-2">
@@ -49,8 +45,6 @@
       </p>
     }
 
-    <!-- Produktnamn och märke. Länken täcker hela kortet med ::after,
-        så hjärtknappen slipper ligga inuti en <a>. -->
     <h3 class="mt-1 text-sm text-gray-950">
       <a [routerLink]="link()" class="after:absolute after:inset-0">{{ product().title }}</a>
     </h3>

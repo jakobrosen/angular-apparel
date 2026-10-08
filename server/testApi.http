@@ -1,12 +1,5 @@
 @baseUrl = http://localhost:8000/api
 
-# Run "Admin login" first. Its token is picked up automatically by the
-# admin requests below via {{login.response.body.token}}.
-
-###############################################################################
-# Auth
-###############################################################################
-
 ### Admin login
 # @name login
 POST {{baseUrl}}/admin/auth/login
@@ -20,10 +13,6 @@ Content-Type: application/json
 ###
 
 @token = {{login.response.body.token}}
-
-###############################################################################
-# Products
-###############################################################################
 
 ### Get all products (default page 1, limit 48)
 GET {{baseUrl}}/products
@@ -139,10 +128,6 @@ GET {{baseUrl}}/products?q=Scheduled
 DELETE {{baseUrl}}/admin/products/{{createScheduledProduct.response.body.id}}
 Authorization: Bearer {{token}}
 
-###############################################################################
-# Brands
-###############################################################################
-
 ### Get all brands
 GET {{baseUrl}}/brands
 
@@ -174,10 +159,6 @@ Authorization: Bearer {{token}}
 {
   "id": {{createBrand.response.body.id}}
 }
-
-###############################################################################
-# Categories
-###############################################################################
 
 ### Get all categories
 GET {{baseUrl}}/categories
@@ -212,10 +193,6 @@ Authorization: Bearer {{token}}
 {
   "id": {{createCategory.response.body.id}}
 }
-
-###############################################################################
-# Error cases
-###############################################################################
 
 ### 400 - invalid product body (missing fields, empty images)
 POST {{baseUrl}}/admin/products

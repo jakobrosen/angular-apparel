@@ -9,7 +9,6 @@
     {{ heading() }}
   </div>
   <div class="flex justify-center">
-    <!-- En kolumn per kolumn i sektionen, från MenuService. -->
     <div class="flex justify-around p-5 w-220">
       @for (column of section()?.columns; track column.heading) {
         <app-menu-column [column]="column" (linkClicked)="linkClicked.emit()" />

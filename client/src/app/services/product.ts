@@ -5,23 +5,17 @@ import { filter, map } from 'rxjs';
 import { httpResource } from '@angular/common/http';
 import type { Product, ProductResponse } from '../types/Product';
 
-// Värdet resurserna har innan svaret kommit, så .value() aldrig är undefined.
 export const EMPTY_RESPONSE: ProductResponse = {
   pagination: { page: 1, limit: 48, total: 0, totalPages: 0 },
   data: [],
 };
 
-// Params för home.
 const LATEST_PARAMS = { sort: 'newest', limit: 8 };
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
   private readonly router = inject(Router);
 
-  // Skapar en signal för den aktuella URLen. Ett NavigationEnd-objekt
-  // har propertyn urlAfterRedirects som innehåller URLen efter att
-  // en navigering är slutförd. Här fångar vi upp alla dessa objekt
-  // från router.events, och hämtar ut värdet.
   private readonly url = toSignal(
     this.router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
@@ -30,18 +24,10 @@ export class ProductService {
     { initialValue: this.router.url },
   );
 
-  // ##### FILTER / QUERY PARAMS #####
-  // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-
-  // Hämtar ut query-parametrar. router.parseUrl returnerar ett
-  // UrlTree-objekt som har egenskapen "queryParams". Computed
-  // gör även så att queryParams blir en signal.
   readonly queryParams = computed(() => this.router.parseUrl(this.url()).queryParams);
 
-  // Sökvägen utan query-sträng, så resurserna kan matcha på exakt sida.
   private readonly path = computed(() => this.url().split('?')[0]);
 
-  // Hjälpfunktion som tar in nya query params och mergar med de existerande.
   private updateParams(params: Params): void {
     this.router.navigate([], {
       queryParams: { ...params, page: null },
@@ -49,46 +35,32 @@ export class ProductService {
     });
   }
 
-  // Returnerar de filter som är aktiva (redan finns i URLen) för en viss
-  // key (category, brand, etc) parseat som en array.
   getActiveFilters(key: string): string[] {
     const raw = this.queryParams()[key];
     return raw ? raw.split(',') : [];
   }
 
-  // Används för att toggla ett filter av/på.
   toggleFilter(key: string, filter: string): void {
-    // Tar reda på vilka filter som är aktiva i URLen.
     const activeFilters = this.getActiveFilters(key);
 
-    // Lägger till eller tar bort det nya filtervärdet baserat på om
-    // det redan var aktivt eller inte.
     const updatedFilters = activeFilters.includes(filter)
       ? activeFilters.filter((f) => f !== filter)
       : [...activeFilters, filter];
 
-    // Uppdatera URLen med updateParams.
     this.updateParams({ [key]: updatedFilters.length ? updatedFilters.join(',') : null });
   }
 
-  // Uppdaterar max/min price.
   setPrice(key: 'minPrice' | 'maxPrice', value: string): void {
     this.updateParams({ [key]: value || null });
   }
 
-  // Sortering är ett enskilt val, inte en lista som filtren. Tom sträng
-  // tar bort parametern, och då sorterar backenden på id.
   setSort(sort: string): void {
     this.updateParams({ sort: sort || null });
   }
 
-  // Egen toggle för discount eftersom backenden bara tar emot "true" eller null.
   toggleDiscount(): void {
     this.updateParams({ discount: this.queryParams()['discount'] ? null : 'true' });
   }
-
-  // ##### PAGINATION #####
-  // VVVVVVVVVVVVVVVVVVVVVV
 
   setPage(page: number): void {
     this.router.navigate([], {
@@ -97,14 +69,8 @@ export class ProductService {
     });
   }
 
-  // Antal träffar.
   readonly total = computed(() => this.products.value().pagination.total);
 
-  // ##### API-ANROP #####
-  // VVVVVVVVVVVVVVVVVVVVV
-
-  // Använder httpResource för att hämta produkter baserat på
-  // de aktuella query-parametrarna.
   products = httpResource<ProductResponse>(
     () =>
       this.path() === '/products'
@@ -113,13 +79,11 @@ export class ProductService {
     { defaultValue: EMPTY_RESPONSE },
   );
 
-  // De åtta senaste produkterna till home.
   latestProducts = httpResource<ProductResponse>(
     () => (this.path() === '/' ? { url: '/api/products', params: LATEST_PARAMS } : undefined),
     { defaultValue: EMPTY_RESPONSE },
   );
 
-  // En produkt via id. Hämtar inget så länge id är null.
   productById(id: () => number | null) {
     return httpResource<Product>(() => {
       const productId = id();
@@ -127,7 +91,6 @@ export class ProductService {
     });
   }
 
-  // Produkter med samma kön och kategori som den aktiva produkten.
   relatedProducts(product: () => Product | undefined, limit: number) {
     return httpResource<ProductResponse>(
       () => {

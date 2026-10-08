@@ -24,8 +24,6 @@ export class FilterMenu {
 
   readonly open = signal(false);
 
-  // De tre sektioner som bara är en lista med kryssrutor. Räknas om
-  // när märken och kategorier kommer in från backenden.
   readonly sections = computed(() => [
     {
       key: 'gender',
@@ -57,10 +55,8 @@ export class FilterMenu {
     { value: 'priceDesc', label: 'Price (high - low)' },
   ];
 
-  // Antal träffar.
   readonly total = computed(() => this.productService.products.value().pagination.total);
 
-  // Sektionerna som är utfällda som default.
   private readonly openSections = signal<string[]>(['sort']);
 
   toggleRadioButton(sort: string): void {
@@ -72,7 +68,6 @@ export class FilterMenu {
     return this.openSections().includes(section);
   }
 
-  // Uppdaterar openSections
   toggleSection(section: string): void {
     this.openSections.update((openSections) =>
       openSections.includes(section)

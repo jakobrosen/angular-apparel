@@ -13,23 +13,16 @@ import type { RawProduct, ParsedProduct } from "../types/Product.js";
 import { Request } from "express";
 import { HttpError } from "../middleware/errorHandler.js";
 
-/**
- * Parsear eventuella filter från en query-parameter och returnerar
- * en färdig where-clause.
- */
 export function parseFilters(
   query: z.infer<typeof productQuerySchema>,
   includeScheduled = false,
 ) {
-  // Skapar en tom array för att lagra query conditions dynamiskt.
   const filters: WhereOptions[] = [];
 
-  // Döljer schemalagda produkter, alltså de med publishedAt i framtiden.
   if (!includeScheduled) {
     filters.push({ publishedAt: { [Op.lte]: new Date() } });
   }
 
-  // Matchar ett sökord mot antingen produktnamn, märke, eller kategori
   if (query.q) {
     filters.push({
       [Op.or]: [
@@ -40,7 +33,6 @@ export function parseFilters(
     });
   }
 
-  // Fortsätter bygga upp filters-arrayen.
   if (query.category) {
     filters.push({ "$category.name$": { [Op.in]: query.category } });
   }
@@ -60,36 +52,21 @@ export function parseFilters(
     filters.push(sequelizeWhere(col("price"), Op.lte, col("prevPrice")));
   }
 
-  // Binder ihop alla filter med and-operatorn och returnerar
-  // en färdig where-clause.
   return filters.length ? { [Op.and]: filters } : {};
 }
 
-// Sequelize tar order som en array av arrayer, en per sorteringsnivå.
-// Att slå upp i en färdig map istället för att bygga order av query-
-// strängen gör att användaren aldrig kan skicka in egen SQL.
 const ORDER_BY: Record<Sort, OrderItem[]> = {
   newest: [["publishedAt", "DESC"]],
   priceAsc: [["price", "ASC"]],
   priceDesc: [["price", "DESC"]],
 };
 
-/**
- * Översätter query-parametern "sort" till en order-clause.
- */
 export function parseOrder(query: z.infer<typeof productQuerySchema>): Order {
-  // Utan sort sorteras produkterna på id
   if (!query.sort) return [["id", "ASC"]];
 
-  // id som sista nivå gör ordningen entydig. Utan den kan samma produkt
-  // dyka upp på flera sidor när två produkter delar pris eller datum.
   return [...ORDER_BY[query.sort], ["id", "ASC"]];
 }
 
-/**
- * Tar en produkt som hämtats från databasen i GET products,
- * och parsear den till ett mer användbart format för frontenden.
- */
 export function parseProduct(product: Product): ParsedProduct {
   const { category, brand, images, ...rest } = product.get({
     plain: true,
@@ -102,10 +79,6 @@ export function parseProduct(product: Product): ParsedProduct {
   };
 }
 
-/**
- * Parsear ett ID från req.params.id och kastar ett HttpError
- * med ett beskrivande fel om något inte stämmer.
- */
 export function parseId(req: Request): number {
   const id = req.params.id;
   const ID_REGEX = /^[1-9]\d*$/;

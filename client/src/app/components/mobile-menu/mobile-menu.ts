@@ -12,16 +12,12 @@ import { MenuService } from '../../services/menu';
   templateUrl: './mobile-menu.html',
 })
 export class MobileMenu {
-  // Samma menystruktur som hover-menyn renderar från.
   protected readonly menuService = inject(MenuService);
 
   open = input.required<boolean>();
 
-  // Används för att stänga hela mobilmenyn i navbar-komponenten
-  // när användaren klickat på en länk.
   linkClicked = output<void>();
 
-  // Vilken huvudrubrik som är öppen, t.ex. 'WOMEN'.
   openHeading = signal<string | null>(null);
 
   panelHeading = linkedSignal<string | null, string>({

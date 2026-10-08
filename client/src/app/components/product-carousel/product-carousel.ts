@@ -18,14 +18,10 @@ export class ProductCarousel {
 
   readonly heading = input('');
 
-  // Används för att exkludera produkten som visas i product-details
-  // så att den inte dyker upp i karusellen.
   readonly exclude = input<number | null>(null);
 
-  // Max antal kort som ska visas.
   readonly max = input(0);
 
-  // Antal skelettkort som visas medan produkterna hämtas.
   readonly skeletons = new Array(3);
 
   readonly items = computed(() => {
@@ -41,8 +37,6 @@ export class ProductCarousel {
 
   private readonly track = viewChild<ElementRef<HTMLDivElement>>('track');
 
-  // Scrollar en hel synlig bredd åt gången, alltså tre kort på desktop
-  // och ett på mobil. Webbläsaren stannar själv vid kanterna.
   protected scroll(direction: -1 | 1): void {
     const element = this.track()?.nativeElement;
     if (!element) return;

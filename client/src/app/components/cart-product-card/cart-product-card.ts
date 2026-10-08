@@ -17,13 +17,11 @@ import { MAX_QUANTITY } from '../../services/cart';
 export class CartProductCard {
   readonly product = input.required<Product>();
 
-  // model ger tvåvägsbindning, så föräldern kan skriva [(quantity)].
   readonly quantity = model(1);
 
   readonly remove = output<void>();
   readonly favorite = output<void>();
 
-  // [1, 2, 3, ...] till <select>.
   readonly quantities = Array.from({ length: MAX_QUANTITY }, (_, index) => index + 1);
 
   readonly onSale = computed(() => {
@@ -31,12 +29,10 @@ export class CartProductCard {
     return prevPrice !== null && price < prevPrice;
   });
 
-  // Radens pris, alltså styckpriset gånger antalet.
   readonly linePrice = computed(() => this.product().price * this.quantity());
 
   readonly linePrevPrice = computed(() => (this.product().prevPrice ?? 0) * this.quantity());
 
-  // Parsear brand name, t.ex "new-balance" till "new balance".
   readonly brand = computed(() => this.product().brand?.replace(/-/g, ' ') ?? '');
 
   readonly image = computed(() => this.product().images[0] ?? '');

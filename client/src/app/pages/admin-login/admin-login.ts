@@ -13,7 +13,6 @@ export default class AdminLogin {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  // Sidan som guarden skickade hit ifrån, t.ex. ?returnUrl=/admin/products/new.
   returnUrl = input<string>();
 
   protected readonly submitting = signal(false);
@@ -34,7 +33,6 @@ export default class AdminLogin {
       .pipe(finalize(() => this.submitting.set(false)))
       .subscribe({
         next: () => this.router.navigateByUrl(this.returnUrl() ?? '/admin/products'),
-        // 401 betyder fel inloggningsuppgifter, allt annat är ett serverfel.
         error: (error: HttpErrorResponse) =>
           this.error.set(
             error.status === 401

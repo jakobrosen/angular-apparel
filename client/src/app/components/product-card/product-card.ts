@@ -7,7 +7,6 @@ import { phosphorHeartFill } from '@ng-icons/phosphor-icons/fill';
 import { Product } from '../../types/Product';
 import { productSlug } from '../../utilities/slug';
 
-// Produkter som är yngre än så här får en "New"-bricka.
 const NEW_DAYS = 7;
 
 @Component({
@@ -20,8 +19,6 @@ const NEW_DAYS = 7;
 export class ProductCard {
   product = input.required<Product>();
 
-  // Sätts på de fyra första korten för att undvika
-  // varningsmeddelande i webbläsarens konsol.
   eager = input(false);
 
   onSale = computed(() => {
@@ -29,25 +26,20 @@ export class ProductCard {
     return prevPrice !== null && price < prevPrice;
   });
 
-  // Rabatten i hela procent, t.ex. -33%.
   discount = computed(() => {
     const { price, prevPrice } = this.product();
     return prevPrice ? Math.round((1 - price / prevPrice) * 100) : 0;
   });
 
-  // Styr "New"-brickan.
   isNew = computed(() => {
     const published = new Date(this.product().publishedAt).getTime();
     const days = (Date.now() - published) / (1000 * 60 * 60 * 24);
     return days < NEW_DAYS;
   });
 
-  // Produkten kan sakna bilder, så kortet tål en tom src.
   image = computed(() => this.product().images[0] ?? '');
 
-  // Parsear brand name, t.ex "new-balance" till "new balance".
   brand = computed(() => this.product().brand?.replace(/-/g, ' ') ?? '');
 
-  // Länken till produktsidan, t.ex. "/products/classic-cotton-shirt-42".
   link = computed(() => ['/products', productSlug(this.product())]);
 }

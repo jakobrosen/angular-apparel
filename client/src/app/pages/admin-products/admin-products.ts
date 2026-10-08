@@ -26,21 +26,17 @@ export default class AdminProducts {
 
   protected readonly total = computed(() => this.products.value().pagination.total);
 
-  // Exponeras för mallen, som bygger länken till produktsidan.
   protected readonly productSlug = productSlug;
 
-  // Schemalagd = publiceringsdatumet ligger i framtiden.
   protected isScheduled(product: Product): boolean {
     return new Date(product.publishedAt).getTime() > Date.now();
   }
 
-  // Rensar token och lämnar admin, annars skulle sidan stå kvar med gammal data.
   protected logout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/admin/login');
   }
 
-  // Tar bort produkten och hämtar om listan.
   protected remove(id: number): void {
     this.adminService.deleteProduct(id).subscribe(() => this.products.reload());
   }

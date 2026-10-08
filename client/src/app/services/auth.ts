@@ -2,7 +2,6 @@ import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
-// Läser token från localStorage. Saknas den eller går den inte att läsa blir den null.
 function readStoredToken(): string | null {
   try {
     return localStorage.getItem('token');
@@ -11,7 +10,6 @@ function readStoredToken(): string | null {
   }
 }
 
-// Plockar ut "exp" (sekunder) ur JWTns payload. Trasig token räknas som utgången.
 function isExpired(token: string): boolean {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
@@ -33,7 +31,6 @@ export class AuthService {
   });
 
   constructor() {
-    // Syncar token till localStorage, eller tar bort den vid utloggning.
     effect(() => {
       const token = this.token();
       try {
@@ -48,7 +45,6 @@ export class AuthService {
     });
   }
 
-  // Loggar in och sparar token när svaret kommer.
   login(username: string, password: string): Observable<{ token: string }> {
     return this.http
       .post<{ token: string }>('/api/admin/auth/login', { username, password })
