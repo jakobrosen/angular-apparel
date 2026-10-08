@@ -5,12 +5,22 @@
       <p class="text-sm text-gray-500">{{ total() }} in total</p>
     </div>
 
-    <a
-      routerLink="/admin/products/new"
-      class="border border-gray-950 bg-gray-950 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
-    >
-      New product
-    </a>
+    <div class="flex flex-wrap items-center gap-3">
+      <button
+        type="button"
+        (click)="logout()"
+        class="cursor-pointer border border-gray-950 px-6 py-2.5 text-sm font-semibold text-gray-950 transition-colors hover:bg-gray-950 hover:text-white"
+      >
+        Log out
+      </button>
+
+      <a
+        routerLink="/admin/products/new"
+        class="border border-gray-950 bg-gray-950 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
+      >
+        New product
+      </a>
+    </div>
   </div>
 
   @if (products.error()) {
@@ -39,7 +49,6 @@
               <td class="px-4 py-3 text-gray-500">{{ product.id }}</td>
               <td class="px-4 py-3 text-gray-500">{{ product.sku }}</td>
               <td class="px-4 py-3 text-gray-950">
-                <!-- Produktsidan ger 404 tills produkten är publicerad. -->
                 @if (isScheduled(product)) {
                   {{ product.title }}
                 } @else {

@@ -1,10 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { phosphorTrash } from '@ng-icons/phosphor-icons/regular';
 import { productSlug } from '../../utilities/slug';
 import { AdminService } from '../../services/admin';
+import { AuthService } from '../../services/auth';
 import type { Product } from '../../types/Product';
 
 @Component({
@@ -16,6 +17,8 @@ import type { Product } from '../../types/Product';
 })
 export default class AdminProducts {
   private readonly adminService = inject(AdminService);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   protected readonly products = this.adminService.allProducts();
 
@@ -29,6 +32,12 @@ export default class AdminProducts {
   // Schemalagd = publiceringsdatumet ligger i framtiden.
   protected isScheduled(product: Product): boolean {
     return new Date(product.publishedAt).getTime() > Date.now();
+  }
+
+  // Rensar token och lämnar admin, annars skulle sidan stå kvar med gammal data.
+  protected logout(): void {
+    this.authService.logout();
+    this.router.navigateByUrl('/admin/login');
   }
 
   // Tar bort produkten och hämtar om listan.

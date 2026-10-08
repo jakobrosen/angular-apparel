@@ -248,6 +248,13 @@ Content-Type: application/json
   "name": "unauthorized"
 }
 
+### 401 - missing token (products)
+GET {{baseUrl}}/admin/products
+
+### 401 - invalid token
+GET {{baseUrl}}/admin/products
+Authorization: Bearer not-a-real-token
+
 ### 404 - product not found
 GET {{baseUrl}}/products/999999
 

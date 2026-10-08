@@ -5,14 +5,11 @@ import type { CartItem } from '../types/Cart';
 // Max antal av samma produkt som kan finnas i korgen.
 export const MAX_QUANTITY = 10;
 
-// Nyckeln korgen sparas under i localStorage.
-const STORAGE_KEY = 'cart';
-
 // Läser korgen från localStorage. Trasig eller gammal data ska inte
 // krascha appen vid start, så allt som inte går att tolka blir en tom korg.
 function readStoredItems(): CartItem[] {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem('cart');
     return stored ? (JSON.parse(stored) as CartItem[]) : [];
   } catch {
     return [];
@@ -29,7 +26,7 @@ export class CartService {
     // Syncar varukorgen varje gång den uppdateras.
     effect(() => {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items()));
+        localStorage.setItem('cart', JSON.stringify(this.items()));
       } catch {
         console.warn("Couldn't sync cart to localstorage.");
       }

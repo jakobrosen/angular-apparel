@@ -152,8 +152,8 @@ export function registerProductRoutes(app: Router) {
   app.get("/api/products", getProducts);
   app.get("/api/products/:id", getProductById);
 
-  app.get("/api/admin/products", getAdminProducts);
-  app.post("/api/admin/products", createProduct);
-  app.put("/api/admin/products/:id", updateProduct);
-  app.delete("/api/admin/products/:id", deleteProduct);
+  app.get("/api/admin/products", requireAuth, getAdminProducts);
+  app.post("/api/admin/products", requireAuth, createProduct);
+  app.put("/api/admin/products/:id", requireAuth, updateProduct);
+  app.delete("/api/admin/products/:id", requireAuth, deleteProduct);
 }
